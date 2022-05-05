@@ -17,9 +17,6 @@ app.use(session({
 }));
 
 // Gabriel's Logout code
-const express = require("express");
-const session = require("express-session");
-const app = express();
 app.get("/logout", function(req,res){
 
     if (req.session) {
