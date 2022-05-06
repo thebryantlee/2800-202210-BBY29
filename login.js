@@ -68,7 +68,7 @@ app.post("/login", function (req, res) {
         port: 3306,
         user: 'root',
         password: 'comp1537',
-        database: 'BBY29'
+        database: 'COMP2800'
     });
     connection.connect(function (err) {
         if (err) {
@@ -116,7 +116,7 @@ app.get("/users", function (req, res) {
         port: 3306,
         user: 'root',
         password: 'comp1537',
-        database: 'BBY29'
+        database: 'COMP2800'
     });
     connection.connect(function (err) {
         if (err) {
@@ -171,7 +171,7 @@ app.post('/add-user', function (req, res) {
         port: 3306,
         user: 'root',
         password: 'comp1537',
-        database: 'BBY29'
+        database: 'COMP2800'
     });
     connection.connect();
     // TO PREVENT SQL INJECTION, DO THIS:
