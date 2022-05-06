@@ -8,9 +8,9 @@ const mysql = require("mysql2");
 // Large parts of this code was adapted from COMP 1537 Assignment 6 by Bryant Lee,
 // and updated to fit the needs of our app for COMP 2800 and 2537.
 
-app.use("/js", express.static("./app/js"));
-app.use("/css", express.static("./app/css"));
-app.use("/img", express.static("./app/img"));
+app.use("/js", express.static("./js"));
+app.use("/css", express.static("./css"));
+app.use("/img", express.static("./img"));
 
 app.use(session({
     secret: "CaleMakarIsCool",
@@ -30,7 +30,7 @@ app.get("/", function (req, res) {
             console.log("Logged In.");
         }
     } else {
-        let doc = fs.readFileSync("./app/html/main.html", "utf8");
+        let doc = fs.readFileSync("./index.html", "utf8");
         res.set("Server", "TechToTheMoon Engine");
         res.set("X-Powered-By", "MoonPC");
         res.send(doc);
@@ -41,7 +41,7 @@ app.get("/profile/:user_name", function (req, res) {
     if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
         // TODO: create profile html page
         // and then replace main with profile
-        let doc = fs.readFileSync("./app/html/main.html", "utf8");
+        let doc = fs.readFileSync("./template.html", "utf8");
         res.send(doc);
     } else {
         res.redirect('/');
@@ -52,7 +52,7 @@ app.get("/admin/:user_name", function (req, res) {
     if (req.session.loggedIn && req.session.admin && req.session.user_name === req.params.user_name) {
         // TODO: create admin html page
         // and then replace main with admin
-        let doc = fs.readFileSync("./app/html/main.html", "utf8");
+        let doc = fs.readFileSync("./admin.html", "utf8");
         res.send(doc);
     } else {
         res.redirect('/');
@@ -84,7 +84,6 @@ app.post("/login", function (req, res) {
                 res.sendStatus(500);
             } else {
                 if (results.length === 1) {
-                    console.log('test');
                     req.session.admin = results[0].admin;
                     req.session.user_name = results[0].user_name;
                     req.session.loggedIn = true;
@@ -102,7 +101,6 @@ app.post("/login", function (req, res) {
                     res.send(resObj);
                 } else {
                     res.sendStatus(401);
-                    console.log('test');
                 }
             }
             connection.end();
@@ -160,10 +158,10 @@ app.post('/add-user', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 
     console.log("userName", req.body.user_name);
-    console.log("firstName", req.body.first_name);
-    console.log("lastName", req.body.last_name);
+    // console.log("firstName", req.body.first_name);
+    // console.log("lastName", req.body.last_name);
     console.log("Email", req.body.email);
-    console.log("phoneNumber", req.body.phone_number);
+    // console.log("phoneNumber", req.body.phone_number);
     console.log("Password", req.body.password);
 
     let connection = mysql.createConnection({
@@ -176,8 +174,8 @@ app.post('/add-user', function (req, res) {
     connection.connect();
     // TO PREVENT SQL INJECTION, DO THIS:
     // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
-    connection.query('INSERT INTO 2800_202210_BBY29_user (user_name, first_name, last_name, email, phone_number, password) values (?, ?, ?, ?, ?, ?)',
-        [req.body.user_name, req.body.first_name, req.body.last_name, req.body.email, req.body.phone_number, req.body.password],
+    connection.query('INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, password) values (?, ?, ?, ?, ?, ?)',
+        [req.body.user_name, null, null, req.body.email, null, req.body.password],
         function (error, results, fields) {
             if (error) {
                 console.log(error);

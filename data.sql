@@ -17,4 +17,4 @@ INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, a
 ('BryantSWE', 'Bryant', 'Lee', 'bryant@bcit.ca', '6048224011', 1, 'bryanttest'),
 ('KasraE', 'Kasra', 'Esfa', 'kasra@bcit.ca', '6046046046', 1, 'Kasra'),
 ('jacobrc10', 'Jacob', 'Romano Carlsen', 'jacob@bcit.ca', '6041234567', 1, 'adminpassword'),
-('gabrielC', 'Gabriel', 'Clarin',  'gclarin@my.bcit.ca', '6044688425', 1,  'gabrieltest')
+('gabrielC', 'Gabriel', 'Clarin',  'gclarin@my.bcit.ca', '6044688425', 1,  'gabrieltest');

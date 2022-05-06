@@ -1,6 +1,6 @@
 // Bryant's code below (start)
 document.getElementById('submit').addEventListener('click', login);
-document.getElementById('logout').addEventListener('click', logout);
+// document.getElementById('logout').addEventListener('click', logout);
 
 async function login() {
     const data = {
@@ -56,22 +56,22 @@ document.getElementById("submit1").addEventListener("click", function (e) {
     e.preventDefault();
 
     let formData = {
-        user_name: document.getElementById("userName").value,
-        first_name: document.getElementById("firstName").value,
-        last_name: document.getElementById("lastName").value,
-        email: document.getElementById("email").value,
-        phone_number: document.getElementById("phoneNumber").value,
-        admin: document.getElementById("admin").value,
-        password: document.getElementById("password").value
+        user_name: document.getElementById("logname").value,
+        // first_name: document.getElementById("firstName").value,
+        // last_name: document.getElementById("lastName").value,
+        email: document.getElementById("logemail2").value,
+        // phone_number: document.getElementById("phoneNumber").value,
+        // admin: document.getElementById("admin").value,
+        password: document.getElementById("logpass2").value
     };
 
-    document.getElementById("userName").value = "";
-    document.getElementById("firstName").value = "";
-    document.getElementById("lastName").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("phoneNumber").value = "";
-    document.getElementById("admin").value = "";
-    document.getElementById("password").value = "";
+    document.getElementById("logname").value = "";
+    // document.getElementById("firstName").value = "";
+    // document.getElementById("lastName").value = "";
+    document.getElementById("logemail2").value = "";
+    // document.getElementById("phoneNumber").value = "";
+    // document.getElementById("admin").value = "";
+    document.getElementById("logpass2").value = "";
 
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -79,7 +79,7 @@ document.getElementById("submit1").addEventListener("click", function (e) {
 
             // 200 means everthing worked
             if (xhr.status === 200) {
-
+                console.log(reuslts);
             } else {
 
                 // not a 200, could be anything (404, 500, etc.)
@@ -94,7 +94,7 @@ document.getElementById("submit1").addEventListener("click", function (e) {
     xhr.open("POST", "/add-user");
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send("user_name=" + formData.user_name + "&first_name=" + formData.first_name + "&last_name=" + formData.last_name + "&email=" + formData.email + "&phone_number=" + formData.phone_number + "&password=" + formData.password);
+    xhr.send("user_name=" + formData.user_name + "&email=" + formData.email + "&password=" + formData.password);
 
 })
 // Gabriel's code below (end)
