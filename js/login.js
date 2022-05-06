@@ -70,6 +70,11 @@ app.post("/login", function (req, res) {
         user: 'root',
         password: "",
         database: 'COMP2800'
+        // host: '127.0.0.1',
+        // port: 3306,
+        // user: 'root',
+        // password: 'comp1537',
+        // database: 'COMP2800'
     });
     connection.connect(function (err) {
         if (err) {
@@ -116,6 +121,11 @@ app.get("/users", function (req, res) {
         user: 'root',
         password: "",
         database: 'COMP2800'
+        // host: '127.0.0.1',
+        // port: 3306,
+        // user: 'root',
+        // password: 'comp1537',
+        // database: 'COMP2800'
     });
     connection.connect(function (err) {
         if (err) {
@@ -171,6 +181,11 @@ app.post('/add-user', function (req, res) {
         user: 'root',
         password: "",
         database: 'COMP2800'
+        // host: '127.0.0.1',
+        // port: 3306,
+        // user: 'root',
+        // password: 'comp1537',
+        // database: 'COMP2800'
     });
     connection.connect();
     // TO PREVENT SQL INJECTION, DO THIS:
