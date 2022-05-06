@@ -65,10 +65,15 @@ app.post("/login", function (req, res) {
     const username = req.body.user_name;
     const pwd = req.body.password;
     const connection = mysql.createConnection({
-        host: 'localhost',
+        // host: 'localhost',
+        // port: 3306,
+        // user: 'root',
+        // password: "",
+        // database: 'COMP2800'
+        host: '127.0.0.1',
         port: 3306,
         user: 'root',
-        password: "",
+        password: 'comp1537',
         database: 'COMP2800'
     });
     connection.connect(function (err) {
@@ -111,10 +116,15 @@ app.post("/login", function (req, res) {
 
 app.get("/users", function (req, res) {
     const connection = mysql.createConnection({
-        host: 'localhost',
+        // host: 'localhost',
+        // port: 3306,
+        // user: 'root',
+        // password: "",
+        // database: 'COMP2800'
+        host: '127.0.0.1',
         port: 3306,
         user: 'root',
-        password: "",
+        password: 'comp1537',
         database: 'COMP2800'
     });
     connection.connect(function (err) {
@@ -165,15 +175,20 @@ app.post("/add_user", function (req, res) {
     console.log("phoneNumber", req.body.phone_number);
     console.log("Password", req.body.password);
 
-    let connection = mysql.createConnection({
-      host: 'localhost',
-      port: 3306,
-      user: 'root',
-      password: '',
-      database: 'COMP2800' 
+    const connection = mysql.createConnection({
+        // host: 'localhost',
+        // port: 3306,
+        // user: 'root',
+        // password: "",
+        // database: 'COMP2800'
+        host: '127.0.0.1',
+        port: 3306,
+        user: 'root',
+        password: 'comp1537',
+        database: 'COMP2800'
     });
     connection.connect();
-    
+
     // TO PREVENT SQL INJECTION, DO THIS:
     // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
     connection.query('INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, admin, password) values (?, ?, ?, ?, ?, ?, ?)', 

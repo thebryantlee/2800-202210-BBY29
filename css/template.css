@@ -1,3 +1,17 @@
+#adminTable{
+  width: 100%;
+}
+
+#adminTable > th, td{
+  border: 1px solid;
+  padding:0.5em;
+  background-color: #c4c4c4;
+}
+
+#adminTableContainer{
+  width: 100%;
+}
+
 #appName{
   font-size: 10pt;
   font-weight: bold;
@@ -149,4 +163,11 @@ body {
   font-family: "Roboto", sans-serif;
   max-width: 768px;
   margin: 0 auto;
+}
+
+@media only screen and (max-width: 700px) {
+
+  #adminTableContainer{
+    overflow-x: scroll;
+  }
 }
