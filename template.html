@@ -32,7 +32,7 @@
   <body>
     <nav id="navButtons">
       <button
-        class="btn btn-primary"
+        class="btn btn-light"
         id="navButton"
         type="button"
         data-bs-toggle="offcanvas"
@@ -42,8 +42,9 @@
         <img src="/icons/menu/hamburger.svg" alt="Hamburger Menu Icon" />
       </button>
 
+      <span id="appName">Tech to the Moon</span>
       <button
-        class="btn btn-primary"
+        class="btn btn-light"
         id="profileButton"
         type="button"
         data-bs-toggle="offcanvas"
@@ -67,7 +68,9 @@
           </div>
           <ul class="list-group list-group-flush insertStocksHere">
             <div class="stocksDashboardItem list-group-item content">
-              <p class="stockHeader">Favourite Stock 1 (STK)</p>
+              <p class="stockHeader">
+                Cooler Master Hyper 212 RGB Black Edition
+              </p>
               <img
                 src="/images/stockDashboardPlaceholder.png"
                 alt="Graphic of the timeline of PC component over time"
@@ -75,7 +78,9 @@
               />
             </div>
             <div class="stocksDashboardItem list-group-item content">
-              <p class="stockHeader">Favourite Stock 2 (STO)</p>
+              <p class="stockHeader">
+                NVIDIA GeForce RTX 3060 Ti 8GB GDDR6 Video Card
+              </p>
               <img
                 src="/images/stockDashboardPlaceholder.png"
                 alt="Graphic of the timeline of PC component over time"
@@ -83,7 +88,9 @@
               />
             </div>
             <div class="stocksDashboardItem list-group-item content">
-              <p class="stockHeader">Favourite Stock 3 (SOC)</p>
+              <p class="stockHeader">
+                Corsair Vengeance LPX 16GB (2 x 8GB) DDR4 3600MHz Desktop Memory
+              </p>
               <img
                 src="/images/stockDashboardPlaceholder.png"
                 alt="Graphic of the timeline of PC component over time"
@@ -103,13 +110,19 @@
                 alt="Image highlighting the news headline"
                 class="primaryNewsGraphic"
               />
-              <p class="newsPrimaryHeader">Main News Headline</p>
+              <p href="#" class="newsPrimaryHeader">
+                Intel CEO expects chip shortage into 2024
+              </p>
             </div>
             <div class="newsDashboardSecondary list-group-item content">
-              <a class="newsSecondaryHeader">Secondary News Headline</a>
+              <p href="#" class="newsSecondaryHeader"></p>
+                AMD Reveals Ryzen 7000 Dragon Range and Phoenix Mobile CPUs
+              </p>
             </div>
             <div class="newsDashboardSecondary list-group-item content">
-              <a class="newsSecondaryHeader">Secondary News Headline</a>
+              <p href="#" class="newsSecondaryHeader">
+                Razer announces first laptop with a 240Hz OLED screen
+              </p>
             </div>
           </ul>
         </div>
@@ -127,7 +140,7 @@
         <div class="offcanvas-body">
           <ul class="list-group list-group-flush">
             <li class="list-group-item menuList">
-              <a href="#">
+              <a href="#" id="homeButton">
                 <img
                   src="/icons/home/home_empty.svg"
                   alt="House Icon"
@@ -137,7 +150,7 @@
               </a>
             </li>
             <li class="list-group-item menuList">
-              <a href="#">
+              <a href="#" class="disabled-link">
                 <img
                   src="/icons/chart/stock_trend.svg"
                   alt="Trending up Icon"
@@ -147,7 +160,7 @@
               </a>
             </li>
             <li class="list-group-item menuList">
-              <a href="#">
+              <a href="#" class="disabled-link">
                 <img
                   src="/icons/arrow/compare.svg"
                   alt="Compare arrows Icon"
@@ -157,7 +170,7 @@
               </a>
             </li>
             <li class="list-group-item menuList">
-              <a href="#">
+              <a href="#" class="disabled-link">
                 <img
                   src="/icons/basic/news.svg"
                   alt="Compare arrows Icon"
@@ -167,7 +180,7 @@
               </a>
             </li>
             <li class="list-group-item menuList">
-              <a href="#">
+              <a href="#" class="disabled-link">
                 <img
                   src="/icons/basic/chatroom.svg"
                   alt="Chat room Icon"
@@ -187,38 +200,38 @@
                   src="/icons/file/file_image.svg"
                   alt="Group icon for the Tech Savvys"
                 />
-                <a href="#">Tech Savvys</a>
+                <a href="#" class="disabled-link">Tech Savvys</a>
               </div>
               <div class="menuItem">
                 <img
                   src="/icons/file/file_image.svg"
                   alt="Group icon for the Top Builds of the Week"
                 />
-                <a href="#">Weekly Top Builds</a>
+                <a href="#" class="disabled-link">Weekly Top Builds</a>
               </div>
               <div class="menuItem">
                 <img
                   src="/icons/file/file_image.svg"
                   alt="Group icon for the BuildGuild"
                 />
-                <a href="#">BuildGuild</a>
+                <a href="#" class="disabled-link">BuildGuild</a>
               </div>
               <div class="menuItem">
                 <img
                   src="/icons/file/file_image.svg"
                   alt="Group icon for the Vancity Builders"
                 />
-                <a href="#">Vancity Builders</a>
+                <a href="#" class="disabled-link">Vancity Builders</a>
               </div>
               <div class="menuItem">
                 <img
                   src="/icons/file/file_image.svg"
                   alt="Group icon for the GPU Stonks Club"
                 />
-                <a href="#">GPU Stonks Club</a>
+                <a href="#" class="disabled-link">GPU Stonks Club</a>
               </div>
               <div class="menuItem">
-                <a href="#" class="menuMore">&#8811; Find more boards here</a>
+                <a href="#" class="menuMore disabled-link">&#8811; Find more boards here</a>
               </div>
             </div>
 
@@ -229,38 +242,38 @@
                   src="/icons/user/user_filled.svg"
                   alt="Placeholder icon for a user"
                 />
-                <a href="#">Kasra</a>
+                <a href="#" class="disabled-link">Kasra</a>
               </div>
               <div class="menuItem">
                 <img
                   src="/icons/user/user_filled.svg"
                   alt="Placeholder icon for a user"
                 />
-                <a href="#">Linus</a>
+                <a href="#" class="disabled-link">Linus</a>
               </div>
               <div class="menuItem">
                 <img
                   src="/icons/user/user_filled.svg"
                   alt="Placeholder icon for a user"
                 />
-                <a href="#">Jacob</a>
+                <a href="#" class="disabled-link">Jacob</a>
               </div>
               <div class="menuItem">
                 <img
                   src="/icons/user/user_filled.svg"
                   alt="Placeholder icon for a user"
                 />
-                <a href="#">Bryant</a>
+                <a href="#" class="disabled-link">Bryant</a>
               </div>
               <div class="menuItem">
                 <img
                   src="/icons/user/user_filled.svg"
                   alt="Placeholder icon for a user"
                 />
-                <a href="#">Gabriel</a>
+                <a href="#" class="disabled-link">Gabriel</a>
               </div>
               <div class="menuItem">
-                <a href="#" class="menuMore">&#8811;Friends List</a>
+                <a href="#" class="menuMore disabled-link">&#8811; Friends List</a>
               </div>
             </div>
           </ul>
@@ -294,7 +307,7 @@
 
           <ul class="list-group list-group-flush">
             <li class="list-group-item menuList">
-              <a href="#">
+              <a href="#" class="disabled-link">
                 <img
                   src="/icons/user/user.svg"
                   alt="User Account Icon"
@@ -304,7 +317,7 @@
               </a>
             </li>
             <li class="list-group-item menuList">
-              <a href="#">
+              <a href="#" class="disabled-link">
                 <img
                   src="/icons/basic/settings-grey.svg"
                   alt="Settings Gear Icon"
@@ -314,7 +327,7 @@
               </a>
             </li>
             <li class="list-group-item menuList">
-              <a href="#">
+              <a href="#" class="disabled-link">
                 <img
                   src="/icons/basic/bug.svg"
                   alt="Bug Icon"
@@ -324,7 +337,7 @@
               </a>
             </li>
             <li class="list-group-item menuList">
-              <a href="#">
+              <a href="#" class="disabled-link">
                 <img
                   src="/icons/basic/update-log.svg"
                   alt="Scroll/Update Log Icon"
@@ -334,7 +347,7 @@
               </a>
             </li>
             <li class="list-group-item menuList">
-              <a href="#">
+              <a href="#" class="disabled-link">
                 <img
                   src="/icons/basic/support.svg"
                   alt="Chat room Icon"
@@ -344,7 +357,7 @@
               </a>
             </li>
             <li class="list-group-item menuList">
-              <a href="#">
+              <a href="#" class="disabled-link">
                 <img
                   src="/icons/basic/book-outline.svg"
                   alt="Book/Acknowledgements Icon"
