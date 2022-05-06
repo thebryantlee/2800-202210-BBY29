@@ -147,7 +147,7 @@ app.post("/logout", function (req, res) {
     if (req.session) {
         req.session.destroy(function (error) {
             if (error) {
-                res.status(400).send("Unable to log out") //Can Change This Message If We Want
+                res.status(400).send("Unable to log out")
             } else {
                 res.sendStatus(200);
             }
@@ -155,39 +155,40 @@ app.post("/logout", function (req, res) {
     }
 });
 
-app.post('/add-user', function (req, res) {
+app.post("/add_user", function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 
     console.log("userName", req.body.user_name);
-    // console.log("firstName", req.body.first_name);
-    // console.log("lastName", req.body.last_name);
+    console.log("firstName", req.body.first_name);
+    console.log("lastName", req.body.last_name);
     console.log("Email", req.body.email);
-    // console.log("phoneNumber", req.body.phone_number);
+    console.log("phoneNumber", req.body.phone_number);
     console.log("Password", req.body.password);
 
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        port: 3306,
-        user: 'root',
-        password: "",
-        database: 'COMP2800'
+    let connection = mysql.createConnection({
+      host: 'localhost',
+      port: 3306,
+      user: 'root',
+      password: '',
+      database: 'COMP2800' 
     });
     connection.connect();
+    
     // TO PREVENT SQL INJECTION, DO THIS:
     // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
-    connection.query('INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, password) values (?, ?, ?, ?, ?, ?)',
-        [req.body.user_name, null, null, req.body.email, null, req.body.password],
-        function (error, results, fields) {
-            if (error) {
-                console.log(error);
-            }
-            //console.log('Rows returned are: ', results);
-            res.send({
-                status: "success",
-                msg: "Record added."
-            });
+    connection.query('INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, admin, password) values (?, ?, ?, ?, ?, ?, ?)', 
+          [req.body.user_name, req.body.first_name, req.body.last_name, req.body.email, req.body.phone_number, 0, req.body.password],
+          function (error, results, fields) {
+      if (error) {
+          console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+      res.send({ 
+        status: "success", 
+        msg: "Record added." 
+              });
 
-        });
+    });
     connection.end();
 
 });
