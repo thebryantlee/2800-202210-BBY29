@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
     <title>Tech to the Moon - Main Page</title>
     <meta name="author" content="BCIT" />
     <meta name="author" content="Jacob Romano Carlsen" />
@@ -66,7 +65,7 @@
           <div class="contentHeader">
             <p>STOCKS</p>
           </div>
-          <ul class="list-group list-group-flush insertStocksHere">
+          <div class="list-group list-group-flush insertStocksHere">
             <div class="stocksDashboardItem list-group-item content">
               <p class="stockHeader">
                 Cooler Master Hyper 212 RGB Black Edition
@@ -97,34 +96,34 @@
                 class="stockGraphic"
               />
             </div>
-          </ul>
+          </div>
         </div>
         <div id="newsLocation">
           <div class="contentHeader">
             <p>NEWS</p>
           </div>
-          <ul class="list-group list-group-flush insertNewsHere">
+          <div class="list-group list-group-flush insertNewsHere">
             <div class="newsDashboardPrimary list-group-item content">
               <img
                 src="/img/images/primaryNewsPlaceholder.png"
                 alt="Image highlighting the news headline"
                 class="primaryNewsGraphic"
               />
-              <p href="#" class="newsPrimaryHeader">
+              <p class="newsPrimaryHeader">
                 Intel CEO expects chip shortage into 2024
               </p>
             </div>
             <div class="newsDashboardSecondary list-group-item content">
-              <p href="#" class="newsSecondaryHeader"></p>
+              <p class="newsSecondaryHeader">
                 AMD Reveals Ryzen 7000 Dragon Range and Phoenix Mobile CPUs
               </p>
             </div>
             <div class="newsDashboardSecondary list-group-item content">
-              <p href="#" class="newsSecondaryHeader">
+              <p class="newsSecondaryHeader">
                 Razer announces first laptop with a 240Hz OLED screen
               </p>
             </div>
-          </ul>
+          </div>
         </div>
       </div>
     </main>
@@ -135,11 +134,10 @@
         class="offcanvas offcanvas-start"
         tabindex="-1"
         id="offcanvasWithBackdrop"
-        aria-labelledby="offcanvasWithBackdropLabel"
       >
         <div class="offcanvas-body">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item menuList">
+          <div class="list-group list-group-flush">
+            <div class="list-group-item menuList">
               <a href="#" id="homeButton">
                 <img
                   src="/img/icons/home/home_empty.svg"
@@ -148,8 +146,8 @@
                 />
                 Home
               </a>
-            </li>
-            <li class="list-group-item menuList">
+            </div>
+            <div class="list-group-item menuList">
               <a href="#" class="disabled-link">
                 <img
                   src="/img/icons/chart/stock_trend.svg"
@@ -158,8 +156,8 @@
                 />
                 PC Part Price Tracker
               </a>
-            </li>
-            <li class="list-group-item menuList">
+            </div>
+            <div class="list-group-item menuList">
               <a href="#" class="disabled-link">
                 <img
                   src="/img/icons/arrow/compare.svg"
@@ -168,8 +166,8 @@
                 />
                 Compatibility Guides
               </a>
-            </li>
-            <li class="list-group-item menuList">
+            </div>
+            <div class="list-group-item menuList">
               <a href="#" class="disabled-link">
                 <img
                   src="/img/icons/basic/news.svg"
@@ -178,8 +176,8 @@
                 />
                 Latest News
               </a>
-            </li>
-            <li class="list-group-item menuList">
+            </div>
+            <div class="list-group-item menuList">
               <a href="#" class="disabled-link">
                 <img
                   src="/img/icons/basic/chatroom.svg"
@@ -188,7 +186,7 @@
                 />
                 Community Boards
               </a>
-            </li>
+            </div>
 
             <div
               class="list-group-item menuGroup menuList"
@@ -231,7 +229,9 @@
                 <a href="#" class="disabled-link">GPU Stonks Club</a>
               </div>
               <div class="menuItem">
-                <a href="#" class="menuMore disabled-link">&#8811; Find more boards here</a>
+                <a href="#" class="menuMore disabled-link"
+                  >&#8811; Find more boards here</a
+                >
               </div>
             </div>
 
@@ -273,23 +273,23 @@
                 <a href="#" class="disabled-link">Gabriel</a>
               </div>
               <div class="menuItem">
-                <a href="#" class="menuMore disabled-link">&#8811; Friends List</a>
+                <a href="#" class="menuMore disabled-link"
+                  >&#8811; Friends List</a
+                >
               </div>
             </div>
-          </ul>
+          </div>
         </div>
       </div>
 
       <!--This is the start of the profile menu. TODO: Make this inserted in runtime, w/ data populated.-->
-      <div
-        class="offcanvas offcanvas-end"
-        tabindex="-1"
-        id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel"
-      >
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
         <div class="offcanvas-body">
           <div class="profileHeader">
-            <img src="/img/icons/user/user_filled.svg" alt="Default User Icon" />
+            <img
+              src="/img/icons/user/user_filled.svg"
+              alt="Default User Icon"
+            />
             <p>Username</p>
           </div>
           <div class="profileItem">
@@ -385,7 +385,7 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
-    <script src="/js/login.js"></script>
-    <script src="/js/logout.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/profile.js"></script>
   </body>
 </html>
