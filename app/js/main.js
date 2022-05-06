@@ -80,10 +80,6 @@ document.getElementById("submit1").addEventListener("click", function (e) {
             // 200 means everthing worked
             if (xhr.status === 200) {
 
-            // BL: create function getCustomers?
-                getCustomers();
-                document.getElementById("status").innerHTML = "DB updated.";
-
             } else {
 
                 // not a 200, could be anything (404, 500, etc.)
