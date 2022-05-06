@@ -4,6 +4,11 @@
   background-color: #c4c4c4;
 }
 
+#adminTableContainer{
+  width: 100%;
+  overflow-x: scroll;
+}
+
 #appName{
   font-size: 10pt;
   font-weight: bold;
