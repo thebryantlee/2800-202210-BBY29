@@ -8,9 +8,10 @@ const mysql = require("mysql2");
 // Large parts of this code was adapted from COMP 1537 Assignment 6 by Bryant Lee,
 // and updated to fit the needs of our app for COMP 2800 and 2537.
 
-app.use("/js", express.static("./js"));
-app.use("/css", express.static("./css"));
-app.use("/img", express.static("./img"));
+app.use("/js", express.static("../js"));
+app.use("/css", express.static("../css"));
+app.use("/img", express.static("../img"));
+app.use("/fonts", express.static("../fonts"));
 
 app.use(session({
     secret: "CaleMakarIsCool",

@@ -1,11 +1,11 @@
 // Bryant's code below (start)
 document.getElementById('submit').addEventListener('click', login);
-// document.getElementById('logout').addEventListener('click', logout);
+// document.getElementById('signOutButton').addEventListener('click', logout);
 
 async function login() {
     const data = {
-        user_name: document.getElementById('username').value,
-        password: document.getElementById('password').value
+        user_name: document.getElementById('logname').value,
+        password: document.getElementById('logpass').value
     };
     try {
         let responseObject = await fetch('/login', {
