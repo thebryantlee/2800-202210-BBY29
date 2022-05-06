@@ -65,10 +65,10 @@ app.post("/login", function (req, res) {
     const username = req.body.user_name;
     const pwd = req.body.password;
     const connection = mysql.createConnection({
-        host: '127.0.0.1',
+        host: 'localhost',
         port: 3306,
         user: 'root',
-        password: 'comp1537',
+        password: "",
         database: 'COMP2800'
     });
     connection.connect(function (err) {
@@ -111,10 +111,10 @@ app.post("/login", function (req, res) {
 
 app.get("/users", function (req, res) {
     const connection = mysql.createConnection({
-        host: '127.0.0.1',
+        host: 'localhost',
         port: 3306,
         user: 'root',
-        password: 'comp1537',
+        password: "",
         database: 'COMP2800'
     });
     connection.connect(function (err) {
@@ -165,11 +165,11 @@ app.post('/add-user', function (req, res) {
     // console.log("phoneNumber", req.body.phone_number);
     console.log("Password", req.body.password);
 
-    let connection = mysql.createConnection({
-        host: '127.0.0.1',
+    const connection = mysql.createConnection({
+        host: 'localhost',
         port: 3306,
         user: 'root',
-        password: 'comp1537',
+        password: "",
         database: 'COMP2800'
     });
     connection.connect();

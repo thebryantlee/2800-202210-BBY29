@@ -79,7 +79,7 @@ document.getElementById("submit1").addEventListener("click", function (e) {
 
             // 200 means everthing worked
             if (xhr.status === 200) {
-                console.log(reuslts);
+                // console.log(results);
             } else {
 
                 // not a 200, could be anything (404, 500, etc.)
