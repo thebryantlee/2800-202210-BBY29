@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
     <title>Tech to the Moon - Admin User Page</title>
     <meta name="author" content="BCIT" />
     <meta name="author" content="Jacob Romano Carlsen" />
@@ -55,27 +54,96 @@
       </button>
     </nav>
 
+    <main>
+      <table id="adminTable">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Administrator</th>
+          </tr>
+        </thead>
+        <tbody id="tablebody"></tbody>
+      </table>
+
+      <!--This is the beginning of the main content of the page.-->
+      <div id="contentSection">
+        <div id="stockFavourites">
+          <div class="contentHeader">
+            <p>STOCKS</p>
+          </div>
+          <div class="list-group list-group-flush insertStocksHere">
+            <div class="stocksDashboardItem list-group-item content">
+              <p class="stockHeader">
+                Cooler Master Hyper 212 RGB Black Edition
+              </p>
+              <img
+                src="/img/images/stockDashboardPlaceholder.png"
+                alt="Graphic of the timeline of PC component over time"
+                class="stockGraphic"
+              />
+            </div>
+            <div class="stocksDashboardItem list-group-item content">
+              <p class="stockHeader">
+                NVIDIA GeForce RTX 3060 Ti 8GB GDDR6 Video Card
+              </p>
+              <img
+                src="/img/images/stockDashboardPlaceholder.png"
+                alt="Graphic of the timeline of PC component over time"
+                class="stockGraphic"
+              />
+            </div>
+            <div class="stocksDashboardItem list-group-item content">
+              <p class="stockHeader">
+                Corsair Vengeance LPX 16GB (2 x 8GB) DDR4 3600MHz Desktop Memory
+              </p>
+              <img
+                src="/img/images/stockDashboardPlaceholder.png"
+                alt="Graphic of the timeline of PC component over time"
+                class="stockGraphic"
+              />
+            </div>
+          </div>
+        </div>
+        <div id="newsLocation">
+          <div class="contentHeader">
+            <p>NEWS</p>
+          </div>
+          <div class="list-group list-group-flush insertNewsHere">
+            <div class="newsDashboardPrimary list-group-item content">
+              <img
+                src="/img/images/primaryNewsPlaceholder.png"
+                alt="Image highlighting the news headline"
+                class="primaryNewsGraphic"
+              />
+              <p class="newsPrimaryHeader">
+                Intel CEO expects chip shortage into 2024
+              </p>
+            </div>
+            <div class="newsDashboardSecondary list-group-item content">
+              <p class="newsSecondaryHeader">
+                AMD Reveals Ryzen 7000 Dragon Range and Phoenix Mobile CPUs
+              </p>
+            </div>
+            <div class="newsDashboardSecondary list-group-item content">
+              <p class="newsSecondaryHeader">
+                Razer announces first laptop with a 240Hz OLED screen
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
-    <table id="adminTable">
-      <thead>
-        <th>Username</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Phone Number</th>
-        <th>Administrator</th>
-      </thead>
-      <tbody id="tablebody"></tbody>
-    </table>
-
-    <section id="menus">
+    <div id="menus">
       <!--This is the start of the menu. TODO: Make this modular, inserted in runtime w/ data populated. -->
       <div
         class="offcanvas offcanvas-start"
         tabindex="-1"
         id="offcanvasWithBackdrop"
-        aria-labelledby="offcanvasWithBackdropLabel"
       >
         <div class="offcanvas-body">
           <ul class="list-group list-group-flush">
@@ -129,22 +197,18 @@
                 Community Boards
               </a>
             </li>
-
-            
           </ul>
         </div>
       </div>
 
       <!--This is the start of the profile menu. TODO: Make this inserted in runtime, w/ data populated.-->
-      <div
-        class="offcanvas offcanvas-end"
-        tabindex="-1"
-        id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel"
-      >
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
         <div class="offcanvas-body">
           <div class="profileHeader">
-            <img src="/img/icons/user/user_filled.svg" alt="Default User Icon" />
+            <img
+              src="/img/icons/user/user_filled.svg"
+              alt="Default User Icon"
+            />
             <p>Administrator</p>
           </div>
           <div class="profileItem">
@@ -234,13 +298,13 @@
           <p id="appVersion">Version 0.0001</p>
         </div>
       </div>
-    </section>
+    </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
-    <script src="/js/login.js"></script>
+    <script src="/js/main.js"></script>
     <script src="/js/admin.js"></script>
   </body>
 </html>
