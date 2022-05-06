@@ -1,6 +1,7 @@
 // Bryant's code below (start)
 document.getElementById('submit').addEventListener('click', login);
 // document.getElementById('signOutButton').addEventListener('click', logout);
+document.getElementById("submit1").addEventListener("click", signup);
 
 async function login() {
     const data = {
@@ -52,25 +53,22 @@ async function logout() {
     }
 }
 
-document.getElementById("submit1").addEventListener("click", function (e) {
-    e.preventDefault();
+async function signup() {
+    // e.preventDefault();
 
     let formData = {
-        user_name: document.getElementById("logname").value,
-        // first_name: document.getElementById("firstName").value,
-        // last_name: document.getElementById("lastName").value,
+        user_name: document.getElementById("logname1").value,
+        first_name: document.getElementById("logfirst").value,
+        last_name: document.getElementById("loglast").value,
         email: document.getElementById("logemail2").value,
-        // phone_number: document.getElementById("phoneNumber").value,
-        // admin: document.getElementById("admin").value,
+        phone_number: document.getElementById("logtel").value,
         password: document.getElementById("logpass2").value
     };
-
-    document.getElementById("logname").value = "";
-    // document.getElementById("firstName").value = "";
-    // document.getElementById("lastName").value = "";
+    document.getElementById("logname1").value = "";
+    document.getElementById("logfirst").value = "";
+    document.getElementById("loglast").value = "";
     document.getElementById("logemail2").value = "";
-    // document.getElementById("phoneNumber").value = "";
-    // document.getElementById("admin").value = "";
+    document.getElementById("logtel").value = "";
     document.getElementById("logpass2").value = "";
 
     const xhr = new XMLHttpRequest();
@@ -91,10 +89,10 @@ document.getElementById("submit1").addEventListener("click", function (e) {
             console.log("ERROR", this.status);
         }
     }
-    xhr.open("POST", "/add-user");
+    xhr.open("POST", "/add_user");
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send("user_name=" + formData.user_name + "&email=" + formData.email + "&password=" + formData.password);
-
-})
+    xhr.send("user_name=" + formData.user_name + "&first_name=" + formData.first_name + "&last_name=" + formData.last_name + "&email=" + formData.email + "&phone_number=" + formData.phone_number + "&password=" + formData.password);
+    //xhr.send(JSON.stringify(formData));
+}
 // Gabriel's code below (end)
