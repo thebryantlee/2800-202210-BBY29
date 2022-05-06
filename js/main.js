@@ -1,6 +1,6 @@
 // Bryant's code below (start)
 document.getElementById('submit').addEventListener('click', login);
-// document.getElementById('signOutButton').addEventListener('click', logout);
+document.getElementById('signOutButton').addEventListener('click', logout);
 
 async function login() {
     const data = {
