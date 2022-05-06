@@ -56,7 +56,18 @@
     </nav>
 
     </main>
-    <div id="userList"></div>
+
+    <table id="adminTable">
+      <thead>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Administrator</th>
+      </thead>
+      <tbody id="tablebody"></tbody>
+    </table>
 
     <section id="menus">
       <!--This is the start of the menu. TODO: Make this modular, inserted in runtime w/ data populated. -->
@@ -229,5 +240,7 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
+    <script src="/js/login.js"></script>
+    <script src="/js/admin.js"></script>
   </body>
 </html>

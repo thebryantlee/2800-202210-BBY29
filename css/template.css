@@ -1,3 +1,9 @@
+#adminTable > th, td{
+  border: 1px solid;
+  padding:0.5em;
+  background-color: #c4c4c4;
+}
+
 #appName{
   font-size: 10pt;
   font-weight: bold;
