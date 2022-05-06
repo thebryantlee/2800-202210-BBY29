@@ -1,0 +1,173 @@
+#adminTable{
+  width: 100%;
+}
+
+#adminTable > th, td{
+  border: 1px solid;
+  padding:0.5em;
+  background-color: #c4c4c4;
+}
+
+#adminTableContainer{
+  width: 100%;
+}
+
+#appName{
+  font-size: 10pt;
+  font-weight: bold;
+}
+
+#appVersion {
+  font-size: 0.5em;
+  margin-top: 1.5em;
+}
+
+#helpButton {
+  border-radius: 50%;
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+  z-index: 2;
+}
+
+#helpButton > img {
+  border-radius: 50%;
+}
+
+#navButton{
+  background-color: white;
+  border:none;
+}
+
+#offcanvasRightLabel {
+  margin: 0;
+}
+
+#profileButton{
+  float:right;
+  background-color: white;
+  border:none;
+}
+
+#signOutButton {
+  background: none;
+  border: none;
+  color: white;
+  padding: 0;
+}
+
+.content {
+  background-color: #c4c4c4;
+}
+
+.contentHeader {
+  font-size: 18pt;
+  font-weight: bold;
+  padding-left: 0.5em;
+}
+
+.contentHeader > p {
+  margin-bottom: 0;
+  margin-top: 1em;
+}
+
+.disabled-link{
+  cursor: default !important;
+  pointer-events: none !important;
+  color: grey !important; 
+}
+
+.menuGroup {
+  margin-top: 0.5em;
+}
+
+.menuIcon {
+  color: #939393;
+}
+
+.menuItem > img {
+  background-color: #939393;
+  border-radius: 50%;
+  margin: 0.25em;
+  max-height: 1.5em;
+}
+
+.menuLabel {
+  font-size: 0.9em;
+  color: #939393;
+  margin: 0;
+}
+
+.menuList {
+  background-color: #535353;
+}
+
+.menuMore {
+  font-size: 0.7em;
+  float: right;
+}
+
+.newsDashboardPrimary{
+  padding:0;
+  padding-bottom: 1em;
+}
+
+.newsPrimaryHeader{
+  padding-left: 1em;
+}
+
+.newsSecondaryHeader{
+  font-size: 10pt;
+}
+
+.offcanvas {
+  max-width: 80%;
+  background-color: #535353;
+  color: white;
+}
+
+.primaryNewsGraphic {
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+
+.profileHeader {
+  font-size: 2em;
+}
+
+.profileHeader > img {
+  width: 3em;
+  background-color: #939393;
+  border-radius: 50%;
+}
+
+.stockGraphic {
+  max-width: 100%;
+}
+
+.stockHeader {
+  margin: 0;
+  font-size: 10pt;
+}
+
+a:link, a:visited {       
+  text-decoration: none;
+  color: white;
+}
+
+a:active {
+  color: #939393;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 700px) {
+
+  #adminTableContainer{
+    overflow-x: scroll;
+  }
+}

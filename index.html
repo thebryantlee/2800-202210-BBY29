@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <!-- Login/Signup form -->
+    <div class="section">
+        <div class="container">
+            <div class="row full-height justify-content-center">
+                <div class="col-12 text-center align-self-center py-5">
+                    <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                        <h6 class="mb-0 pb-3"><span>Log In </span><span>Sign Up</span></h6>
+                        <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" />
+                        <label for="reg-log"></label>
+                        <div class="card-3d-wrap mx-auto">
+                            <div class="card-3d-wrapper">
+                                <div class="card-front">
+                                    <div class="center-wrap">
+                                        <div class="section text-center">
+                                            <h4 class="mb-4 pb-3">Log In</h4>
+                                            <div class="form-group">
+                                                <input type="username" name="logname" class="form-style"
+                                                    placeholder="Your Username" id="logname" autocomplete="off"
+                                                    required>
+                                                <i class="input-icon uil uil-at"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="logpass" class="form-style"
+                                                    placeholder="Your Password" id="logpass" autocomplete="off"
+                                                    required>
+                                                <i class="input-icon uil uil-lock-alt"></i>
+                                            </div>
+                                            <a href="#" id="submit" class="btn mt-4">submit</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-back">
+                                    <div class="center-wrap">
+                                        <div class="section text-center">
+                                            <h4 class="mb-4 pb-3">Sign Up</h4>
+                                            <div class="form-group">
+                                                <input type="text" name="logname" class="form-style"
+                                                    placeholder="Your Username" id="logname1" autocomplete="off"
+                                                    required>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="text" name="logname" class="form-style"
+                                                placeholder="Your FirstName" id="logfirst" autocomplete="off" required>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="text" name="logname" class="form-style"
+                                                placeholder="Your LastName" id="loglast" autocomplete="off" required>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="email" name="logemail2" class="form-style"
+                                                    placeholder="Your Email" id="logemail2" autocomplete="off" required>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="tel" name="logtel" class="form-style"
+                                                placeholder="Your PhoneNumber" id="logtel" autocomplete="off" required>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="logpass2" class="form-style"
+                                                    placeholder="Your Password" id="logpass2" autocomplete="off"
+                                                    required>
+                                            </div>
+                                            <a href="#" id="submit1" class="btn mt-4">submit</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Welcome animation -->
+    <div class="welcome">
+        <h1 class="heading">Tech to the Moon</h1>
+        <h3 class="sub-heading">Build Better. Live Better</h3>
+        <div class="loader-wrapper">
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <!-- JavaScript -->
+    <script defer src="/js/animation.js"></script>
+    <script defer src="/js/welcome.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
