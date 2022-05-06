@@ -92,6 +92,7 @@ async function signup() {
     xhr.open("POST", "/add_user");
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    //TO DO: Fix the below line, to be implemented in Sprint 3.
     xhr.send("user_name=" + formData.user_name + "&first_name=" + formData.first_name + "&last_name=" + formData.last_name + "&email=" + formData.email + "&phone_number=" + formData.phone_number + "&password=" + formData.password);
     //xhr.send(JSON.stringify(formData));
 }
