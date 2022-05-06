@@ -1,3 +1,4 @@
+// Bryant's code below (start)
 document.getElementById('submit').addEventListener('click', login);
 document.getElementById('logout').addEventListener('click', logout);
 
@@ -24,14 +25,16 @@ async function login() {
             }
         } else {
             console.log(responseObject.status);
-            // TODO: unsuccessful error message
+            console.log("Cannot log in with the credentials provided.")
         }
     } catch (error) {
-        // TODO: server error message
         console.log(error);
+        console.log("Cannot log in with the credentials provided.")
     }
 }
+// Bryant's code below (end)
 
+// Gabriel's code below (start)
 async function logout() {
     try {
         let responseObject = await fetch('/logout', {
@@ -70,7 +73,6 @@ document.getElementById("submit1").addEventListener("click", function (e) {
     document.getElementById("admin").value = "";
     document.getElementById("password").value = "";
 
-    // BL: Fetch?
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (this.readyState == XMLHttpRequest.DONE) {
@@ -99,3 +101,4 @@ document.getElementById("submit1").addEventListener("click", function (e) {
     xhr.send("user_name=" + formData.user_name + "&first_name=" + formData.first_name + "&last_name=" + formData.last_name + "&email=" + formData.email + "&phone_number=" + formData.phone_number + "&password=" + formData.password);
 
 })
+// Gabriel's code below (end)

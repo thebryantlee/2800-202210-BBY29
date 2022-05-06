@@ -5,6 +5,9 @@ app.use(express.json());
 const fs = require("fs");
 const mysql = require("mysql2");
 
+// Large parts of this code was adapted from COMP 1537 Assignment 6 by Bryant Lee,
+// and updated to fit the needs of our app for COMP 2800 and 2537.
+
 app.use("/js", express.static("./app/js"));
 app.use("/css", express.static("./app/css"));
 app.use("/img", express.static("./app/img"));
@@ -65,7 +68,7 @@ app.post("/login", function (req, res) {
         port: 3306,
         user: 'root',
         password: 'comp1537',
-        database: 'techtothemoon'
+        database: 'BBY29'
     });
     connection.connect(function (err) {
         if (err) {
@@ -73,7 +76,7 @@ app.post("/login", function (req, res) {
         }
     });
     connection.execute(
-        "SELECT * FROM 2800_202210_BBY29_user WHERE 2800_202210_BBY29_user.user_name = ? AND 2800_202210_BBY29_user.password = ?",
+        "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ? AND BBY29_user.password = ?",
         [username, pwd],
         function (error, results, fields) {
             if (error) {
@@ -113,7 +116,7 @@ app.get("/users", function (req, res) {
         port: 3306,
         user: 'root',
         password: 'comp1537',
-        database: 'techtothemoon'
+        database: 'BBY29'
     });
     connection.connect(function (err) {
         if (err) {
@@ -122,7 +125,7 @@ app.get("/users", function (req, res) {
         }
     });
     connection.execute(
-        "SELECT * FROM 2800_202210_BBY29_user",
+        "SELECT * FROM BBY29_user",
         function (error, results, fields) {
             if (error) {
                 console.log(error);
@@ -139,7 +142,7 @@ app.get("/users", function (req, res) {
     );
 });
 
-// Gabriel's Logout code
+// Gabriel's code (start)
 app.post("/logout", function (req, res) {
 
     if (req.session) {
@@ -168,7 +171,7 @@ app.post('/add-user', function (req, res) {
         port: 3306,
         user: 'root',
         password: 'comp1537',
-        database: 'techtothemoon'
+        database: 'BBY29'
     });
     connection.connect();
     // TO PREVENT SQL INJECTION, DO THIS:
@@ -189,6 +192,7 @@ app.post('/add-user', function (req, res) {
     connection.end();
 
 });
+// Gabriel's code (end)
 
 let port = 8000;
 app.listen(port, function () {

@@ -1,7 +1,6 @@
 window.addEventListener('load', getUsers);
 
 function getUsers() {
-    // Fetch
     var xhr = new XMLHttpRequest();
     xhr.open('GET', `/users`, true);
 
@@ -19,7 +18,6 @@ function getUsers() {
                 var td4 = document.createElement('td');
                 var td5 = document.createElement('td');
                 var td6 = document.createElement('td');
-                // Change passed in values to match sql table
                 var text1 = document.createTextNode(response[i].user_name);
                 var text2 = document.createTextNode(response[i].first_name);
                 var text3 = document.createTextNode(response[i].last_name);
