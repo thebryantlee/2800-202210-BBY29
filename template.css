@@ -1,3 +1,8 @@
+#appName{
+  font-size: 10pt;
+  font-weight: bold;
+}
+
 #appVersion {
   font-size: 0.5em;
   margin-top: 1.5em;
@@ -15,8 +20,19 @@
   border-radius: 50%;
 }
 
-#a #offcanvasRightLabel {
+#navButton{
+  background-color: white;
+  border:none;
+}
+
+#offcanvasRightLabel {
   margin: 0;
+}
+
+#profileButton{
+  float:right;
+  background-color: white;
+  border:none;
 }
 
 #signOutButton {
@@ -31,12 +47,20 @@
 }
 
 .contentHeader {
-  font-size: 1.5em;
+  font-size: 18pt;
+  font-weight: bold;
+  padding-left: 0.5em;
 }
 
 .contentHeader > p {
   margin-bottom: 0;
   margin-top: 1em;
+}
+
+.disabled-link{
+  cursor: default !important;
+  pointer-events: none !important;
+  color: grey !important; 
 }
 
 .menuGroup {
@@ -69,6 +93,19 @@
   float: right;
 }
 
+.newsDashboardPrimary{
+  padding:0;
+  padding-bottom: 1em;
+}
+
+.newsPrimaryHeader{
+  padding-left: 1em;
+}
+
+.newsSecondaryHeader{
+  font-size: 10pt;
+}
+
 .offcanvas {
   max-width: 80%;
   background-color: #535353;
@@ -76,7 +113,8 @@
 }
 
 .primaryNewsGraphic {
-  max-width: 100%;
+  width: 100%;
+  margin-bottom: 0.5em;
 }
 
 .profileHeader {
@@ -95,10 +133,10 @@
 
 .stockHeader {
   margin: 0;
+  font-size: 10pt;
 }
 
-a:link,
-a:visited {
+a:link, a:visited {       
   text-decoration: none;
   color: white;
 }
@@ -109,4 +147,6 @@ a:active {
 
 body {
   font-family: "Roboto", sans-serif;
+  max-width: 768px;
+  margin: 0 auto;
 }
