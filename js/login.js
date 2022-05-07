@@ -41,30 +41,25 @@ app.get("/", function (req, res) {
 });
 
 app.get("/profile/:user_name", function (req, res) {
-  if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
-    // TODO: create profile html page
-    // and then replace main with profile
-    let doc = fs.readFileSync("../template.html", "utf8");
-    res.send(doc);
-  } else {
-    res.redirect("/");
-  }
-});
-
-app.get("/admin/:user_name", function (req, res) {
-  if (
-    req.session.loggedIn &&
-    req.session.admin &&
-    req.session.user_name === req.params.user_name
-  ) {
-    // TODO: create admin html page
-    // and then replace main with admin
-    let doc = fs.readFileSync("../admin.html", "utf8");
-    res.send(doc);
-  } else {
-    res.redirect("/");
-  }
-});
+    if (
+      req.session.loggedIn &&
+      req.session.admin &&
+      req.session.user_name === req.params.user_name
+    ) {
+      // TODO: create admin html page
+      // and then replace main with admin
+      let doc = fs.readFileSync("../admin.html", "utf8");
+      res.send(doc);
+    } else if (
+      req.session.loggedIn &&
+      req.session.user_name === req.params.user_name
+    ) {
+      let doc = fs.readFileSync("../template.html", "utf8");
+      res.send(doc);
+    } else {
+      res.redirect("/");
+    }
+  });
 
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
