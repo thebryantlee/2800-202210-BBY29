@@ -20,7 +20,7 @@ async function login() {
         if (responseObject.status === 200) {
             const userData = await responseObject.json();
             if (userData.admin) {
-                window.location.href = `/admin/${userData.user_name}`;
+                window.location.href = `/profile/${userData.user_name}`;
             } else {
                 window.location.href = `/profile/${userData.user_name}`;
             }
