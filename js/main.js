@@ -25,6 +25,14 @@ async function login() {
                 window.location.href = `/profile/${userData.user_name}`;
             }
         } else {
+            var alertPlaceholder = document.getElementById('tempAlert')
+            var temp = document.getElementById('alert-created')    
+            var wrapper = document.createElement('div')
+            if(!temp) {
+                wrapper.innerHTML = '<div id="alert-created" class="alert alert-' + 'danger' + ' role="alert">' + 'Your login credentials do not match an account in our system!' + '</div>'        
+                alertPlaceholder.append(wrapper)
+            } 
+
             console.log(responseObject.status);
             console.log("Cannot log in with the credentials provided.")
         }
@@ -96,4 +104,5 @@ async function signup() {
     xhr.send("user_name=" + formData.user_name + "&first_name=" + formData.first_name + "&last_name=" + formData.last_name + "&email=" + formData.email + "&phone_number=" + formData.phone_number + "&password=" + formData.password);
     //xhr.send(JSON.stringify(formData));
 }
-// Gabriel's code below (end)
+
+
