@@ -61,6 +61,25 @@ app.get("/profile/:user_name", function (req, res) {
   }
 });
 
+app.get("/account", function (req, res) {
+  if (req.session.loggedIn) {
+    // Redirect to account page
+    res.redirect(`/account/${req.session.user_name}`);
+    console.log("Redirected to account page.");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/account/:user_name", function (req, res) {
+  if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
+    let doc = fs.readFileSync("../account.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+});
+
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const username = req.body.user_name;
