@@ -14,12 +14,19 @@ function getUsers() {
       for (let i = 0; i < response.length; i++) {
         var tr = document.createElement("tr");
         var td1 = document.createElement("td");
+        td1.setAttribute("class", "usernameHeader");
         var td2 = document.createElement("td");
+        td2.setAttribute("class", "fNameHeader");
         var td3 = document.createElement("td");
+        td3.setAttribute("class", "lNameHeader");
         var td4 = document.createElement("td");
+        td4.setAttribute("class", "emailHeader");
         var td5 = document.createElement("td");
+        td5.setAttribute("class", "phoneNumHeader");
         var td6 = document.createElement("td");
+        td6.setAttribute("class", "adminHeader");
         var td7 = document.createElement("td");
+        td7.setAttribute("class", "actionsHeader");
         var text1 = document.createTextNode(response[i].user_name);
         var text2 = document.createTextNode(response[i].first_name);
         var text3 = document.createTextNode(response[i].last_name);
