@@ -75,6 +75,8 @@ app.get("/account/:user_name", function (req, res) {
   if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
     let doc = fs.readFileSync("../account.html", "utf8");
     res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
   } else {
     res.redirect("/");
   }
