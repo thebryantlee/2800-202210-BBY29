@@ -41,25 +41,25 @@ app.get("/", function (req, res) {
 });
 
 app.get("/profile/:user_name", function (req, res) {
-    if (
-      req.session.loggedIn &&
-      req.session.admin &&
-      req.session.user_name === req.params.user_name
-    ) {
-      // TODO: create admin html page
-      // and then replace main with admin
-      let doc = fs.readFileSync("../admin.html", "utf8");
-      res.send(doc);
-    } else if (
-      req.session.loggedIn &&
-      req.session.user_name === req.params.user_name
-    ) {
-      let doc = fs.readFileSync("../template.html", "utf8");
-      res.send(doc);
-    } else {
-      res.redirect("/");
-    }
-  });
+  if (
+    req.session.loggedIn &&
+    req.session.admin &&
+    req.session.user_name === req.params.user_name
+  ) {
+    // TODO: create admin html page
+    // and then replace main with admin
+    let doc = fs.readFileSync("../admin.html", "utf8");
+    res.send(doc);
+  } else if (
+    req.session.loggedIn &&
+    req.session.user_name === req.params.user_name
+  ) {
+    let doc = fs.readFileSync("../template.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+});
 
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
@@ -221,6 +221,49 @@ app.post("/add_user", function (req, res) {
   connection.end();
 });
 // Gabriel's code (end)
+
+// Jacob's code (Beginning)
+
+app.get("/current_user", function (req, res) {
+  const connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    // Below is the hosting data for Bryant's MacBook
+    // host: '127.0.0.1',
+    // port: 3306,
+    // user: 'root',
+    // password: 'comp1537',
+    // database: 'COMP2800'
+  });
+  connection.connect(function (err) {
+    if (err) {
+      res.send(err);
+      return console.error("error: " + err);
+    }
+  });
+  connection.execute(
+    "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ?",
+    [req.session.user_name],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length > 0) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+      connection.end();
+    }
+  );
+});
+
+// Jacob's code (end)
 
 let port = 8000;
 app.listen(port, function () {
