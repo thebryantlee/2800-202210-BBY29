@@ -38,7 +38,10 @@
         data-bs-target="#offcanvasWithBackdrop"
         aria-controls="offcanvasWithBackdrop"
       >
-        <img src="/img/icons/menu/hamburger.svg" alt="Hamburger Menu Icon" />
+        <img
+          src="/img/icons/menu/hamburger-light.svg"
+          alt="Hamburger Menu Icon"
+        />
       </button>
 
       <span id="appName">Tech to the Moon - Administrator</span>
@@ -50,7 +53,11 @@
         data-bs-target="#offcanvasRight"
         aria-controls="offcanvasRight"
       >
-        <img src="/img/icons/user/user_filled.svg" alt="User Profile Icon" />
+        <img
+          src="/img/icons/user/user_light.svg"
+          alt="User Profile Icon"
+          id="profileIcon"
+        />
       </button>
     </nav>
 
@@ -223,18 +230,9 @@
             <p class="menuLabel">Full Name</p>
             <div id="placeFullNameHere"></div>
           </div>
-          <div class="profileItem">
-            <p class="menuLabel">Email</p>
-            <div id="placeEmailHere"></div>
-          </div>
-          <div class="profileItem">
-            <p class="menuLabel">Phone Number</p>
-            <div id="placePhoneNumHere"></div>
-          </div>
-
           <ul class="list-group list-group-flush">
             <li class="list-group-item menuList">
-              <a href="/account" id="accountLink">
+              <a href="#" class="disabled-link">
                 <img
                   src="/img/icons/user/user.svg"
                   alt="User Account Icon"
