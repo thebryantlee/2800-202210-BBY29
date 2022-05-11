@@ -223,7 +223,6 @@ app.post("/add_user", function (req, res) {
 // Gabriel's code (end)
 
 // Jacob's code (Beginning)
-
 app.post("/passwordCheck", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const user = req.session.user_name;
@@ -263,6 +262,83 @@ app.post("/passwordCheck", function (req, res) {
       connection.end();
     }
   );
+});
+
+app.post("/updateData", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const username = req.body.user_name;
+  const fName = req.body.first_name;
+  const lName = req.body.last_name;
+  const em = req.body.email;
+  const pNum = req.body.phone_number;
+  const pass = req.body.password;
+
+  const connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    // Below is the hosting data for Bryant's MacBook
+    // host: '127.0.0.1',
+    // port: 3306,
+    // user: 'root',
+    // password: 'comp1537',
+    // database: 'COMP2800'
+  });
+  connection.connect(function (err) {
+    if (err) {
+      return console.error("error: " + err);
+    }
+  });
+  //With password
+  if (pass) {
+    connection.execute(
+      "UPDATE BBY29_user SET user_name = ?, first_name = ?, last_name = ?, email = ?, phone_number = ?, password = ? WHERE ID = ?",
+      [username, fName, lName, em, pNum, pass, req.session.user_ID],
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+        } else {
+          req.session.user_name = username;
+          req.session.email = em;
+          req.session.name = fName + " " + lName;
+          req.session.save(function (err) {
+            console.log("Session saved.");
+          });
+          const resObj = {
+            user_name: username,
+          };
+          res.send(resObj);
+        }
+        connection.end();
+      }
+    );
+  } else {
+    connection.execute(
+      "UPDATE BBY29_user SET user_name = ?, first_name = ?, last_name = ?, email = ?, phone_number = ? WHERE ID = ?",
+      [username, fName, lName, em, pNum, req.session.user_ID],
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+        } else {
+          req.session.user_name = username;
+          req.session.email = em;
+          req.session.name = fName + " " + lName;
+          req.session.save(function (err) {
+            console.log("Session saved.");
+          });
+          const resObj = {
+            user_name: username,
+          };
+          res.send(resObj);
+        }
+        connection.end();
+      }
+    );
+  }
 });
 
 app.get("/account", function (req, res) {
