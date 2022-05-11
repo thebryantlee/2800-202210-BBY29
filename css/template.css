@@ -145,6 +145,10 @@
   color: white;
 }
 
+.passwordVerify {
+background-color: #3D3D3D;
+}
+
 .primaryNewsGraphic {
   width: 100%;
   margin-bottom: 0.5em;
