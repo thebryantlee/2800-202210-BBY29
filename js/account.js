@@ -1,4 +1,7 @@
-window.addEventListener("load", getCurrentUser);
+window.addEventListener("load", loadModal);
+document
+  .getElementById("verifyButton")
+  .addEventListener("click", verifyPassword);
 document.getElementById("cancelForm").addEventListener("click", getCurrentUser);
 
 function getCurrentUser() {
@@ -24,4 +27,71 @@ function getCurrentUser() {
   };
 
   xhr.send();
+}
+
+function loadModal() {
+  var modal = new bootstrap.Modal(document.getElementById("passModal"), {
+    backdrop: "static",
+    keyboard: false,
+  });
+  modal.show();
+}
+
+function hideModal() {
+  var modal = document.getElementById("passModal");
+  var instance = bootstrap.Modal.getInstance(modal);
+  instance.hide();
+}
+
+function showSaveButton() {
+  const form = document.getElementById("editAccountForm");
+  const button = document.createElement("button");
+  button.setAttribute("type", "button");
+  button.setAttribute("class", "btn btn-primary float-end formOptions");
+  button.setAttribute("id", "confirmChangeButton");
+  button.setAttribute("data-bs-toggle", "modal");
+  button.setAttribute("data-bs-target", "#exampleModal");
+  var text = document.createTextNode("Save");
+  button.appendChild(text);
+  form.appendChild(button);
+}
+
+async function verifyPassword() {
+  const data = {
+    password: document.getElementById("passwordInput").value,
+  };
+  try {
+    let responseObject = await fetch("/passwordCheck", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (responseObject.status === 200) {
+      //Hide the modal and populate the menu
+      hideModal();
+      getCurrentUser();
+      showSaveButton();
+    } else {
+      var alertPlaceholder = document.getElementById("tempAlert");
+      var temp = document.getElementById("alert-created");
+      var wrapper = document.createElement("div");
+      if (!temp) {
+        wrapper.innerHTML =
+          '<div id="alert-created" class="alert alert-' +
+          "danger" +
+          ' role="alert">' +
+          "The password you have entered is incorrect!" +
+          "</div>";
+        alertPlaceholder.append(wrapper);
+      }
+
+      console.log(responseObject.status);
+      console.log("The user has entered an incorrect password.");
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
