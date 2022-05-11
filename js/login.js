@@ -4,6 +4,8 @@ const app = express();
 app.use(express.json());
 const fs = require("fs");
 const mysql = require("mysql2");
+let http = require('http');
+let url = require('url');
 
 // Large parts of this code was adapted from COMP 1537 Assignment 6 by Bryant Lee,
 // and updated to fit the needs of our app for COMP 2800 and 2537.
@@ -222,7 +224,12 @@ app.post("/add_user", function (req, res) {
 });
 // Gabriel's code (end)
 
-let port = 8000;
-app.listen(port, function () {
-  console.log("This project is served on port " + port + ".");
-});
+http.createServer((req, res) => {
+  let q = url.parse(req.url, true);
+  console.log(q.query);
+
+  res.writeHead(200, {
+      "Content-Type": "text/html",
+      "Access-Control-Allow-Origin": "*"
+  });
+}).listen(process.env.PORT || 3000);
