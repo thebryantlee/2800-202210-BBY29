@@ -35,7 +35,7 @@ app.get("/", function (req, res) {
       console.log("Logged In.");
     }
   } else {
-    let doc = fs.readFileSync("../index.html", "utf8");
+    let doc = fs.readFileSync("./index.html", "utf8");
     res.set("Server", "TechToTheMoon Engine");
     res.set("X-Powered-By", "MoonPC");
     res.send(doc);
@@ -50,13 +50,13 @@ app.get("/profile/:user_name", function (req, res) {
     ) {
       // TODO: create admin html page
       // and then replace main with admin
-      let doc = fs.readFileSync("../admin.html", "utf8");
+      let doc = fs.readFileSync("./admin.html", "utf8");
       res.send(doc);
     } else if (
       req.session.loggedIn &&
       req.session.user_name === req.params.user_name
     ) {
-      let doc = fs.readFileSync("../template.html", "utf8");
+      let doc = fs.readFileSync("./template.html", "utf8");
       res.send(doc);
     } else {
       res.redirect("/");
