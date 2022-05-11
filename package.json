@@ -4,5 +4,23 @@
     "express-session": "^1.17.2",
     "firebase": "^9.8.1",
     "mysql2": "^2.3.3"
-  }
+  },
+  "name": "2800-202210-bby29",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thebryantlee/2800-202210-BBY29.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thebryantlee/2800-202210-BBY29/issues"
+  },
+  "homepage": "https://github.com/thebryantlee/2800-202210-BBY29#readme"
 }
