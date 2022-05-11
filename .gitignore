@@ -64,6 +64,3 @@ node_modules/
 
 # dotenv environment variables file
 .env
-
-# Firebase API JS file
-js/firebaseAPI_BBY29
