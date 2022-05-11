@@ -49,6 +49,7 @@
       <!--This is the beginning of the main content of the page.-->
       <div id="contentSection">
         <h1 id="accountTitle">Account</h1>
+        <div id="alertLocation"></div>
         <div id="formSection">
           <form
             class="needs-validation"
@@ -191,7 +192,7 @@
     <div id="confirmationContainer">
       <div
         class="modal fade"
-        id="exampleModal"
+        id="confirmModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -220,7 +221,13 @@
               >
                 Close
               </button>
-              <button type="button" class="btn btn-primary">Confirm</button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="confirmEditButton"
+              >
+                Confirm
+              </button>
             </div>
           </div>
         </div>
