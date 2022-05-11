@@ -50,13 +50,18 @@
       <div id="contentSection">
         <h1 id="accountTitle">Account</h1>
         <div id="formSection">
-          <form>
+          <form
+            class="needs-validation"
+            id="editAccountForm"
+            oninput='pass2.setCustomValidity(pass2.value != pass.value ? "Passwords do not match." : "")'
+          >
             <div class="form-floating mb-3">
               <input
                 type="text"
                 class="form-control formEntry bg-secondary text-white"
                 id="usernameInput"
                 placeholder="Username"
+                required
               />
               <label for="floatingInput">Username</label>
             </div>
@@ -66,6 +71,7 @@
                 class="form-control formEntry bg-secondary text-white"
                 id="emailInput"
                 placeholder="name@example.com"
+                required
               />
               <label for="floatingInput">Email address</label>
             </div>
@@ -83,7 +89,8 @@
               <input
                 type="password"
                 class="form-control formEntry bg-secondary text-white"
-                id="passwordInput"
+                id="newPasswordInput"
+                name="pass"
                 placeholder="password"
               />
               <label for="floatingInput">New Password</label>
@@ -93,6 +100,7 @@
                 type="password"
                 class="form-control formEntry bg-secondary text-white"
                 id="confirmPasswordInput"
+                name="pass2"
                 placeholder="password"
               />
               <label for="floatingInput">Confirm New Password</label>
@@ -103,6 +111,7 @@
                 class="form-control formEntry bg-secondary text-white"
                 id="fNameInput"
                 placeholder="John"
+                required
               />
               <label for="floatingInput">First Name</label>
             </div>
@@ -123,19 +132,61 @@
               Cancel
             </button>
           </form>
-          <div id="formOptions">
-            <button
-              class="btn btn-primary float-end formOptions"
-              id="confirmChangeButton"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-            >
-              Save
-            </button>
-          </div>
+          <div id="formOptions"></div>
         </div>
       </div>
     </main>
+
+    <!-- This is the beginning of the modals used within this HTML page-->
+    <div id="passCheckContainer">
+      <div
+        class="modal fade"
+        id="passModal"
+        tabindex="-1"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        aria-labelledby="passModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content modalAccount align-content-center">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Password Verification
+              </h5>
+            </div>
+            <div class="modal-body">
+              <p>Please enter your password to continue</p>
+              <div id="tempAlert"></div>
+              <form>
+                <div class="form-floating mb-3">
+                  <input
+                    type="password"
+                    class="form-control formEntry text-white bg-secondary"
+                    id="passwordInput"
+                    placeholder="password"
+                  />
+                  <label for="floatingInput">Password</label>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="backButton"
+                onclick="location.href='/'"
+              >
+                Go back
+              </button>
+              <button type="button" class="btn btn-primary" id="verifyButton">
+                Verify
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div id="confirmationContainer">
       <div
@@ -145,8 +196,8 @@
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content passwordVerify">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content modalAccount align-content-center">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">
                 Confirm Changes
@@ -160,19 +211,6 @@
             </div>
             <div class="modal-body">
               <p>Are you sure you would like to make these changes?</p>
-              <form>
-                <div class="form-floating mb-3">
-                  <input
-                    type="password"
-                    class="form-control formEntry text-white bg-secondary"
-                    id="confirmPasswordInput"
-                    placeholder="password"
-                  />
-                  <label for="floatingInput"
-                    >Enter current password to confirm</label
-                  >
-                </div>
-              </form>
             </div>
             <div class="modal-footer">
               <button
