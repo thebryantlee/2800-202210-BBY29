@@ -75,6 +75,7 @@
                 class="form-control formEntry bg-secondary text-white"
                 id="phoneNumInput"
                 placeholder="0001239999"
+                pattern="[0-9]{10}"
               />
               <label for="floatingInput">Phone Number</label>
             </div>
@@ -121,17 +122,72 @@
             >
               Cancel
             </button>
+          </form>
+          <div id="formOptions">
             <button
-              type="submit"
               class="btn btn-primary float-end formOptions"
-              id="submitForm"
+              id="confirmChangeButton"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
             >
               Save
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </main>
+
+    <div id="confirmationContainer">
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content passwordVerify">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Confirm Changes
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you would like to make these changes?</p>
+              <form>
+                <div class="form-floating mb-3">
+                  <input
+                    type="password"
+                    class="form-control formEntry text-white bg-secondary"
+                    id="confirmPasswordInput"
+                    placeholder="password"
+                  />
+                  <label for="floatingInput"
+                    >Enter current password to confirm</label
+                  >
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -139,5 +195,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="/js/main.js"></script>
+    <script src="/js/account.js"></script>
   </body>
 </html>
