@@ -223,6 +223,48 @@ app.post("/add_user", function (req, res) {
 // Gabriel's code (end)
 
 // Jacob's code (Beginning)
+
+app.post("/passwordCheck", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.session.user_name;
+  const pass = req.body.password;
+  const connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    // Below is the hosting data for Bryant's MacBook
+    // host: '127.0.0.1',
+    // port: 3306,
+    // user: 'root',
+    // password: 'comp1537',
+    // database: 'COMP2800'
+  });
+  connection.connect(function (err) {
+    if (err) {
+      return console.error("error: " + err);
+    }
+  });
+  connection.execute(
+    "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ? AND BBY29_user.password = ?",
+    [user, pass],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+      connection.end();
+    }
+  );
+});
+
 app.get("/account", function (req, res) {
   if (req.session.loggedIn) {
     // Redirect to account page
