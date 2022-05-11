@@ -61,27 +61,6 @@ app.get("/profile/:user_name", function (req, res) {
   }
 });
 
-app.get("/account", function (req, res) {
-  if (req.session.loggedIn) {
-    // Redirect to account page
-    res.redirect(`/account/${req.session.user_name}`);
-    console.log("Redirected to account page.");
-  } else {
-    res.redirect("/");
-  }
-});
-
-app.get("/account/:user_name", function (req, res) {
-  if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
-    let doc = fs.readFileSync("../account.html", "utf8");
-    res.send(doc);
-  } else if (req.session.loggedIn) {
-    res.redirect("/account");
-  } else {
-    res.redirect("/");
-  }
-});
-
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const username = req.body.user_name;
@@ -244,6 +223,26 @@ app.post("/add_user", function (req, res) {
 // Gabriel's code (end)
 
 // Jacob's code (Beginning)
+app.get("/account", function (req, res) {
+  if (req.session.loggedIn) {
+    // Redirect to account page
+    res.redirect(`/account/${req.session.user_name}`);
+    console.log("Redirected to account page.");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/account/:user_name", function (req, res) {
+  if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
+    let doc = fs.readFileSync("../account.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
 
 app.get("/current_user", function (req, res) {
   const connection = mysql.createConnection({
@@ -273,7 +272,7 @@ app.get("/current_user", function (req, res) {
         console.log(error);
         res.sendStatus(500);
       } else {
-        if (results.length > 0) {
+        if (results.length === 1) {
           res.send(results);
         } else {
           res.sendStatus(400);
