@@ -67,6 +67,3 @@ node_modules/
 
 # Ignores all the files ending with .JSON
 *.json
-
-#Ignores the node modules folder
-/node_modules
