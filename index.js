@@ -239,3 +239,4 @@ function hash(pw) {
   // implement hashing
   return crypto.createHash('md5').update(pw).digest('base64');
 }
+
