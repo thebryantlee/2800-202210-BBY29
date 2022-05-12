@@ -4,14 +4,16 @@ const app = express();
 app.use(express.json());
 const fs = require("fs");
 const mysql = require("mysql2");
+let http = require('http');
+let url = require('url');
 
 // Large parts of this code was adapted from COMP 1537 Assignment 6 by Bryant Lee,
 // and updated to fit the needs of our app for COMP 2800 and 2537.
 
-app.use("/js", express.static("../js"));
-app.use("/css", express.static("../css"));
-app.use("/img", express.static("../img"));
-app.use("/fonts", express.static("../fonts"));
+app.use("/js", express.static("./js"));
+app.use("/css", express.static("./css"));
+app.use("/img", express.static("./img"));
+app.use("/fonts", express.static("./fonts"));
 
 app.use(
   session({
@@ -33,7 +35,7 @@ app.get("/", function (req, res) {
       console.log("Logged In.");
     }
   } else {
-    let doc = fs.readFileSync("../index.html", "utf8");
+    let doc = fs.readFileSync("./index.html", "utf8");
     res.set("Server", "TechToTheMoon Engine");
     res.set("X-Powered-By", "MoonPC");
     res.send(doc);
@@ -48,13 +50,13 @@ app.get("/profile/:user_name", function (req, res) {
     ) {
       // TODO: create admin html page
       // and then replace main with admin
-      let doc = fs.readFileSync("../admin.html", "utf8");
+      let doc = fs.readFileSync("./admin.html", "utf8");
       res.send(doc);
     } else if (
       req.session.loggedIn &&
       req.session.user_name === req.params.user_name
     ) {
-      let doc = fs.readFileSync("../template.html", "utf8");
+      let doc = fs.readFileSync("./template.html", "utf8");
       res.send(doc);
     } else {
       res.redirect("/");
@@ -222,7 +224,7 @@ app.post("/add_user", function (req, res) {
 });
 // Gabriel's code (end)
 
-let port = 8000;
+let port = 5000;
 app.listen(port, function () {
-  console.log("This project is served on port " + port + ".");
+    console.log("This project is served on port " + port + ".");
 });
