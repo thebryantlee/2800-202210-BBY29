@@ -27,10 +27,8 @@ app.get("/", function (req, res) {
     if (req.session.admin) {
       // redirect to admin page
       res.redirect(`/profile/${req.session.user_name}`);
-      console.log("Logged In.");
     } else {
       res.redirect(`/profile/${req.session.user_name}`);
-      console.log("Logged In.");
     }
   } else {
     let doc = fs.readFileSync("../index.html", "utf8");
@@ -170,13 +168,6 @@ app.post("/logout", function (req, res) {
 app.post("/add_user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  console.log("userName", req.body.user_name);
-  console.log("firstName", req.body.first_name);
-  console.log("lastName", req.body.last_name);
-  console.log("Email", req.body.email);
-  console.log("phoneNumber", req.body.phone_number);
-  console.log("Password", req.body.password);
-
   const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -220,29 +211,6 @@ app.post("/add_user", function (req, res) {
   connection.end();
 });
 
-// app.post('/update-user', function (req, res) {
-//   res.setHeader('Content-Type', 'application/json');
-
-//   let connection = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: '',
-//     database: 'COMP2800'
-//   });
-//   connection.connect();
-// console.log("update values", req.body.user_name, req.body.id)
-//   connection.query('UPDATE customer SET user_name = ?, first_name = ?, last_name = ?, email = ?, phone_number = ?, admin = ?  WHERE ID = ?',
-//         [req.body.user_name, req.body.id],
-//         function (error, results, fields) {
-//     if (error) {
-//         console.log(error);
-//     }
-//     console.log('Rows returned are: ', results);
-//   });
-//   connection.end();
-
-// });
-
 app.post("/update-user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const column = req.body.column;
@@ -271,6 +239,46 @@ app.post("/update-user", function (req, res) {
   connection.execute(
     "UPDATE BBY29_user SET " + column + " = ? WHERE ID = ?",
     [value, id],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+      connection.end();
+    }
+  );
+});
+
+app.post("/delete_user", function(req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const id = req.body.id;
+
+  const connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    // Below is the hosting data for Bryant's MacBook
+    // host: '127.0.0.1',
+    // port: 3306,
+    // user: 'root',
+    // password: 'comp1537',
+    // database: 'COMP2800'
+  });
+  connection.connect(function (err) {
+    if (err) {
+      return console.error("error: " + err);
+    }
+  });
+  connection.execute(
+    "DELETE FROM BBY29_user WHERE ID = ?",
+    [id],
     function (error, results, fields) {
       if (error) {
         console.log(error);
