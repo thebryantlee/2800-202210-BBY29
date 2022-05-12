@@ -4,9 +4,11 @@ const app = express();
 app.use(express.json());
 const fs = require("fs");
 const mysql = require("mysql2");
-let http = require('http');
-let url = require('url');
+const crypto = require('crypto');
 
+// Typically salt should be added by process.env but for purpose of application
+// we have hard coded it
+const salt = 'VEhJU0lTU0FMVA==';
 // Large parts of this code was adapted from COMP 1537 Assignment 6 by Bryant Lee,
 // and updated to fit the needs of our app for COMP 2800 and 2537.
 
@@ -66,7 +68,9 @@ app.get("/profile/:user_name", function (req, res) {
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const username = req.body.user_name;
-  const pwd = req.body.password;
+  // Note: User passwords must be created through sign up
+  const pwd = hash(req.body.password + salt);
+
   const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -179,6 +183,9 @@ app.post("/add_user", function (req, res) {
   console.log("phoneNumber", req.body.phone_number);
   console.log("Password", req.body.password);
 
+// Bryant - password hashing
+const pwhash = hash(req.body.password + salt);
+
   const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -207,7 +214,7 @@ app.post("/add_user", function (req, res) {
       req.body.email,
       req.body.phone_number,
       0,
-      req.body.password,
+      pwhash,
     ],
     function (error, results, fields) {
       if (error) {
@@ -228,3 +235,8 @@ let port = 5000;
 app.listen(port, function () {
     console.log("This project is served on port " + port + ".");
 });
+
+function hash(pw) {
+  // implement hashing
+  return crypto.createHash('md5').update(pw).digest('base64');
+}
