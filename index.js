@@ -231,9 +231,7 @@ const pwhash = hash(req.body.password + salt);
 });
 // Gabriel's code (end)
 
-app.listen(process.env.PORT || 5000, function () {
-    console.log("This project is served on port " + port + ".");
-});
+app.listen(process.env.PORT || 5000);
 
 function hash(pw) {
   // implement hashing
