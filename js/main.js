@@ -62,9 +62,7 @@ async function logout() {
 }
 
 async function signup() {
-    // e.preventDefault();
-
-    let formData = {
+    const formData = {
         user_name: document.getElementById("logname1").value,
         first_name: document.getElementById("logfirst").value,
         last_name: document.getElementById("loglast").value,
@@ -72,37 +70,19 @@ async function signup() {
         phone_number: document.getElementById("logtel").value,
         password: document.getElementById("logpass2").value
     };
-    document.getElementById("logname1").value = "";
-    document.getElementById("logfirst").value = "";
-    document.getElementById("loglast").value = "";
-    document.getElementById("logemail2").value = "";
-    document.getElementById("logtel").value = "";
-    document.getElementById("logpass2").value = "";
-
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        if (this.readyState == XMLHttpRequest.DONE) {
-
-            // 200 means everthing worked
-            if (xhr.status === 200) {
-                // console.log(results);
-            } else {
-
-                // not a 200, could be anything (404, 500, etc.)
-                console.log(this.status);
-
-            }
-
-        } else {
-            console.log("ERROR", this.status);
-        }
+    try {
+        let responseObject = await fetch("/add_user", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+            });
+            if(responseObject.status == 200) {
+                window.location.href = '/';
+            } 
+    } catch (error) {
+        console.log(error);
     }
-    xhr.open("POST", "/add_user");
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    //TO DO: Fix the below line, to be implemented in Sprint 3.
-    xhr.send("user_name=" + formData.user_name + "&first_name=" + formData.first_name + "&last_name=" + formData.last_name + "&email=" + formData.email + "&phone_number=" + formData.phone_number + "&password=" + formData.password);
-    //xhr.send(JSON.stringify(formData));
 }
-
-

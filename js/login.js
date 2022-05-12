@@ -211,7 +211,6 @@ app.post("/add_user", function (req, res) {
       if (error) {
         console.log(error);
       }
-      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Record added.",
@@ -219,6 +218,29 @@ app.post("/add_user", function (req, res) {
     }
   );
   connection.end();
+});
+
+app.post('/update-user', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  let connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'COMP2800'
+  });
+  connection.connect();
+console.log("update values", req.body.user_name, req.body.id)
+  connection.query('UPDATE customer SET user_name = ?, first_name = ?, last_name = ?, email = ?, phone_number = ?, admin = ?  WHERE ID = ?',
+        [req.body.user_name, req.body.id],
+        function (error, results, fields) {
+    if (error) {
+        console.log(error);
+    }
+    console.log('Rows returned are: ', results);
+  });
+  connection.end();
+
 });
 // Gabriel's code (end)
 
