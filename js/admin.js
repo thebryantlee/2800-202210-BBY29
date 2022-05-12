@@ -1,5 +1,7 @@
 // window.addEventListener("load", getUsers);
 document.getElementById("signOutButton").addEventListener("click", logout);
+document.getElementById("addTuple").addEventListener("click", addUser);
+
 
 function getUsers() {
   var xhr = new XMLHttpRequest();
@@ -85,10 +87,10 @@ function getUsers() {
                               phone_number_records[k].addEventListener("click", editCell);
                             }
 
-        // let phone_number_records = document.querySelectorAll("td[class='phoneNumHeader']");
-        //                     for(let k = 0; k < phone_number_records.length; k++) {
-        //                       phone_number_records[k].addEventListener("click", editCell);
-        //                     }                  
+        let delete_records = document.querySelectorAll("td[class='actionsHeader']");
+                            for(let k = 0; k < delete_records.length; k++) {
+                              delete_records[k].children[0].addEventListener("click", deleteRow);
+                            }             
       }
     }
   };
@@ -118,40 +120,7 @@ async function editCell(e) {
           newSpan.innerHTML = v;
           parent.innerHTML = "";
           parent.appendChild(newSpan);
-          console.log(parent);
         verifyEdits(parent);
-
-          // let dataToSend = {id: parent.parentNode.querySelector(".idHeader").innerHTML,
-          //                   user_name: v,
-          //                   first_name: parent.parentNode.querySelector(".fNameHeader"),
-          //                   last_name: parent.parentNode.querySelector(".lNameHeader").innerHTML,
-          //                   email: parent.parentNode.querySelector(".emailHeader").innerHTML};
-          
-          // console.log("id=" + dataToSend.id + "&user_name=" + dataToSend.user_name);
-          // // now send
-          // const xhr = new XMLHttpRequest();
-          // xhr.onload = function () {
-          //     if (this.readyState == XMLHttpRequest.DONE) {
-
-          //         // 200 means everthing worked
-          //         if (xhr.status === 200) {
-          //           getUsers();
-          //         } else {
-
-          //           // not a 200, could be anything (404, 500, etc.)
-          //           console.log(this.status);
-
-          //         }
-
-          //     } else {
-          //         console.log("ERROR", this.status);
-          //     }
-          // }
-          // xhr.open("POST", "/update-user");
-          // xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-          // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-          // xhr.send("id=" + dataToSend.id + "&user_name=" + dataToSend.user_name);
-
       }
   });
   parent.innerHTML = "";
@@ -159,9 +128,6 @@ async function editCell(e) {
 
 }
 async function verifyEdits(location) {
-  console.log(location.className);
-  console.log(location.children[0].innerHTML);
-  console.log(location.parentNode.children[0].innerHTML);
   const data = {
     column: location.className,
     value: location.children[0].innerHTML,
@@ -208,4 +174,131 @@ async function verifyEdits(location) {
   }catch (error) {
     console.log(error);
   }
+}
+
+async function deleteRow(e) {
+  const data = {
+    id: e.target.parentNode.parentNode.parentNode.children[0].innerHTML
+  };
+  try {
+    let responseObject = await fetch("/delete_user", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if(responseObject.status == 200) {
+      var alertPlaceholder = document.getElementById("tempAlert");
+      var temp = document.getElementById("alert-created");
+      var wrapper = document.createElement("div");        
+      refreshTable();    
+      if (!temp) {
+        wrapper.innerHTML =
+          '<div id="alert-created" class="alert alert-' +
+          "success" +
+          ' role="alert">' +
+          "User Has Been Deleted." +
+          "</div>";
+        alertPlaceholder.append(wrapper);  
+    } else {
+      var alertPlaceholder = document.getElementById("tempAlert");
+      var temp = document.getElementById("alert-created");
+      var wrapper = document.createElement("div");
+      if (!temp) {
+        wrapper.innerHTML =
+          '<div id="alert-created" class="alert alert-' +
+          "danger" +
+          ' role="alert">' +
+          "There was problem deleting that user." +
+          "</div>";
+        alertPlaceholder.append(wrapper);
+      }
+      console.log(responseObject.status);
+    }
+  }
+} catch (error) {
+  console.log(error);
+}
+
+}
+
+async function addUser() {
+  var formPlaceholder = document.getElementById("new-user");
+  var temp = document.getElementById("formid");
+  var wrapper = document.createElement("form");
+  wrapper.setAttribute("id", "formid");
+  if(!temp) { 
+    wrapper.innerHTML =
+    '<form> ' + 
+    '<div class="mb-3">' +
+      '<label for="inputUserName" class="form-label">Username</label> ' +
+      '<input type="text" class="form-control" id="inputUserName" aria-describedby="emailHelp"> ' +
+    "</div>" +
+    '<div class="mb-3">' +
+      '<label for="inputFirstName" class="form-label">First Name</label>' +
+      '<input type="text" class="form-control" id="inputFirstName">' +
+    "</div>" +
+    '<div class="mb-3">' +
+      '<label for="inputLastName" class="form-label">Last Name</label>' +
+      '<input type="text" class="form-control" id="inputLastName">' +
+    "</div>" +
+    '<div class="mb-3">' +
+      '<label for="inputEmail" class="form-label">Email</label>' +
+      '<input type="text" class="form-control" id="inputEmail">' +
+    "</div>" +
+    '<div class="mb-3">' +
+      '<label for="inputPhoneNumber" class="form-label">Phone Number</label>' +
+      '<input type="text" class="form-control" id="inputPhoneNumber">' +
+    "</div>" +
+    '<div class="mb-3">' +
+      '<label for="inputPassword" class="form-label">Password</label>' +
+      '<input type="password" class="form-control" id="inputPassword">' +
+    "</div>" +
+    '<button type="button" id="submit2" onclick="verifyAndSendUser()">Submit</button>' +
+  '</form>';
+  formPlaceholder.append(wrapper);
+  }
+}
+
+async function verifyAndSendUser() {
+  let formData = {
+    user_name: document.getElementById("inputUserName").value,
+    first_name: document.getElementById("inputFirstName").value,
+    last_name: document.getElementById("inputLastName").value,
+    email: document.getElementById("inputEmail").value,
+    phone_number: document.getElementById("inputPhoneNumber").value,
+    password: document.getElementById("inputPassword").value
+  };
+  try {
+    let responseObject = await fetch("/add_user", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+        });
+        if(responseObject.status == 200) {
+            refreshForm();
+            
+        } else {
+          console.log(error);
+        }
+} catch (error) {
+    console.log(error);
+}
+}
+
+function refreshTable() {
+  const tbody = document.getElementById("tablebody");
+  tbody.innerHTML = '';
+  getUsers();
+}
+
+function refreshForm() {
+  const fbody = document.getElementById("formid");
+  fbody.innerHTML = '';
+  refreshTable();
 }
