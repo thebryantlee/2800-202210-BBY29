@@ -154,15 +154,6 @@ app.post("/add_user", function (req, res) {
   // Bryant - password hashing
   const pwhash = hash(req.body.password + salt);
 
-  const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "COMP2800",
-  });
-  connection.connect();
-
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
   connection.query(
@@ -195,19 +186,6 @@ app.post("/update-user", function (req, res) {
   const column = req.body.column;
   const value = req.body.value;
   const id = req.body.id;
-
-  const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "COMP2800",
-  });
-  connection.connect(function (err) {
-    if (err) {
-      return console.error("error: " + err);
-    }
-  });
   //With password
   connection.execute(
     "UPDATE BBY29_user SET " + column + " = ? WHERE ID = ?",
