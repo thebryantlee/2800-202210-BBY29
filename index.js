@@ -17,6 +17,15 @@ app.use("/css", express.static("./css"));
 app.use("/img", express.static("./img"));
 app.use("/fonts", express.static("./fonts"));
 
+const connection = mysql.createPool({
+  host: "localhost",
+  port: 3306,
+  user: "root",
+  password: "",
+  database: "COMP2800",
+  multipleStatements: false,
+});
+
 app.use(
   session({
     secret: "CaleMakarIsCool",
@@ -69,18 +78,6 @@ app.post("/login", function (req, res) {
   // Note: User passwords must be created through sign up
   const pwd = hash(req.body.password + salt);
 
-  const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "COMP2800",
-  });
-  connection.connect(function (err) {
-    if (err) {
-      return console.error("error: " + err);
-    }
-  });
   connection.execute(
     "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ? AND BBY29_user.password = ?",
     [username, pwd],
@@ -109,25 +106,11 @@ app.post("/login", function (req, res) {
           res.sendStatus(401);
         }
       }
-      connection.end();
     }
   );
 });
 
 app.get("/users", function (req, res) {
-  const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "COMP2800",
-  });
-  connection.connect(function (err) {
-    if (err) {
-      res.send(err);
-      return console.error("error: " + err);
-    }
-  });
   connection.execute(
     "SELECT * FROM BBY29_user WHERE ID <> " + req.session.user_ID,
     function (error, results, fields) {
@@ -140,7 +123,6 @@ app.get("/users", function (req, res) {
           res.sendStatus(400);
         }
       }
-      connection.end();
     }
   );
 });
@@ -247,18 +229,6 @@ app.post("/delete_user", function(req, res) {
   res.setHeader("Content-Type", "application/json");
   const id = req.body.id;
 
-  const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "COMP2800",
-  });
-  connection.connect(function (err) {
-    if (err) {
-      return console.error("error: " + err);
-    }
-  });
   connection.execute(
     "DELETE FROM BBY29_user WHERE ID = ?",
     [id],
@@ -272,7 +242,6 @@ app.post("/delete_user", function(req, res) {
           msg: "Record added.",
         });
       }
-      connection.end();
     }
   );
 });
@@ -290,18 +259,7 @@ app.post("/passwordCheck", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const user = req.session.user_name;
   const pass = hash(req.body.password + salt);
-  const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "COMP2800",
-  });
-  connection.connect(function (err) {
-    if (err) {
-      return console.error("error: " + err);
-    }
-  });
+
   connection.execute(
     "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ? AND BBY29_user.password = ?",
     [user, pass],
@@ -316,7 +274,6 @@ app.post("/passwordCheck", function (req, res) {
           res.sendStatus(400);
         }
       }
-      connection.end();
     }
   );
 });
@@ -331,18 +288,6 @@ app.post("/updateData", function (req, res) {
 
   const pass = hash(req.body.password + salt);
 
-  const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "COMP2800",
-  });
-  connection.connect(function (err) {
-    if (err) {
-      return console.error("error: " + err);
-    }
-  });
   //With password
   if (pass) {
     connection.execute(
@@ -364,7 +309,6 @@ app.post("/updateData", function (req, res) {
             msg: "Record added.",
           });
         }
-        connection.end();
       }
     );
   } else {
@@ -387,7 +331,6 @@ app.post("/updateData", function (req, res) {
             msg: "Record added.",
           });
         }
-        connection.end();
       }
     );
   }
@@ -415,19 +358,7 @@ app.get("/account/:user_name", function (req, res) {
 });
 
 app.get("/current_user", function (req, res) {
-  const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "COMP2800",
-  });
-  connection.connect(function (err) {
-    if (err) {
-      res.send(err);
-      return console.error("error: " + err);
-    }
-  });
+
   connection.execute(
     "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ?",
     [req.session.user_name],
@@ -442,7 +373,6 @@ app.get("/current_user", function (req, res) {
           res.sendStatus(400);
         }
       }
-      connection.end();
     }
   );
 });
