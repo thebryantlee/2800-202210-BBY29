@@ -46,6 +46,7 @@
     </nav>
 
     <main>
+      <div id="signOutButton"></div>
       <!--This is the beginning of the main content of the page.-->
       <div id="contentSection">
         <h1 id="accountTitle">Account</h1>
@@ -57,6 +58,25 @@
             id="editAccountForm"
             oninput='pass2.setCustomValidity(pass2.value != pass.value ? "Passwords do not match." : "")'
           >
+            <div class="form-floating mb-3">
+              <select
+                class="form-select formEntry bg-secondary text-white"
+                id="avatarInput"
+                aria-label="Avatar Selection"
+              >
+                <option selected>Select an option...</option>
+                <option value="0">Black</option>
+                <option value="1">Orange</option>
+                <option value="2">Yellow</option>
+                <option value="3">Green</option>
+                <option value="4">Blue</option>
+                <option value="5">Purple</option>
+                <option value="6">Pink</option>
+                <option value="7">White</option>
+              </select>
+              <label for="avatarInput">Avatar Colour</label>
+            </div>
+
             <div class="form-floating mb-3">
               <input
                 type="text"

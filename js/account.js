@@ -26,10 +26,22 @@ function getCurrentUser() {
       phoneNumLocation.setAttribute("value", response[0].phone_number);
       fNameLocation.setAttribute("value", response[0].first_name);
       lNameLocation.setAttribute("value", response[0].last_name);
+      select("avatarInput", response[0].avatar_path);
     }
   };
 
   xhr.send();
+}
+
+function select(selectId, optionValToSelect) {
+  var selectElement = document.getElementById(selectId);
+  var selectOptions = selectElement.options;
+  for (var opt, j = 0; (opt = selectOptions[j]); j++) {
+    if (opt.value == optionValToSelect) {
+      selectElement.selectedIndex = j;
+      break;
+    }
+  }
 }
 
 function loadModal() {
@@ -139,6 +151,7 @@ async function submitChanges() {
     email: document.getElementById("emailInput").value,
     phone_number: document.getElementById("phoneNumInput").value,
     password: document.getElementById("newPasswordInput").value,
+    avatar_path: document.getElementById("avatarInput").value,
   };
   try {
     let responseObject = await fetch("/updateData", {
