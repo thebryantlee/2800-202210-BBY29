@@ -41,7 +41,10 @@
         data-bs-target="#offcanvasWithBackdrop"
         aria-controls="offcanvasWithBackdrop"
       >
-        <img src="/img/icons/menu/hamburger.svg" alt="Hamburger Menu Icon" />
+        <img
+          src="/img/icons/menu/hamburger-light.svg"
+          alt="Hamburger Menu Icon"
+        />
       </button>
 
       <span id="appName">Tech to the Moon</span>
@@ -53,7 +56,11 @@
         data-bs-target="#offcanvasRight"
         aria-controls="offcanvasRight"
       >
-        <img src="/img/icons/user/user_filled.svg" alt="User Profile Icon" />
+        <img
+          src="/img/icons/user/user_light.svg"
+          alt="User Profile Icon"
+          id="profileIcon"
+        />
       </button>
     </nav>
 
@@ -293,24 +300,16 @@
               src="/img/icons/user/user_filled.svg"
               alt="Default User Icon"
             />
-            <p>Username</p>
+            <div id="placeUsernameHere"></div>
           </div>
           <div class="profileItem">
-            <p class="menuLabel">Full Name</p>
-            <p>Username Accountname</p>
-          </div>
-          <div class="profileItem">
-            <p class="menuLabel">Email</p>
-            <p>acc***********@gmail.com</p>
-          </div>
-          <div class="profileItem">
-            <p class="menuLabel">Phone Number</p>
-            <p>******1234</p>
+            <p class="menuLabel">Display Name</p>
+            <div id="placeFullNameHere"></div>
           </div>
 
           <ul class="list-group list-group-flush">
             <li class="list-group-item menuList">
-              <a href="#" class="disabled-link">
+              <a href="/account" id="accountLink">
                 <img
                   src="/img/icons/user/user.svg"
                   alt="User Account Icon"
@@ -390,5 +389,6 @@
     ></script>
     <script src="/js/main.js"></script>
     <script src="/js/profile.js"></script>
+    <script src="/js/menu.js"></script>
   </body>
 </html>
