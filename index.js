@@ -4,14 +4,18 @@ const app = express();
 app.use(express.json());
 const fs = require("fs");
 const mysql = require("mysql2");
+const crypto = require('crypto');
 
+// Typically salt should be added by process.env but for purpose of application
+// we have hard coded it
+const salt = 'VEhJU0lTU0FMVA==';
 // Large parts of this code was adapted from COMP 1537 Assignment 6 by Bryant Lee,
 // and updated to fit the needs of our app for COMP 2800 and 2537.
 
-app.use("/js", express.static("../js"));
-app.use("/css", express.static("../css"));
-app.use("/img", express.static("../img"));
-app.use("/fonts", express.static("../fonts"));
+app.use("/js", express.static("./js"));
+app.use("/css", express.static("./css"));
+app.use("/img", express.static("./img"));
+app.use("/fonts", express.static("./fonts"));
 
 app.use(
   session({
@@ -31,7 +35,7 @@ app.get("/", function (req, res) {
       res.redirect(`/profile/${req.session.user_name}`);
     }
   } else {
-    let doc = fs.readFileSync("../index.html", "utf8");
+    let doc = fs.readFileSync("./index.html", "utf8");
     res.set("Server", "TechToTheMoon Engine");
     res.set("X-Powered-By", "MoonPC");
     res.send(doc);
@@ -39,30 +43,32 @@ app.get("/", function (req, res) {
 });
 
 app.get("/profile/:user_name", function (req, res) {
-  if (
-    req.session.loggedIn &&
-    req.session.admin &&
-    req.session.user_name === req.params.user_name
-  ) {
-    // TODO: create admin html page
-    // and then replace main with admin
-    let doc = fs.readFileSync("../admin.html", "utf8");
-    res.send(doc);
-  } else if (
-    req.session.loggedIn &&
-    req.session.user_name === req.params.user_name
-  ) {
-    let doc = fs.readFileSync("../template.html", "utf8");
-    res.send(doc);
-  } else {
-    res.redirect("/");
-  }
-});
+    if (
+      req.session.loggedIn &&
+      req.session.admin &&
+      req.session.user_name === req.params.user_name
+    ) {
+      // TODO: create admin html page
+      // and then replace main with admin
+      let doc = fs.readFileSync("./admin.html", "utf8");
+      res.send(doc);
+    } else if (
+      req.session.loggedIn &&
+      req.session.user_name === req.params.user_name
+    ) {
+      let doc = fs.readFileSync("./template.html", "utf8");
+      res.send(doc);
+    } else {
+      res.redirect("/");
+    }
+  });
 
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const username = req.body.user_name;
-  const pwd = req.body.password;
+  // Note: User passwords must be created through sign up
+  const pwd = hash(req.body.password + salt);
+
   const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -168,6 +174,16 @@ app.post("/logout", function (req, res) {
 app.post("/add_user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
+  console.log("userName", req.body.user_name);
+  console.log("firstName", req.body.first_name);
+  console.log("lastName", req.body.last_name);
+  console.log("Email", req.body.email);
+  console.log("phoneNumber", req.body.phone_number);
+  console.log("Password", req.body.password);
+
+// Bryant - password hashing
+const pwhash = hash(req.body.password + salt);
+
   const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -196,7 +212,7 @@ app.post("/add_user", function (req, res) {
       req.body.email,
       req.body.phone_number,
       0,
-      req.body.password,
+      pwhash,
     ],
     function (error, results, fields) {
       if (error) {
@@ -294,6 +310,13 @@ app.post("/delete_user", function(req, res) {
   );
 });
 // Gabriel's code (end)
+
+app.listen(process.env.PORT || 5000);
+
+function hash(pw) {
+  // implement hashing
+  return crypto.createHash('md5').update(pw).digest('base64');
+}
 
 // Jacob's code (Beginning)
 app.post("/passwordCheck", function (req, res) {
