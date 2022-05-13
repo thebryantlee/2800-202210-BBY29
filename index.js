@@ -367,6 +367,8 @@ app.post("/updateData", function (req, res) {
   const lName = req.body.last_name;
   const em = req.body.email;
   const pNum = req.body.phone_number;
+
+  // BL: Add password hashing
   const pass = req.body.password;
 
   const connection = mysql.createConnection({
