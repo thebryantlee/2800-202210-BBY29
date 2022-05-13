@@ -129,7 +129,7 @@ app.get("/users", function (req, res) {
     }
   });
   connection.execute(
-    "SELECT * FROM BBY29_user",
+    "SELECT * FROM BBY29_user WHERE ID <> " + req.session.user_ID,
     function (error, results, fields) {
       if (error) {
         console.log(error);
