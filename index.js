@@ -4,11 +4,11 @@ const app = express();
 app.use(express.json());
 const fs = require("fs");
 const mysql = require("mysql2");
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 // Typically salt should be added by process.env but for purpose of application
 // we have hard coded it
-const salt = 'VEhJU0lTU0FMVA==';
+const salt = "VEhJU0lTU0FMVA==";
 // Large parts of this code was adapted from COMP 1537 Assignment 6 by Bryant Lee,
 // and updated to fit the needs of our app for COMP 2800 and 2537.
 
@@ -43,25 +43,25 @@ app.get("/", function (req, res) {
 });
 
 app.get("/profile/:user_name", function (req, res) {
-    if (
-      req.session.loggedIn &&
-      req.session.admin &&
-      req.session.user_name === req.params.user_name
-    ) {
-      // TODO: create admin html page
-      // and then replace main with admin
-      let doc = fs.readFileSync("./admin.html", "utf8");
-      res.send(doc);
-    } else if (
-      req.session.loggedIn &&
-      req.session.user_name === req.params.user_name
-    ) {
-      let doc = fs.readFileSync("./template.html", "utf8");
-      res.send(doc);
-    } else {
-      res.redirect("/");
-    }
-  });
+  if (
+    req.session.loggedIn &&
+    req.session.admin &&
+    req.session.user_name === req.params.user_name
+  ) {
+    // TODO: create admin html page
+    // and then replace main with admin
+    let doc = fs.readFileSync("./admin.html", "utf8");
+    res.send(doc);
+  } else if (
+    req.session.loggedIn &&
+    req.session.user_name === req.params.user_name
+  ) {
+    let doc = fs.readFileSync("./template.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+});
 
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
@@ -169,8 +169,8 @@ app.post("/add_user", function (req, res) {
   console.log("phoneNumber", req.body.phone_number);
   console.log("Password", req.body.password);
 
-// Bryant - password hashing
-const pwhash = hash(req.body.password + salt);
+  // Bryant - password hashing
+  const pwhash = hash(req.body.password + salt);
 
   const connection = mysql.createConnection({
     host: "localhost",
@@ -184,7 +184,7 @@ const pwhash = hash(req.body.password + salt);
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
   connection.query(
-    "INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, admin, password) values (?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, admin, password, avatar_path) values (?, ?, ?, ?, ?, ?, ?, ?)",
     [
       req.body.user_name,
       req.body.first_name,
@@ -193,6 +193,7 @@ const pwhash = hash(req.body.password + salt);
       req.body.phone_number,
       0,
       pwhash,
+      0,
     ],
     function (error, results, fields) {
       if (error) {
@@ -244,7 +245,7 @@ app.post("/update-user", function (req, res) {
   );
 });
 
-app.post("/delete_user", function(req, res) {
+app.post("/delete_user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const id = req.body.id;
 
@@ -283,7 +284,7 @@ app.listen(process.env.PORT || 5000);
 
 function hash(pw) {
   // implement hashing
-  return crypto.createHash('md5').update(pw).digest('base64');
+  return crypto.createHash("md5").update(pw).digest("base64");
 }
 
 // Jacob's code (Beginning)
@@ -329,8 +330,8 @@ app.post("/updateData", function (req, res) {
   const lName = req.body.last_name;
   const em = req.body.email;
   const pNum = req.body.phone_number;
-
-  const pass = hash(req.body.password + salt);
+  const avatar = req.body.avatar_path;
+  const pass = req.body.password;
 
   const connection = mysql.createConnection({
     host: "localhost",
@@ -347,8 +348,8 @@ app.post("/updateData", function (req, res) {
   //With password
   if (pass) {
     connection.execute(
-      "UPDATE BBY29_user SET user_name = ?, first_name = ?, last_name = ?, email = ?, phone_number = ?, password = ? WHERE ID = ?",
-      [username, fName, lName, em, pNum, pass, req.session.user_ID],
+      "UPDATE BBY29_user SET user_name = ?, first_name = ?, last_name = ?, email = ?, phone_number = ?, password = ?, avatar_path = ? WHERE ID = ?",
+      [username, fName, lName, em, pNum, pass, avatar, req.session.user_ID],
       function (error, results, fields) {
         if (error) {
           console.log(error);
@@ -370,8 +371,8 @@ app.post("/updateData", function (req, res) {
     );
   } else {
     connection.execute(
-      "UPDATE BBY29_user SET user_name = ?, first_name = ?, last_name = ?, email = ?, phone_number = ? WHERE ID = ?",
-      [username, fName, lName, em, pNum, req.session.user_ID],
+      "UPDATE BBY29_user SET user_name = ?, first_name = ?, last_name = ?, email = ?, phone_number = ?, avatar_path = ? WHERE ID = ?",
+      [username, fName, lName, em, pNum, avatar, req.session.user_ID],
       function (error, results, fields) {
         if (error) {
           console.log(error);
