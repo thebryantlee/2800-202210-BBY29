@@ -1,11 +1,11 @@
 // window.addEventListener("load", getUsers);
 document.getElementById("signOutButton").addEventListener("click", logout);
 document.getElementById("addTuple").addEventListener("click", addUser);
-
+window.addEventListener("load", getUsers);
 
 function getUsers() {
   var xhr = new XMLHttpRequest();
-  
+  xhr.open("GET", `/users`, true);
 
   xhr.onload = function () {
     if (this.status == 200) {
@@ -63,43 +63,52 @@ function getUsers() {
         tr.appendChild(td7);
         tbody.appendChild(tr);
 
-        let user_name_records = document.querySelectorAll("td[class='user_name']");
-                            for(let k = 0; k < user_name_records.length; k++) {
-                              user_name_records[k].addEventListener("click", editCell);
-                            }
-        
-        let first_name_records = document.querySelectorAll("td[class='first_name']");
-                            for(let k = 0; k < first_name_records.length; k++) {
-                              first_name_records[k].addEventListener("click", editCell);
-                            }
+        let user_name_records = document.querySelectorAll(
+          "td[class='user_name']"
+        );
+        for (let k = 0; k < user_name_records.length; k++) {
+          user_name_records[k].addEventListener("click", editCell);
+        }
 
-        let last_name_records = document.querySelectorAll("td[class='last_name']");
-                            for(let k = 0; k < last_name_records.length; k++) {
-                              last_name_records[k].addEventListener("click", editCell);
-                            }
+        let first_name_records = document.querySelectorAll(
+          "td[class='first_name']"
+        );
+        for (let k = 0; k < first_name_records.length; k++) {
+          first_name_records[k].addEventListener("click", editCell);
+        }
+
+        let last_name_records = document.querySelectorAll(
+          "td[class='last_name']"
+        );
+        for (let k = 0; k < last_name_records.length; k++) {
+          last_name_records[k].addEventListener("click", editCell);
+        }
         let email_records = document.querySelectorAll("td[class='email']");
-                            for(let k = 0; k < email_records.length; k++) {
-                              email_records[k].addEventListener("click", editCell);
-                            }
+        for (let k = 0; k < email_records.length; k++) {
+          email_records[k].addEventListener("click", editCell);
+        }
 
-        let phone_number_records = document.querySelectorAll("td[class='phone_number']");
-                            for(let k = 0; k < phone_number_records.length; k++) {
-                              phone_number_records[k].addEventListener("click", editCell);
-                            }
+        let phone_number_records = document.querySelectorAll(
+          "td[class='phone_number']"
+        );
+        for (let k = 0; k < phone_number_records.length; k++) {
+          phone_number_records[k].addEventListener("click", editCell);
+        }
 
-        let delete_records = document.querySelectorAll("td[class='actionsHeader']");
-                            for(let k = 0; k < delete_records.length; k++) {
-                              delete_records[k].children[0].addEventListener("click", deleteRow);
-                            }             
+        let delete_records = document.querySelectorAll(
+          "td[class='actionsHeader']"
+        );
+        for (let k = 0; k < delete_records.length; k++) {
+          delete_records[k].children[0].addEventListener("click", deleteRow);
+        }
       }
     }
   };
   xhr.open("GET", `/users`, true);
   xhr.send();
 }
-getUsers();
-async function editCell(e) {
 
+async function editCell(e) {
   // add a listener for clicking on the field to change email
   // span's text
   let spanText = e.target.innerHTML;
@@ -108,25 +117,25 @@ async function editCell(e) {
   // create a new input, and add a key listener to it
   let input = document.createElement("input");
   input.value = spanText;
-  input.addEventListener("keyup", function(e) {
-      let s = null;
-      let v = null;
-      // pressed enter
-      if(e.which == 13) {          
-          v = input.value;
-          let newSpan = document.createElement("span");
-          // have to wire an event listener to the new element
-          newSpan.addEventListener("click", editCell);
-          newSpan.innerHTML = v;
-          parent.innerHTML = "";
-          parent.appendChild(newSpan);
-        verifyEdits(parent);
-      }
+  input.addEventListener("keyup", function (e) {
+    let s = null;
+    let v = null;
+    // pressed enter
+    if (e.which == 13) {
+      v = input.value;
+      let newSpan = document.createElement("span");
+      // have to wire an event listener to the new element
+      newSpan.addEventListener("click", editCell);
+      newSpan.innerHTML = v;
+      parent.innerHTML = "";
+      parent.appendChild(newSpan);
+      verifyEdits(parent);
+    }
   });
   parent.innerHTML = "";
   parent.appendChild(input);
-
 }
+
 async function verifyEdits(location) {
   const data = {
     column: location.className,
@@ -154,31 +163,31 @@ async function verifyEdits(location) {
           "Your information has been updated" +
           "</div>";
         alertPlaceholder.append(wrapper);
-    } else {
-      var alertPlaceholder = document.getElementById("tempAlert");
-      var temp = document.getElementById("alert-created");
-      var wrapper = document.createElement("div");
-      if (!temp) {
-        wrapper.innerHTML =
-          '<div id="alert-created" class="alert alert-' +
-          "danger" +
-          ' role="alert">' +
-          "There was problem updating your information" +
-          "</div>";
-        alertPlaceholder.append(wrapper);
-      }
+      } else {
+        var alertPlaceholder = document.getElementById("tempAlert");
+        var temp = document.getElementById("alert-created");
+        var wrapper = document.createElement("div");
+        if (!temp) {
+          wrapper.innerHTML =
+            '<div id="alert-created" class="alert alert-' +
+            "danger" +
+            ' role="alert">' +
+            "There was problem updating your information" +
+            "</div>";
+          alertPlaceholder.append(wrapper);
+        }
 
-      console.log(responseObject.status);
+        console.log(responseObject.status);
+      }
     }
-    }
-  }catch (error) {
+  } catch (error) {
     console.log(error);
   }
 }
 
 async function deleteRow(e) {
   const data = {
-    id: e.target.parentNode.parentNode.parentNode.children[0].innerHTML
+    id: e.target.parentNode.parentNode.parentNode.children[0].innerHTML,
   };
   try {
     let responseObject = await fetch("/delete_user", {
@@ -189,11 +198,11 @@ async function deleteRow(e) {
       },
       body: JSON.stringify(data),
     });
-    if(responseObject.status == 200) {
+    if (responseObject.status == 200) {
       var alertPlaceholder = document.getElementById("tempAlert");
       var temp = document.getElementById("alert-created");
-      var wrapper = document.createElement("div");        
-      refreshTable();    
+      var wrapper = document.createElement("div");
+      refreshTable();
       if (!temp) {
         wrapper.innerHTML =
           '<div id="alert-created" class="alert alert-' +
@@ -201,27 +210,71 @@ async function deleteRow(e) {
           ' role="alert">' +
           "User Has Been Deleted." +
           "</div>";
-        alertPlaceholder.append(wrapper);  
-    } else {
+        alertPlaceholder.append(wrapper);
+      } else {
+        var alertPlaceholder = document.getElementById("tempAlert");
+        var temp = document.getElementById("alert-created");
+        var wrapper = document.createElement("div");
+        if (!temp) {
+          wrapper.innerHTML =
+            '<div id="alert-created" class="alert alert-' +
+            "danger" +
+            ' role="alert">' +
+            "There was problem deleting that user." +
+            "</div>";
+          alertPlaceholder.append(wrapper);
+        }
+        console.log(responseObject.status);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// Gabriel's code below (start)
+async function logout() {
+  try {
+    let responseObject = await fetch("/logout", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (responseObject.status == 200) {
       var alertPlaceholder = document.getElementById("tempAlert");
       var temp = document.getElementById("alert-created");
       var wrapper = document.createElement("div");
+      refreshTable();
       if (!temp) {
         wrapper.innerHTML =
           '<div id="alert-created" class="alert alert-' +
-          "danger" +
+          "success" +
           ' role="alert">' +
-          "There was problem deleting that user." +
+          "User Has Been Deleted." +
           "</div>";
         alertPlaceholder.append(wrapper);
+      } else {
+        var alertPlaceholder = document.getElementById("tempAlert");
+        var temp = document.getElementById("alert-created");
+        var wrapper = document.createElement("div");
+        if (!temp) {
+          wrapper.innerHTML =
+            '<div id="alert-created" class="alert alert-' +
+            "danger" +
+            ' role="alert">' +
+            "There was problem deleting that user." +
+            "</div>";
+          alertPlaceholder.append(wrapper);
+        }
+        console.log(responseObject.status);
       }
-      console.log(responseObject.status);
     }
+  } catch (error) {
+    console.log(error);
   }
-} catch (error) {
-  console.log(error);
-}
-
 }
 
 async function addUser() {
@@ -229,36 +282,36 @@ async function addUser() {
   var temp = document.getElementById("formid");
   var wrapper = document.createElement("form");
   wrapper.setAttribute("id", "formid");
-  if(!temp) { 
+  if (!temp) {
     wrapper.innerHTML =
-    '<form> ' + 
-    '<div class="mb-3">' +
+      "<form> " +
+      '<div class="mb-3">' +
       '<label for="inputUserName" class="form-label">Username</label> ' +
       '<input type="text" class="form-control" id="inputUserName" aria-describedby="emailHelp"> ' +
-    "</div>" +
-    '<div class="mb-3">' +
+      "</div>" +
+      '<div class="mb-3">' +
       '<label for="inputFirstName" class="form-label">First Name</label>' +
       '<input type="text" class="form-control" id="inputFirstName">' +
-    "</div>" +
-    '<div class="mb-3">' +
+      "</div>" +
+      '<div class="mb-3">' +
       '<label for="inputLastName" class="form-label">Last Name</label>' +
       '<input type="text" class="form-control" id="inputLastName">' +
-    "</div>" +
-    '<div class="mb-3">' +
+      "</div>" +
+      '<div class="mb-3">' +
       '<label for="inputEmail" class="form-label">Email</label>' +
       '<input type="text" class="form-control" id="inputEmail">' +
-    "</div>" +
-    '<div class="mb-3">' +
+      "</div>" +
+      '<div class="mb-3">' +
       '<label for="inputPhoneNumber" class="form-label">Phone Number</label>' +
       '<input type="text" class="form-control" id="inputPhoneNumber">' +
-    "</div>" +
-    '<div class="mb-3">' +
+      "</div>" +
+      '<div class="mb-3">' +
       '<label for="inputPassword" class="form-label">Password</label>' +
       '<input type="password" class="form-control" id="inputPassword">' +
-    "</div>" +
-    '<button type="button" id="submit2" onclick="verifyAndSendUser()">Submit</button>' +
-  '</form>';
-  formPlaceholder.append(wrapper);
+      "</div>" +
+      '<button type="button" id="submit2" onclick="verifyAndSendUser()">Submit</button>' +
+      "</form>";
+    formPlaceholder.append(wrapper);
   }
 }
 
@@ -269,36 +322,35 @@ async function verifyAndSendUser() {
     last_name: document.getElementById("inputLastName").value,
     email: document.getElementById("inputEmail").value,
     phone_number: document.getElementById("inputPhoneNumber").value,
-    password: document.getElementById("inputPassword").value
+    password: document.getElementById("inputPassword").value,
   };
   try {
     let responseObject = await fetch("/add_user", {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-        });
-        if(responseObject.status == 200) {
-            refreshForm();
-            
-        } else {
-          console.log(error);
-        }
-} catch (error) {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    if (responseObject.status == 200) {
+      refreshForm();
+    } else {
+      console.log(error);
+    }
+  } catch (error) {
     console.log(error);
-}
+  }
 }
 
 function refreshTable() {
   const tbody = document.getElementById("tablebody");
-  tbody.innerHTML = '';
+  tbody.innerHTML = "";
   getUsers();
 }
 
 function refreshForm() {
   const fbody = document.getElementById("formid");
-  fbody.innerHTML = '';
+  fbody.innerHTML = "";
   refreshTable();
 }

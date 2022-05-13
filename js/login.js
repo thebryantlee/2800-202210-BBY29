@@ -39,25 +39,25 @@ app.get("/", function (req, res) {
 });
 
 app.get("/profile/:user_name", function (req, res) {
-    if (
-      req.session.loggedIn &&
-      req.session.admin &&
-      req.session.user_name === req.params.user_name
-    ) {
-      // TODO: create admin html page
-      // and then replace main with admin
-      let doc = fs.readFileSync("../admin.html", "utf8");
-      res.send(doc);
-    } else if (
-      req.session.loggedIn &&
-      req.session.user_name === req.params.user_name
-    ) {
-      let doc = fs.readFileSync("../template.html", "utf8");
-      res.send(doc);
-    } else {
-      res.redirect("/");
-    }
-  });
+  if (
+    req.session.loggedIn &&
+    req.session.admin &&
+    req.session.user_name === req.params.user_name
+  ) {
+    // TODO: create admin html page
+    // and then replace main with admin
+    let doc = fs.readFileSync("../admin.html", "utf8");
+    res.send(doc);
+  } else if (
+    req.session.loggedIn &&
+    req.session.user_name === req.params.user_name
+  ) {
+    let doc = fs.readFileSync("../template.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+});
 
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
@@ -294,6 +294,187 @@ app.post("/delete_user", function(req, res) {
   );
 });
 // Gabriel's code (end)
+
+// Jacob's code (Beginning)
+app.post("/passwordCheck", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.session.user_name;
+  const pass = req.body.password;
+  const connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    // Below is the hosting data for Bryant's MacBook
+    // host: '127.0.0.1',
+    // port: 3306,
+    // user: 'root',
+    // password: 'comp1537',
+    // database: 'COMP2800'
+  });
+  connection.connect(function (err) {
+    if (err) {
+      return console.error("error: " + err);
+    }
+  });
+  connection.execute(
+    "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ? AND BBY29_user.password = ?",
+    [user, pass],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+      connection.end();
+    }
+  );
+});
+
+app.post("/updateData", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const username = req.body.user_name;
+  const fName = req.body.first_name;
+  const lName = req.body.last_name;
+  const em = req.body.email;
+  const pNum = req.body.phone_number;
+  const pass = req.body.password;
+
+  const connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    // Below is the hosting data for Bryant's MacBook
+    // host: '127.0.0.1',
+    // port: 3306,
+    // user: 'root',
+    // password: 'comp1537',
+    // database: 'COMP2800'
+  });
+  connection.connect(function (err) {
+    if (err) {
+      return console.error("error: " + err);
+    }
+  });
+  //With password
+  if (pass) {
+    connection.execute(
+      "UPDATE BBY29_user SET user_name = ?, first_name = ?, last_name = ?, email = ?, phone_number = ?, password = ? WHERE ID = ?",
+      [username, fName, lName, em, pNum, pass, req.session.user_ID],
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+        } else {
+          req.session.user_name = username;
+          req.session.email = em;
+          req.session.name = fName + " " + lName;
+          req.session.save(function (err) {
+            console.log("Session saved.");
+          });
+          const resObj = {
+            user_name: username,
+          };
+          res.send(resObj);
+        }
+        connection.end();
+      }
+    );
+  } else {
+    connection.execute(
+      "UPDATE BBY29_user SET user_name = ?, first_name = ?, last_name = ?, email = ?, phone_number = ? WHERE ID = ?",
+      [username, fName, lName, em, pNum, req.session.user_ID],
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+        } else {
+          req.session.user_name = username;
+          req.session.email = em;
+          req.session.name = fName + " " + lName;
+          req.session.save(function (err) {
+            console.log("Session saved.");
+          });
+          const resObj = {
+            user_name: username,
+          };
+          res.send(resObj);
+        }
+        connection.end();
+      }
+    );
+  }
+});
+
+app.get("/account", function (req, res) {
+  if (req.session.loggedIn) {
+    // Redirect to account page
+    res.redirect(`/account/${req.session.user_name}`);
+    console.log("Redirected to account page.");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/account/:user_name", function (req, res) {
+  if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
+    let doc = fs.readFileSync("../account.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/current_user", function (req, res) {
+  const connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    // Below is the hosting data for Bryant's MacBook
+    // host: '127.0.0.1',
+    // port: 3306,
+    // user: 'root',
+    // password: 'comp1537',
+    // database: 'COMP2800'
+  });
+  connection.connect(function (err) {
+    if (err) {
+      res.send(err);
+      return console.error("error: " + err);
+    }
+  });
+  connection.execute(
+    "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ?",
+    [req.session.user_name],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+      connection.end();
+    }
+  );
+});
+
+// Jacob's code (end)
 
 let port = 8000;
 app.listen(port, function () {
