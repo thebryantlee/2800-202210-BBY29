@@ -75,6 +75,19 @@ function verifyForm() {
       document.getElementById("confirmModal")
     );
     confirmModal.show();
+  } else {
+    var alertPlaceholder = document.getElementById("passReminder");
+    var temp = document.getElementById("pass-alert-created");
+    var wrapper = document.createElement("div");
+    if (!temp) {
+      wrapper.innerHTML =
+        '<div id="pass-alert-created" class="alert alert-' +
+        "danger" +
+        ' role="alert">' +
+        "Your new passwords do not match!" +
+        "</div>";
+      alertPlaceholder.append(wrapper);
+    }
   }
 }
 
