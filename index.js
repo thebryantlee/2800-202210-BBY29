@@ -18,11 +18,11 @@ app.use("/img", express.static("./img"));
 app.use("/fonts", express.static("./fonts"));
 
 const connection = mysql.createPool({
-  host: "localhost",
+  host: "qz8si2yulh3i7gl3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
   port: 3306,
-  user: "root",
-  password: "",
-  database: "COMP2800",
+  user: "x5jik86tot8uvxxj",
+  password: "i00fx64bxpqn6c86",
+  database: "m83arv6eoap3s9bs",
   multipleStatements: false,
 });
 
