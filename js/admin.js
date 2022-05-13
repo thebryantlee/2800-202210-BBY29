@@ -40,7 +40,7 @@ function getUsers() {
         var text6 = document.createTextNode(response[i].admin ? "Yes" : "No");
         var text7 = document.createElement("button");
         text7.setAttribute("id", "deleteTuple" + i);
-        text7.setAttribute("class", "btn btn-light");
+        text7.setAttribute("class", "btn btn-light deleteButton");
         var text7a = document.createElement("img");
         text7a.setAttribute("src", "/img/icons/basic/trash_full.svg");
         text7a.setAttribute("alt", "testing image");
@@ -130,6 +130,8 @@ async function editCell(e) {
       parent.innerHTML = "";
       parent.appendChild(newSpan);
       verifyEdits(parent);
+    } else if (e.which == 27) {
+      refreshTable();
     }
   });
   parent.innerHTML = "";
@@ -285,6 +287,9 @@ async function addUser() {
   if (!temp) {
     wrapper.innerHTML =
       "<form> " +
+      '<div class="contentHeader">' +
+      '<p id="addUserHeader">ADD USER</p>' +
+      "</div>" +
       '<div class="mb-3">' +
       '<label for="inputUserName" class="form-label">Username</label> ' +
       '<input type="text" class="form-control" id="inputUserName" aria-describedby="emailHelp"> ' +
@@ -309,7 +314,8 @@ async function addUser() {
       '<label for="inputPassword" class="form-label">Password</label>' +
       '<input type="password" class="form-control" id="inputPassword">' +
       "</div>" +
-      '<button type="button" id="submit2" onclick="verifyAndSendUser()">Submit</button>' +
+      '<button type="button" class="btn btn-secondary refreshButton" id="refresh" onclick="cancelForm()">Cancel</button>' +
+      '<button type="button" class="btn btn-primary" id="submit2" onclick="verifyAndSendUser()">Submit</button>' +
       "</form>";
     formPlaceholder.append(wrapper);
   }
@@ -350,7 +356,12 @@ function refreshTable() {
 }
 
 function refreshForm() {
-  const fbody = document.getElementById("formid");
+  const fbody = document.getElementById("new-user");
   fbody.innerHTML = "";
   refreshTable();
+}
+
+function cancelForm() {
+  const location = document.getElementById("new-user");
+  location.innerHTML = "";
 }
