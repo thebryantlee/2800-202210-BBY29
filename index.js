@@ -178,7 +178,6 @@ app.post("/add_user", function (req, res) {
       });
     }
   );
-  connection.end();
 });
 
 app.post("/update-user", function (req, res) {
@@ -200,7 +199,6 @@ app.post("/update-user", function (req, res) {
           msg: "Record added.",
         });
       }
-      connection.end();
     }
   );
 });
