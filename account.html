@@ -50,6 +50,7 @@
       <div id="contentSection">
         <h1 id="accountTitle">Account</h1>
         <div id="alertLocation"></div>
+        <div id="passReminder"></div>
         <div id="formSection">
           <form
             class="needs-validation"
@@ -64,7 +65,7 @@
                 placeholder="Username"
                 required
               />
-              <label for="floatingInput">Username</label>
+              <label for="usernameInput">Username</label>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -74,7 +75,7 @@
                 placeholder="name@example.com"
                 required
               />
-              <label for="floatingInput">Email address</label>
+              <label for="emailInput">Email address</label>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -84,7 +85,7 @@
                 placeholder="0001239999"
                 pattern="[0-9]{10}"
               />
-              <label for="floatingInput">Phone Number</label>
+              <label for="phoneNumInput">Phone Number</label>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -94,7 +95,7 @@
                 name="pass"
                 placeholder="password"
               />
-              <label for="floatingInput">New Password</label>
+              <label for="newPasswordInput">New Password</label>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -104,7 +105,7 @@
                 name="pass2"
                 placeholder="password"
               />
-              <label for="floatingInput">Confirm New Password</label>
+              <label for="confirmPasswordInput">Confirm New Password</label>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -114,7 +115,7 @@
                 placeholder="John"
                 required
               />
-              <label for="floatingInput">First Name</label>
+              <label for="fNameInput">First Name</label>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -123,7 +124,7 @@
                 id="lNameInput"
                 placeholder="Smith"
               />
-              <label for="floatingInput">Last Name</label>
+              <label for="lNameInput">Last Name</label>
             </div>
             <button
               type="reset"
@@ -152,7 +153,7 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content modalAccount align-content-center">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+              <h5 class="modal-title" id="passModalLabel">
                 Password Verification
               </h5>
             </div>
@@ -167,7 +168,7 @@
                     id="passwordInput"
                     placeholder="password"
                   />
-                  <label for="floatingInput">Password</label>
+                  <label for="passwordInput">Password</label>
                 </div>
               </form>
             </div>
