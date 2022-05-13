@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Tech to the Moon - Admin User Page</title>
+    <title>Admin User Page - Tech to the Moon</title>
     <meta name="author" content="BCIT" />
     <meta name="author" content="Jacob Romano Carlsen" />
     <!-- Required meta tags -->
@@ -38,7 +38,10 @@
         data-bs-target="#offcanvasWithBackdrop"
         aria-controls="offcanvasWithBackdrop"
       >
-        <img src="/img/icons/menu/hamburger.svg" alt="Hamburger Menu Icon" />
+        <img
+          src="/img/icons/menu/hamburger-light.svg"
+          alt="Hamburger Menu Icon"
+        />
       </button>
 
       <span id="appName">Tech to the Moon - Administrator</span>
@@ -50,29 +53,43 @@
         data-bs-target="#offcanvasRight"
         aria-controls="offcanvasRight"
       >
-        <img src="/img/icons/user/user_filled.svg" alt="User Profile Icon" />
+        <img
+          src="/img/icons/user/user_light.svg"
+          alt="User Profile Icon"
+          id="profileIcon"
+        />
       </button>
     </nav>
 
     <main>
+      <div id="submit">
+        <div id="submit1"></div>
+      </div>
       <div class="contentHeader">
         <p>CURRENT USERS</p>
       </div>
+      <div id="tempAlert"></div>
       <div id="adminTableContainer">
         <table id="adminTable">
           <thead>
             <tr>
+              <th>ID</th>
               <th>Username</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
               <th>Phone Number</th>
               <th>Administrator</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="tablebody"></tbody>
         </table>
       </div>
+
+      <button class="btn btn-primary" id="addTuple">Add user</button>
+
+      <div id="new-user"></div>
 
       <!--This is the beginning of the main content of the page.-->
       <div id="contentSection">
@@ -153,7 +170,7 @@
         <div class="offcanvas-body">
           <ul class="list-group list-group-flush">
             <li class="list-group-item menuList">
-              <a href="#" id="homeButton">
+              <a href="/" id="homeButton">
                 <img
                   src="/img/icons/home/home_empty.svg"
                   alt="House Icon"
@@ -213,25 +230,17 @@
             <img
               src="/img/icons/user/user_filled.svg"
               alt="Default User Icon"
+              id="avatarIcon"
             />
-            <p>Administrator</p>
+            <div id="placeUsernameHere"></div>
           </div>
           <div class="profileItem">
             <p class="menuLabel">Full Name</p>
-            <p>Admin User</p>
+            <div id="placeFullNameHere"></div>
           </div>
-          <div class="profileItem">
-            <p class="menuLabel">Email</p>
-            <p>acc*********@tttm.stonks</p>
-          </div>
-          <div class="profileItem">
-            <p class="menuLabel">Phone Number</p>
-            <p>******7777</p>
-          </div>
-
           <ul class="list-group list-group-flush">
             <li class="list-group-item menuList">
-              <a href="#" class="disabled-link">
+              <a href="/account" id="accountLink">
                 <img
                   src="/img/icons/user/user.svg"
                   alt="User Account Icon"
@@ -311,5 +320,6 @@
     ></script>
     <script src="/js/main.js"></script>
     <script src="/js/admin.js"></script>
+    <script src="/js/menu.js"></script>
   </body>
 </html>

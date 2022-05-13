@@ -1,3 +1,18 @@
+#addTuple{
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
+#addUserHeader{
+  margin:0;
+  padding:0;
+  margin-bottom: 0.5em;
+}
+
+#accountTitle{
+  margin: 0.5em;
+}
+
 #adminTable{
   width: 100%;
 }
@@ -6,6 +21,7 @@
   border: 1px solid;
   padding:0.5em;
   background-color: #c4c4c4;
+  color:black;
 }
 
 #adminTableContainer{
@@ -22,6 +38,16 @@
   margin-top: 1.5em;
 }
 
+#formid{
+  padding:1em;
+  background-color: #666666;
+  border-radius: 1%;
+}
+
+#formSection{
+  margin:0.5em;
+}
+
 #helpButton {
   border-radius: 50%;
   position: fixed;
@@ -35,7 +61,7 @@
 }
 
 #navButton{
-  background-color: white;
+  background-color: #535353;
   border:none;
 }
 
@@ -45,7 +71,7 @@
 
 #profileButton{
   float:right;
-  background-color: white;
+  background-color: #535353;
   border:none;
 }
 
@@ -56,6 +82,10 @@
   padding: 0;
 }
 
+.actionsHeader{
+  text-align: center;
+}
+
 .content {
   background-color: #c4c4c4;
 }
@@ -64,6 +94,7 @@
   font-size: 18pt;
   font-weight: bold;
   padding-left: 0.5em;
+  color:#999999
 }
 
 .contentHeader > p {
@@ -71,11 +102,24 @@
   margin-top: 1em;
 }
 
+.deleteButton{
+  padding:0;
+}
+
 .disabled-link{
   cursor: default !important;
   pointer-events: none !important;
   color: grey !important; 
 }
+
+.formEntry{
+  border-color:#3D3D3D;
+}
+
+.formOptions{
+  margin: 0.5em;
+}
+
 
 .menuGroup {
   margin-top: 0.5em;
@@ -99,13 +143,17 @@
 }
 
 .menuList {
-  background-color: #535353;
+  background-color: #3D3D3D;
 }
 
 .menuMore {
   font-size: 0.7em;
   float: right;
 }
+
+.modalAccount {
+  background-color: #3D3D3D;
+  }
 
 .newsDashboardPrimary{
   padding:0;
@@ -122,7 +170,7 @@
 
 .offcanvas {
   max-width: 80%;
-  background-color: #535353;
+  background-color: #3D3D3D;
   color: white;
 }
 
@@ -139,6 +187,10 @@
   width: 3em;
   background-color: #939393;
   border-radius: 50%;
+}
+
+.refreshButton {
+  margin-right: 0.5em;
 }
 
 .stockGraphic {
@@ -163,6 +215,8 @@ body {
   font-family: "Roboto", sans-serif;
   max-width: 768px;
   margin: 0 auto;
+  background-color: #535353;
+  color:white;
 }
 
 @media only screen and (max-width: 700px) {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Tech to the Moon - Main Page</title>
+    <title>Main Page - Tech to the Moon</title>
     <meta name="author" content="BCIT" />
     <meta name="author" content="Jacob Romano Carlsen" />
     <!-- Required meta tags -->
@@ -29,6 +29,9 @@
   </head>
 
   <body>
+    <div id="submit">
+      <div id="submit1"></div>
+    </div>
     <nav id="navButtons">
       <button
         class="btn btn-light"
@@ -38,7 +41,10 @@
         data-bs-target="#offcanvasWithBackdrop"
         aria-controls="offcanvasWithBackdrop"
       >
-        <img src="/img/icons/menu/hamburger.svg" alt="Hamburger Menu Icon" />
+        <img
+          src="/img/icons/menu/hamburger-light.svg"
+          alt="Hamburger Menu Icon"
+        />
       </button>
 
       <span id="appName">Tech to the Moon</span>
@@ -50,7 +56,11 @@
         data-bs-target="#offcanvasRight"
         aria-controls="offcanvasRight"
       >
-        <img src="/img/icons/user/user_filled.svg" alt="User Profile Icon" />
+        <img
+          src="/img/icons/user/user_light.svg"
+          alt="User Profile Icon"
+          id="profileIcon"
+        />
       </button>
     </nav>
 
@@ -138,7 +148,7 @@
         <div class="offcanvas-body">
           <div class="list-group list-group-flush">
             <div class="list-group-item menuList">
-              <a href="#" id="homeButton">
+              <a href="/" id="homeButton">
                 <img
                   src="/img/icons/home/home_empty.svg"
                   alt="House Icon"
@@ -289,25 +299,18 @@
             <img
               src="/img/icons/user/user_filled.svg"
               alt="Default User Icon"
+              id="avatarIcon"
             />
-            <p>Username</p>
+            <div id="placeUsernameHere"></div>
           </div>
           <div class="profileItem">
-            <p class="menuLabel">Full Name</p>
-            <p>Username Accountname</p>
-          </div>
-          <div class="profileItem">
-            <p class="menuLabel">Email</p>
-            <p>acc***********@gmail.com</p>
-          </div>
-          <div class="profileItem">
-            <p class="menuLabel">Phone Number</p>
-            <p>******1234</p>
+            <p class="menuLabel">Display Name</p>
+            <div id="placeFullNameHere"></div>
           </div>
 
           <ul class="list-group list-group-flush">
             <li class="list-group-item menuList">
-              <a href="#" class="disabled-link">
+              <a href="/account" id="accountLink">
                 <img
                   src="/img/icons/user/user.svg"
                   alt="User Account Icon"
@@ -387,5 +390,6 @@
     ></script>
     <script src="/js/main.js"></script>
     <script src="/js/profile.js"></script>
+    <script src="/js/menu.js"></script>
   </body>
 </html>
