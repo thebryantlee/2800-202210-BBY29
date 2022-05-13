@@ -249,8 +249,6 @@ app.post("/delete_user", function (req, res) {
 });
 // Gabriel's code (end)
 
-app.listen(process.env.PORT || 5000);
-
 function hash(pw) {
   // implement hashing
   return crypto.createHash("md5").update(pw).digest("base64");
