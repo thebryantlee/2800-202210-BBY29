@@ -13,8 +13,5 @@ CREATE TABLE BBY29_user (
 );
 
 INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, admin, password) VALUES
-('bby29test', 'BBY', 'Test', 'insertemailhere@bcit.ca', '1234567890', 0, 'testtest'),
-('BryantSWE', 'Bryant', 'Lee', 'bryant@bcit.ca', '6048224011', 1, 'bryanttest'),
-('KasraE', 'Kasra', 'Esfa', 'kasra@bcit.ca', '6046046046', 1, 'Kasra'),
-('jacobrc10', 'Jacob', 'Romano Carlsen', 'jacob@bcit.ca', '6041234567', 1, 'adminpassword'),
-('gabrielC', 'Gabriel', 'Clarin',  'gclarin@my.bcit.ca', '6044688425', 1,  'gabrieltest');
+('arronAdmin', 'Arron', 'Admin', 'arronadmin@gmail.com', '6044567890', 1, 'jkUEEPLdqJOfkvy5bUpERw=='),
+('arronUser', 'Arron', 'User', 'arronuser@gmail.com', '7788904567', 0, '8uj2xIpNW29d5MwFEBfd5A==');
