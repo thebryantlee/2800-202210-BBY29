@@ -75,12 +75,6 @@ app.post("/login", function (req, res) {
     user: "root",
     password: "",
     database: "COMP2800",
-    // Below is the hosting data for Bryant's MacBook
-    // host: '127.0.0.1',
-    // port: 3306,
-    // user: 'root',
-    // password: 'comp1537',
-    // database: 'COMP2800'
   });
   connection.connect(function (err) {
     if (err) {
@@ -127,12 +121,6 @@ app.get("/users", function (req, res) {
     user: "root",
     password: "",
     database: "COMP2800",
-    // Below is the hosting data for Bryant's MacBook
-    // host: '127.0.0.1',
-    // port: 3306,
-    // user: 'root',
-    // password: 'comp1537',
-    // database: 'COMP2800'
   });
   connection.connect(function (err) {
     if (err) {
@@ -190,16 +178,8 @@ const pwhash = hash(req.body.password + salt);
     user: "root",
     password: "",
     database: "COMP2800",
-    // Below is the hosting data for Bryant's MacBook
-    // host: '127.0.0.1',
-    // port: 3306,
-    // user: 'root',
-    // password: 'comp1537',
-    // database: 'COMP2800'
   });
   connection.connect();
-
-  // TO DO: Work in progress, to be completed in sprint 3.
 
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
@@ -239,12 +219,6 @@ app.post("/update-user", function (req, res) {
     user: "root",
     password: "",
     database: "COMP2800",
-    // Below is the hosting data for Bryant's MacBook
-    // host: '127.0.0.1',
-    // port: 3306,
-    // user: 'root',
-    // password: 'comp1537',
-    // database: 'COMP2800'
   });
   connection.connect(function (err) {
     if (err) {
@@ -280,12 +254,6 @@ app.post("/delete_user", function(req, res) {
     user: "root",
     password: "",
     database: "COMP2800",
-    // Below is the hosting data for Bryant's MacBook
-    // host: '127.0.0.1',
-    // port: 3306,
-    // user: 'root',
-    // password: 'comp1537',
-    // database: 'COMP2800'
   });
   connection.connect(function (err) {
     if (err) {
@@ -322,19 +290,13 @@ function hash(pw) {
 app.post("/passwordCheck", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const user = req.session.user_name;
-  const pass = req.body.password;
+  const pass = hash(req.body.password + salt);
   const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
     password: "",
     database: "COMP2800",
-    // Below is the hosting data for Bryant's MacBook
-    // host: '127.0.0.1',
-    // port: 3306,
-    // user: 'root',
-    // password: 'comp1537',
-    // database: 'COMP2800'
   });
   connection.connect(function (err) {
     if (err) {
@@ -368,8 +330,7 @@ app.post("/updateData", function (req, res) {
   const em = req.body.email;
   const pNum = req.body.phone_number;
 
-  // BL: Add password hashing
-  const pass = req.body.password;
+  const pass = hash(req.body.password + salt);
 
   const connection = mysql.createConnection({
     host: "localhost",
@@ -377,12 +338,6 @@ app.post("/updateData", function (req, res) {
     user: "root",
     password: "",
     database: "COMP2800",
-    // Below is the hosting data for Bryant's MacBook
-    // host: '127.0.0.1',
-    // port: 3306,
-    // user: 'root',
-    // password: 'comp1537',
-    // database: 'COMP2800'
   });
   connection.connect(function (err) {
     if (err) {
@@ -405,10 +360,10 @@ app.post("/updateData", function (req, res) {
           req.session.save(function (err) {
             console.log("Session saved.");
           });
-          const resObj = {
-            user_name: username,
-          };
-          res.send(resObj);
+          res.send({
+            status: "success",
+            msg: "Record added.",
+          });
         }
         connection.end();
       }
@@ -428,10 +383,10 @@ app.post("/updateData", function (req, res) {
           req.session.save(function (err) {
             console.log("Session saved.");
           });
-          const resObj = {
-            user_name: username,
-          };
-          res.send(resObj);
+          res.send({
+            status: "success",
+            msg: "Record added.",
+          });
         }
         connection.end();
       }
@@ -451,7 +406,7 @@ app.get("/account", function (req, res) {
 
 app.get("/account/:user_name", function (req, res) {
   if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
-    let doc = fs.readFileSync("../account.html", "utf8");
+    let doc = fs.readFileSync("./account.html", "utf8");
     res.send(doc);
   } else if (req.session.loggedIn) {
     res.redirect("/account");
@@ -467,12 +422,6 @@ app.get("/current_user", function (req, res) {
     user: "root",
     password: "",
     database: "COMP2800",
-    // Below is the hosting data for Bryant's MacBook
-    // host: '127.0.0.1',
-    // port: 3306,
-    // user: 'root',
-    // password: 'comp1537',
-    // database: 'COMP2800'
   });
   connection.connect(function (err) {
     if (err) {

@@ -1,3 +1,0 @@
-This is my initialization of my second feature branch for this sprint.
-
-Delete upon merging to dev.
