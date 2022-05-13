@@ -500,8 +500,6 @@ app.get("/current_user", function (req, res) {
 });
 
 // Jacob's code (end)
-
-let port = 8000;
-app.listen(port, function () {
-  console.log("This project is served on port " + port + ".");
-});
+// Heroku Dynamically assigns port via process.env.PORT.
+// When running locally process.env.PORT is undefined so runs on port 8000
+app.listen(process.env.PORT || 8000);
