@@ -8,9 +8,12 @@ function getCurrentUser() {
     if (this.status == 200) {
       const response = JSON.parse(this.responseText);
 
+      const avatarLocation = document.getElementById("avatarIcon");
       const userNameLocation = document.getElementById("placeUsernameHere");
       const fullNameLocation = document.getElementById("placeFullNameHere");
+      const avatar = pickAvatar(response[0].avatar_path);
 
+      avatarLocation.setAttribute("src", avatar);
       var usernameEl = document.createElement("p");
       var fullNameEl = document.createElement("p");
       var text1 = document.createTextNode(response[0].user_name);
@@ -25,4 +28,33 @@ function getCurrentUser() {
   };
 
   xhr.send();
+}
+
+function pickAvatar(index) {
+  switch (index) {
+    case 0:
+      return "/img/avatars/user-black.svg";
+      break;
+    case 1:
+      return "/img/avatars/user-orange.svg";
+      break;
+    case 2:
+      return "/img/avatars/user-yellow.svg";
+      break;
+    case 3:
+      return "/img/avatars/user-green.svg";
+      break;
+    case 4:
+      return "/img/avatars/user-blue.svg";
+      break;
+    case 5:
+      return "/img/avatars/user-purple.svg";
+      break;
+    case 6:
+      return "/img/avatars/user-pink.svg";
+      break;
+    case 7:
+      return "/img/avatars/user-white.svg";
+      break;
+  }
 }
