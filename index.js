@@ -25,16 +25,16 @@ const dbConfigHeroku = {
   user: "x5jik86tot8uvxxj",
   password: "i00fx64bxpqn6c86",
   database: "m83arv6eoap3s9bs",
-  multipleStatements: false
-}
+  multipleStatements: false,
+};
 
 const dbConfigLocal = {
   host: "localhost",
   user: "root",
   password: "",
   database: "COMP2800",
-  multipleStatements: false
-}
+  multipleStatements: false,
+};
 
 if (is_heroku) {
   var connection = mysql.createPool(dbConfigHeroku);
@@ -389,6 +389,53 @@ app.get("/current_user", function (req, res) {
       }
     }
   );
+});
+
+app.post("/uploadNews", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.session.user_ID;
+  const title = req.body.title;
+  const datetime = req.body.post_datetime;
+  const categ = req.body.category;
+  const article = req.body.full_article;
+
+  //With password
+  connection.execute(
+    "INSERT INTO news_post (user_id, title, post_datetime, category, full_article) values (?, ?, ?, ?, ?)",
+    [user, title, datetime, categ, article],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.get("/news", function (req, res) {
+  if (req.session.loggedIn) {
+    // Redirect to account page
+    res.redirect(`/news/${req.session.user_name}`);
+    console.log("Redirected to news page.");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/news/:user_name", function (req, res) {
+  if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
+    let doc = fs.readFileSync("./news.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/news");
+  } else {
+    res.redirect("/");
+  }
 });
 
 // Jacob's code (end)
