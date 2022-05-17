@@ -44,6 +44,29 @@ app.get("/", function (req, res) {
       res.redirect(`/profile/${req.session.user_name}`);
     }
   } else {
+    let doc = fs.readFileSync("./landing.html", "utf8");
+    res.set("Server", "TechToTheMoon Engine");
+    res.set("X-Powered-By", "MoonPC");
+    res.send(doc);
+  }
+});
+
+app.get("/about", function (req, res) {
+  let doc = fs.readFileSync("./about.html", "utf8");
+  res.set("Server", "TechToTheMoon Engine");
+  res.set("X-Powered-By", "MoonPC");
+  res.send(doc);
+});
+
+app.get("/signin", function (req, res) {
+  if (req.session.loggedIn) {
+    if (req.session.admin) {
+      // redirect to admin page
+      res.redirect(`/profile/${req.session.user_name}`);
+    } else {
+      res.redirect(`/profile/${req.session.user_name}`);
+    }
+  } else {
     let doc = fs.readFileSync("./index.html", "utf8");
     res.set("Server", "TechToTheMoon Engine");
     res.set("X-Powered-By", "MoonPC");
@@ -334,7 +357,6 @@ app.get("/account/:user_name", function (req, res) {
 });
 
 app.get("/current_user", function (req, res) {
-
   connection.execute(
     "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ?",
     [req.session.user_name],
