@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Landing Page - Tech to the Moon</title>
     <meta name="author" content="BCIT" />
@@ -7,6 +7,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Favico Icon-->
+    <link rel="icon" type="image/x-icon" href="/img/images/tttmFavicon.png" />
 
     <!-- Bootstrap Packages -->
     <link
@@ -30,14 +33,14 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <span class="navbar-brand">
           <img
             src="/img/images/tttmLabelSmall.png"
             alt="Logo for Tech to the Moon"
             id="navbarLogo"
           />
           Tech to the Moon
-        </a>
+        </span>
         <button
           class="navbar-toggler"
           type="button"
@@ -58,9 +61,7 @@
               <a class="nav-link" href="/about">About</a>
             </li>
           </ul>
-          <a class="btn btn-primary" href="/signin">
-            Log in / Sign up
-          </a>
+          <a class="btn btn-primary" href="/signin"> Log in / Sign up </a>
         </div>
       </div>
     </nav>
@@ -97,7 +98,6 @@
               alt=""
               class="carouselImage"
             />
-            <rect width="100%" height="100%" fill="#777"></rect>
             <div class="container">
               <div class="carousel-caption">
                 <h1>Build Better. Live Better.</h1>
@@ -106,7 +106,9 @@
                   you need, the information you need, and the guide you need.
                 </p>
                 <p>
-                  <a class="btn btn-lg btn-primary" href="#">Sign up Today</a>
+                  <a class="btn btn-lg btn-primary" href="/signin"
+                    >Sign up Today</a
+                  >
                 </p>
               </div>
             </div>
@@ -117,7 +119,6 @@
               alt=""
               class="carouselImage"
             />
-            <rect width="100%" height="100%" fill="#777"></rect>
             <div class="container">
               <div class="carousel-caption">
                 <h1>Meet the developers.</h1>
@@ -125,7 +126,9 @@
                   Find out more information about the passionate individuals who
                   worked on this project.
                 </p>
-                <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                <p>
+                  <a class="btn btn-lg btn-primary" href="/about">Learn more</a>
+                </p>
               </div>
             </div>
           </div>
@@ -135,8 +138,6 @@
               alt=""
               class="carouselImage"
             />
-
-            <rect width="100%" height="100%" fill="#777"></rect>
             <div class="container">
               <div class="carousel-caption">
                 <h1>Whenever, Wherever, Whoever. We got you covered.</h1>
@@ -145,7 +146,7 @@
                   perfect system for your personal needs.
                 </p>
                 <p>
-                  <a class="btn btn-lg btn-primary" href="#"
+                  <a class="btn btn-lg btn-primary" href="/signin"
                     >Create an Account</a
                   >
                 </p>
@@ -179,77 +180,82 @@
 
       <div class="content container">
         <div class="container marketing" id="marketingContainer">
-            <!-- START THE FEATURETTES -->
-    
-            <hr class="featurette-divider" />
-    
-            <div class="row featurette">
-              <div class="col-md-7">
-                <h2 class="featurette-heading fw-normal lh-1">
-                  Get the most up-to-date prices on the components you want.
-                  <span class="text-muted">It’s fast and easy.</span>
-                </h2>
-                <p class="lead">
-                  No matter where you are, track your most desired computer parts
-                  and be notified instantly when the price hits your target.
-                </p>
-              </div>
-              <div class="col-md-5">
-                  <img src="/img/images/landingPageFeature.png" alt="Picture of price trend tracker" class="featureImage">
-                  <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#eee"></rect>
-                </svg>
-              </div>
+          <!-- START THE FEATURETTES -->
+
+          <hr class="featurette-divider" />
+
+          <div class="row featurette">
+            <div class="col-md-7">
+              <h2 class="featurette-heading fw-normal lh-1">
+                Get the most up-to-date prices on the components you want.
+                <span class="text-muted">It’s fast and easy.</span>
+              </h2>
+              <p class="lead">
+                No matter where you are, track your most desired computer parts
+                and be notified instantly when the price hits your target.
+              </p>
             </div>
-    
-            <hr class="featurette-divider" />
-    
-            <div class="row featurette">
-              <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading fw-normal lh-1">
-                  What's up in the world of computers?
-                  <span class="text-muted">See for yourself.</span>
-                </h2>
-                <p class="lead">
-                  Our developers will keep you informed with all the latest
-                  tech-related news, including new releases of upcoming parts, as
-                  well as stories revolving around tech companies.
-                </p>
-              </div>
-              <div class="col-md-5 order-md-1">
-                <img src="/img/images/landingPageFeature2.png" alt="Picture of person looking at news on their phone" class="featureImage">
-                  <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#eee"></rect>
-                </svg>
-              </div>
+            <div class="col-md-5">
+              <img
+                src="/img/images/landingPageFeature.png"
+                alt="Picture of price trend tracker"
+                class="featureImage"
+              />
             </div>
-    
-            <hr class="featurette-divider" />
-    
-            <div class="row featurette">
-              <div class="col-md-7">
-                <h2 class="featurette-heading fw-normal lh-1">
-                  Find some friends to share your build.
-                  <span class="text-muted">It never hurts to show off a bit.</span>
-                </h2>
-                <p class="lead">
-                  Your build is your own creation, be proud of it. Connect with
-                  other builders and show off your build, or get some help with
-                  building the next best computer.
-                </p>
-              </div>
-              <div class="col-md-5">
-                <img src="/img/images/landingPageFeature3.png" alt="Picture of gaming computer" class="featureImage">
-                  <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#eee"></rect>
-                </svg>
-              </div>
-            </div>
-    
-            <hr class="featurette-divider" />
-    
-            <!-- /END THE FEATURETTES -->
           </div>
+
+          <hr class="featurette-divider" />
+
+          <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+              <h2 class="featurette-heading fw-normal lh-1">
+                What's up in the world of computers?
+                <span class="text-muted">See for yourself.</span>
+              </h2>
+              <p class="lead">
+                Our developers will keep you informed with all the latest
+                tech-related news, including new releases of upcoming parts, as
+                well as stories revolving around tech companies.
+              </p>
+            </div>
+            <div class="col-md-5 order-md-1">
+              <img
+                src="/img/images/landingPageFeature2.png"
+                alt="Picture of person looking at news on their phone"
+                class="featureImage"
+              />
+            </div>
+          </div>
+
+          <hr class="featurette-divider" />
+
+          <div class="row featurette">
+            <div class="col-md-7">
+              <h2 class="featurette-heading fw-normal lh-1">
+                Find some friends to share your build.
+                <span class="text-muted"
+                  >It never hurts to show off a bit.</span
+                >
+              </h2>
+              <p class="lead">
+                Your build is your own creation, be proud of it. Connect with
+                other builders and show off your build, or get some help with
+                building the next best computer.
+              </p>
+            </div>
+            <div class="col-md-5">
+              <img
+                src="/img/images/landingPageFeature3.png"
+                alt="Picture of gaming computer"
+                class="featureImage"
+              />
+            </div>
+          </div>
+
+          <hr class="featurette-divider" />
+
+          <!-- /END THE FEATURETTES -->
+        </div>
       </div>
 
       <!-- /.container -->
