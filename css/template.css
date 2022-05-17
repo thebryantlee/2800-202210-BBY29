@@ -1,5 +1,4 @@
 #addTuple{
-  margin-top: 0.5em;
   margin-bottom: 1em;
 }
 
@@ -17,12 +16,6 @@
   width: 100%;
 }
 
-#adminTable > th, td{
-  border: 1px solid;
-  padding:0.5em;
-  background-color: #c4c4c4;
-  color:black;
-}
 
 #adminTableContainer{
   width: 100%;
@@ -61,7 +54,7 @@
 }
 
 #navButton{
-  background-color: #535353;
+  background-color: #3b3b3b;
   border:none;
 }
 
@@ -71,7 +64,7 @@
 
 #profileButton{
   float:right;
-  background-color: #535353;
+  background-color: #3b3b3b;
   border:none;
 }
 
@@ -94,7 +87,7 @@
   font-size: 18pt;
   font-weight: bold;
   padding-left: 0.5em;
-  color:#999999
+  color:#c2c2c2
 }
 
 .contentHeader > p {
@@ -215,7 +208,7 @@ body {
   font-family: "Roboto", sans-serif;
   max-width: 768px;
   margin: 0 auto;
-  background-color: #535353;
+  background-color: #3b3b3b;
   color:white;
 }
 
