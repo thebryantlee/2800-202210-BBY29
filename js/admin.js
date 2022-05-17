@@ -2,6 +2,100 @@
 document.getElementById("signOutButton").addEventListener("click", logout);
 document.getElementById("addTuple").addEventListener("click", addUser);
 window.addEventListener("load", getUsers);
+window.addEventListener("load", getNewsForm);
+
+//Jacob's Code (Beginning)
+function getNewsForm() {
+  var formPlaceholder = document.getElementById("newsFormGoesHere");
+  var wrapper = document.createElement("form");
+  wrapper.setAttribute("id", "formid");
+  wrapper.innerHTML =
+    "<form> " +
+    '<div id="alertLocation"></div>' +
+    '<div class="mb-3">' +
+    '<label for="inputTitle" class="form-label">Title</label> ' +
+    '<input type="text" class="form-control" id="inputTitle"> ' +
+    "</div>" +
+    '<div class="mb-3">' +
+    '<label for="inputCategory" class="form-label">Category</label>' +
+    '<select class="form-control" id="inputCategory">' +
+    '<option value="0" selected>Choose a category...</option>' +
+    '<option value="1">New Release</option>' +
+    '<option value="2">Tech Company</option>' +
+    '<option value="3">Major Update </option>' +
+    '<option value="4">Event</option>' +
+    '<option value="5">Random (other)</option>' +
+    "</select>" +
+    "</div>" +
+    '<div class="mb-3">' +
+    '<label for="inputFullArticle" class="form-label">Article</label>' +
+    '<textarea class="form-control" id="inputFullArticle" rows="20"></textarea>' +
+    "</div>" +
+    '<button type="button" class="btn btn-secondary" id="clearNewsButton" onclick="clearNewsForm()">Clear</button>' +
+    '<button type="button" class="btn btn-primary float-end" id="sendNewsButton" onclick="uploadNewsForm()">Submit</button>' +
+    "</form>";
+  formPlaceholder.append(wrapper);
+}
+
+function clearNewsForm() {
+  var titleLocation = document.getElementById("inputTitle");
+  var categoryLocation = document.getElementById("inputCategory");
+  var articleLocation = document.getElementById("inputFullArticle");
+
+  titleLocation.value = "";
+  categoryLocation.value = 0;
+  articleLocation.value = "";
+}
+
+async function uploadNewsForm() {
+  const currentDatetime = new Date()
+    .toISOString()
+    .slice(0, 19)
+    .replace("T", " ");
+  const data = {
+    title: document.getElementById("inputTitle").value,
+    post_datetime: currentDatetime,
+    category: document.getElementById("inputCategory").value,
+    full_article: document.getElementById("inputFullArticle").value,
+  };
+  try {
+    let responseObject = await fetch("/uploadNews", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (responseObject.status === 200) {
+      //Produce alert message telling user it worked
+      var alertLocation = document.getElementById("alertLocation");
+      var container = document.createElement("div");
+      container.innerHTML =
+        '<div id="alert-pass" class="alert alert-' +
+        "success alert-dismissible" +
+        ' role="alert">' +
+        "Your news article has successfully been uploaded." +
+        "</div>";
+      alertLocation.append(container);
+      clearNewsForm();
+    } else {
+      var alertPlaceholder = document.getElementById("alertLocation");
+      var wrapper = document.createElement("div");
+      wrapper.innerHTML =
+        '<div id="alert-created" class="alert alert-' +
+        "danger alert-dismissible" +
+        ' role="alert">' +
+        "An error occurred while uploading your news article." +
+        "</div>";
+      alertPlaceholder.append(wrapper);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//Jacob's Code (End)
 
 function getUsers() {
   var xhr = new XMLHttpRequest();
@@ -234,7 +328,6 @@ async function deleteRow(e) {
   }
 }
 
-// Gabriel's code below (start)
 async function logout() {
   try {
     let responseObject = await fetch("/logout", {
