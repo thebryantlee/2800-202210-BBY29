@@ -493,6 +493,27 @@ app.get("/get_user/:userID", function (req, res) {
   );
 });
 
+app.post("/delete_news", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const id = req.body.id;
+
+  connection.execute(
+    "DELETE FROM news_post WHERE ID = ?",
+    [id],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record deleted.",
+        });
+      }
+    }
+  );
+});
+
 // Jacob's code (end)
 // Heroku Dynamically assigns port via process.env.PORT.
 // When running locally process.env.PORT is undefined so runs on port 8000
