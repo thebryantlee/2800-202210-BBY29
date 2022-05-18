@@ -439,6 +439,7 @@ app.get("/news/:user_name", function (req, res) {
 });
 
 app.get("/getNews", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
   connection.execute(
     "SELECT * FROM news_post ORDER BY post_datetime DESC",
     function (error, results, fields) {
@@ -447,6 +448,42 @@ app.get("/getNews", function (req, res) {
         res.sendStatus(500);
       } else {
         if (results.length > 0) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.get("/article/:articleID", function (req, res) {
+  connection.execute(
+    "SELECT * FROM news_post WHERE news_post.ID = " + req.params.articleID,
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.get("/get_user/:userID", function (req, res) {
+  connection.execute(
+    "SELECT * FROM BBY29_user WHERE BBY29_user.ID = " + req.params.userID,
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
           res.send(results);
         } else {
           res.sendStatus(400);
