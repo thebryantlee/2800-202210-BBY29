@@ -206,8 +206,6 @@ a:active {
 
 body {
   font-family: "Roboto", sans-serif;
-  max-width: 768px;
-  margin: 0 auto;
   background-color: #3b3b3b;
   color:white;
 }
