@@ -54,8 +54,23 @@
 }
 
 #navButton{
-  background-color: #3b3b3b;
+  background-color: #000814;
   border:none;
+}
+
+#newsFocusedTitle{
+  grid-column: 1;
+  grid-row: 1;
+}
+
+#newsFocusedAuthor{
+  grid-column: 1;
+  grid-row: 2;
+}
+
+#newsFocusCloseButton{
+  grid-column: 2;
+  grid-row: 1 / span 2;
 }
 
 #offcanvasRightLabel {
@@ -64,7 +79,7 @@
 
 #profileButton{
   float:right;
-  background-color: #3b3b3b;
+  background-color: #000814;
   border:none;
 }
 
@@ -77,6 +92,10 @@
 
 .actionsHeader{
   text-align: center;
+}
+
+.cardCategory{
+  font-size: small;
 }
 
 .content {
@@ -136,7 +155,7 @@
 }
 
 .menuList {
-  background-color: #3D3D3D;
+  background-color: #000814;
 }
 
 .menuMore {
@@ -146,11 +165,24 @@
 
 .modalAccount {
   background-color: #3D3D3D;
-  }
+  
+}
+
+.newsCategoryIcon{
+  background-color: #939393;
+  margin-right: 0.25em;
+  border-radius: 25%;
+}
 
 .newsDashboardPrimary{
   padding:0;
   padding-bottom: 1em;
+}
+
+.newsFocusHeading{
+  display: grid;
+  grid-template-columns: 93% 5% 2%;
+  grid-template-rows: 65% 35%;
 }
 
 .newsPrimaryHeader{
@@ -161,9 +193,14 @@
   font-size: 10pt;
 }
 
+.newsTitle{
+  font-weight:600;
+}
+
 .offcanvas {
   max-width: 80%;
-  background-color: #3D3D3D;
+  background-color: #000814;
+  border-color: #001D3D;
   color: white;
 }
 
@@ -195,6 +232,10 @@
   font-size: 10pt;
 }
 
+.viewArticleButton{
+  padding-top: 0.4rem;
+}
+
 a:link, a:visited {       
   text-decoration: none;
   color: white;
@@ -206,7 +247,7 @@ a:active {
 
 body {
   font-family: "Roboto", sans-serif;
-  background-color: #3b3b3b;
+  background-color: #000814;
   color:white;
 }
 
