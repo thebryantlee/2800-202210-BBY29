@@ -9,6 +9,7 @@ function getNewsForm() {
   var formPlaceholder = document.getElementById("newsFormGoesHere");
   var wrapper = document.createElement("form");
   wrapper.setAttribute("id", "formid");
+  wrapper.setAttribute("class", "bg-dark");
   wrapper.innerHTML =
     "<form> " +
     '<div id="alertLocation"></div>' +
