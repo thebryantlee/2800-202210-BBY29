@@ -31,7 +31,7 @@ CREATE TABLE news_post (
   post_datetime DATETIME NOT NULL,
   category int NOT NULL,
   full_article MEDIUMTEXT,
-  PRIMARY KEY (ID, user_id),
+  PRIMARY KEY (ID),
   FOREIGN KEY (user_id) REFERENCES BBY29_user(ID)
 );
 
