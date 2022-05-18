@@ -34,7 +34,9 @@ function getNews() {
           getSampleText(response[i].full_article) +
           "</p>" +
           '<div class="d-flex justify-content-between align-items-center">' +
-          '<div class="btn-group newsButtonLocation">' +
+          '<div class="btn-group newsButtonLocation" id="card-' +
+          response[i].ID +
+          '">' +
           '<button class="btn btn-sm btn-outline-light align-bottom viewArticleButton" onclick="viewNewsArticle(' +
           response[i].ID +
           ')">View</button>' +
@@ -122,16 +124,20 @@ function adminButtonCheck() {
     if (this.status == 200) {
       const response = JSON.parse(this.responseText);
       if (response[0].admin) {
-        console.log("Confirmed admin");
         var targetLocation =
           document.getElementsByClassName("newsButtonLocation");
         for (let i = 0; i < targetLocation.length; i++) {
           var deleteButton = document.createElement("button");
+          var cardIDArr = targetLocation[i].id.split("-");
+          var articleID = cardIDArr[1];
           deleteButton.setAttribute(
             "class",
             "btn btn-sm btn-light deleteNewsButton"
           );
-          deleteButton.setAttribute("onclick", "deleteArticle()");
+          deleteButton.setAttribute(
+            "onclick",
+            "deleteArticle(" + articleID + ")"
+          );
           var deleteImage = document.createElement("img");
           deleteImage.setAttribute("src", "/img/icons/basic/trash_full.svg");
           deleteImage.setAttribute("alt", "trash bin image");
@@ -182,7 +188,6 @@ function viewNewsArticle(articleID) {
 }
 
 function grabArticleAuthor(userID) {
-  console.log(userID);
   const path = "/get_user/" + userID;
   var xhr = new XMLHttpRequest();
   xhr.open("GET", path, true);
@@ -220,4 +225,59 @@ function openNewsArticle() {
   );
 
   modal.show();
+}
+
+async function deleteArticle(articleID) {
+  const data = {
+    id: articleID,
+  };
+  try {
+    let responseObject = await fetch("/delete_news", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (responseObject.status == 200) {
+      var alertPlaceholder = document.getElementById("tempAlert");
+      var temp = document.getElementById("alert-created");
+      var wrapper = document.createElement("div");
+      refreshNews();
+      if (!temp) {
+        wrapper.innerHTML =
+          '<div id="alert-created" class="alert alert-' +
+          "success" +
+          ' role="alert">' +
+          "Article " +
+          articleID +
+          " Has Been Deleted." +
+          "</div>";
+        alertPlaceholder.append(wrapper);
+      } else {
+        var alertPlaceholder = document.getElementById("tempAlert");
+        var temp = document.getElementById("alert-created");
+        var wrapper = document.createElement("div");
+        if (!temp) {
+          wrapper.innerHTML =
+            '<div id="alert-created" class="alert alert-' +
+            "danger" +
+            ' role="alert">' +
+            "There was problem deleting that news article." +
+            "</div>";
+          alertPlaceholder.append(wrapper);
+        }
+        console.log(responseObject.status);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function refreshNews() {
+  const newsLocation = document.getElementById("insertNewsHere");
+  newsLocation.innerHTML = "";
+  getNews();
 }
