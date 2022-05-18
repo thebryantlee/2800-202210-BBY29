@@ -70,6 +70,46 @@
         <div class="album py-5">
           <div class="container">
             <div class="row" id="insertNewsHere"></div>
+            <div id="tempAlert"></div>
+            <div id="newsFocusedContainer">
+              <div class="modal" tabindex="-1" id="newsFocusedModal">
+                <div
+                  class="modal-dialog modal-xl modal-fullscreen-md-down modal-dialog-centered modal-dialog-scrollable"
+                >
+                  <div class="modal-content bg-dark">
+                    <div class="modal-header newsFocusHeading">
+                      <h5 class="modal-title col-10" id="newsFocusedTitle">
+                        Modal title
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close btn-lg btn-close-white col-2 float-end"
+                        id="newsFocusCloseButton"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+
+                      <h6
+                        class="modal-subtitle mb-2 text-muted"
+                        id="newsFocusedAuthor"
+                      >
+                        Modal Author
+                      </h6>
+                    </div>
+                    <div></div>
+
+                    <div class="modal-body" id="newsFocusedText">
+                      <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                      <p class="mb-2 text-muted" id="newsFocusedDate">
+                        Modal Date
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -229,7 +269,6 @@
       </div>
 
       <footer class="container">
-        <p class="float-end"><a href="#">Back to top</a></p>
         <p>©2022 BBY-29, TTTM Inc.</p>
       </footer>
     </div>
