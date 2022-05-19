@@ -2,7 +2,7 @@ CREATE DATABASE COMP2800;
 
 CREATE TABLE BBY29_user (
   ID int NOT NULL AUTO_INCREMENT,
-  user_name VARCHAR(30),
+  user_name VARCHAR(30) NOT NULL,
   first_name VARCHAR(30),
   last_name VARCHAR(30),
   email VARCHAR(40),
@@ -10,6 +10,7 @@ CREATE TABLE BBY29_user (
   admin boolean,
   password VARCHAR(50),
   avatar_path int,
+  UNIQUE(user_name),
   PRIMARY KEY (ID)
 );
 
@@ -27,7 +28,7 @@ INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, a
 CREATE TABLE news_post (
   ID int NOT NULL AUTO_INCREMENT,
   user_id int NOT NULL,
-  title VARCHAR(50) NOT NULL,
+  title VARCHAR(80) NOT NULL,
   post_datetime DATETIME NOT NULL,
   category int NOT NULL,
   full_article MEDIUMTEXT,
