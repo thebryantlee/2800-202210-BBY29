@@ -2,12 +2,13 @@
 <html>
 
 <head>
-    <title>Shopping Cart Test</title>
+    <title>Shopping Cart - Tech to the Moon</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"">
 	<link href=" https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="/css/shopping.css">
+    <!-- <link rel="stylesheet" href="/css/template.css"> -->
 </head>
 
 <body>
@@ -27,9 +28,8 @@
                             <img src="/img/icons/user/user_light.svg" alt="User Profile Icon" id="profileIcon" />
                         </button>
                     </nav>
-                    <h2>Shopping Cart Test</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in,
-                        mattis vitae leo.</p>
+                    <h2>Shopping Cart</h2>
+                    <p>Thank you for supporting Tech to the Moon! Every sale will help us pay for maintaining the site.</p>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -55,73 +55,12 @@
                                                     </div>
                                                     <div class="col-md-4 quantity">
                                                         <label for="quantity">Quantity:</label>
-                                                        <input id="quantity" type="number" value="1"
+                                                        <!-- TODO: display and pull values from database based on selection -->
+                                                        <input id="quantity" type="number" min="0" max="999" value="1"
                                                             class="form-control quantity-input">
                                                     </div>
                                                     <div class="col-md-3 price">
-                                                        <span>$120</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <img class="img-fluid mx-auto d-block image" src="/img/images/phone.png">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="info">
-                                                <div class="row">
-                                                    <div class="col-md-5 product-name">
-                                                        <div class="product-name">
-                                                            <a href="#">Lorem Ipsum dolor</a>
-                                                            <div class="product-info">
-                                                                <div>Display: <span class="value">5 inch</span></div>
-                                                                <div>RAM: <span class="value">4GB</span></div>
-                                                                <div>Memory: <span class="value">32GB</span></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 quantity">
-                                                        <label for="quantity">Quantity:</label>
-                                                        <input id="quantity" type="number" value="1"
-                                                            class="form-control quantity-input">
-                                                    </div>
-                                                    <div class="col-md-3 price">
-                                                        <span>$120</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <img class="img-fluid mx-auto d-block image" src="/img/images/phone.png">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="info">
-                                                <div class="row">
-                                                    <div class="col-md-5 product-name">
-                                                        <div class="product-name">
-                                                            <a href="#">Lorem Ipsum dolor</a>
-                                                            <div class="product-info">
-                                                                <div>Display: <span class="value">5 inch</span></div>
-                                                                <div>RAM: <span class="value">4GB</span></div>
-                                                                <div>Memory: <span class="value">32GB</span></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4 quantity">
-                                                        <label for="quantity">Quantity:</label>
-                                                        <input id="quantity" type="number" value="1"
-                                                            class="form-control quantity-input">
-                                                    </div>
-                                                    <div class="col-md-3 price">
-                                                        <span>$120</span>
+                                                        <span class="product-line-price">$120</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -133,178 +72,19 @@
                         <div class="col-md-12 col-lg-4">
                             <div class="summary">
                                 <h3>Summary</h3>
+                                <!-- Calculations need to be dynamic based on product ID -->
                                 <div class="summary-item"><span class="text">Subtotal</span><span
-                                        class="price">$360</span></div>
-                                <div class="summary-item"><span class="text">Discount</span><span
-                                        class="price">$0</span></div>
+                                        class="cart-subtotal">$360</span></div>
                                 <div class="summary-item"><span class="text">Shipping</span><span
-                                        class="price">$0</span></div>
-                                <div class="summary-item"><span class="text">Total</span><span class="price">$360</span>
-                                </div>
-                                <button type="button" class="btn btn-primary btn-lg btn-block">Checkout</button>
+                                        class="cart-shipping">$0</span></div>
+                                <div class="summary-item"><span class="text">Tax</span><span
+                                        class="cart-tax">$0</span></div>
+                                <div class="summary-item"><span class="text">Total</span><span
+                                        class="cart-total">$360</span></div>
+                                <button type="button" id="checkout-button" class="btn btn-primary btn-lg btn-block">Checkout</button>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <button type="button" class="btn btn-primary" id="helpButton">
-                <img src="/img/icons/basic/robot.svg" alt="Robot chatbot icon" />
-              </button>
-        </section>
-        <section id="menus">
-            <!--This is the start of the menu. TODO: Make this modular, inserted in runtime w/ data populated. -->
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop">
-                <div class="offcanvas-body">
-                    <div class="list-group list-group-flush">
-                        <div class="list-group-item menuList">
-                            <a href="/" id="homeButton">
-                                <img src="/img/icons/home/home_empty.svg" alt="House Icon" class="menuIcon" />
-                                Home
-                            </a>
-                        </div>
-                        <div class="list-group-item menuList">
-                            <a href="#" class="disabled-link">
-                                <img src="/img/icons/chart/stock_trend.svg" alt="Trending up Icon" class="menuIcon" />
-                                PC Part Price Tracker
-                            </a>
-                        </div>
-                        <div class="list-group-item menuList">
-                            <a href="#" class="disabled-link">
-                                <img src="/img/icons/arrow/compare.svg" alt="Compare arrows Icon" class="menuIcon" />
-                                Compatibility Guides
-                            </a>
-                        </div>
-                        <div class="list-group-item menuList">
-                            <a href="#" class="disabled-link">
-                                <img src="/img/icons/basic/news.svg" alt="Compare arrows Icon" class="menuIcon" />
-                                Latest News
-                            </a>
-                        </div>
-                        <div class="list-group-item menuList">
-                            <a href="#" class="disabled-link">
-                                <img src="/img/icons/basic/chatroom.svg" alt="Chat room Icon" class="menuIcon" />
-                                Community Boards
-                            </a>
-                        </div>
-
-                        <div class="list-group-item menuGroup menuList" id="favouriteBoards">
-                            <h5 class="menuLabel">Favourite Boards</h5>
-                            <div class="menuItem">
-                                <img src="/img/icons/file/file_image.svg" alt="Group icon for the Tech Savvys" />
-                                <a href="#" class="disabled-link">Tech Savvys</a>
-                            </div>
-                            <div class="menuItem">
-                                <img src="/img/icons/file/file_image.svg"
-                                    alt="Group icon for the Top Builds of the Week" />
-                                <a href="#" class="disabled-link">Weekly Top Builds</a>
-                            </div>
-                            <div class="menuItem">
-                                <img src="/img/icons/file/file_image.svg" alt="Group icon for the BuildGuild" />
-                                <a href="#" class="disabled-link">BuildGuild</a>
-                            </div>
-                            <div class="menuItem">
-                                <img src="/img/icons/file/file_image.svg" alt="Group icon for the Vancity Builders" />
-                                <a href="#" class="disabled-link">Vancity Builders</a>
-                            </div>
-                            <div class="menuItem">
-                                <img src="/img/icons/file/file_image.svg" alt="Group icon for the GPU Stonks Club" />
-                                <a href="#" class="disabled-link">GPU Stonks Club</a>
-                            </div>
-                            <div class="menuItem">
-                                <a href="#" class="menuMore disabled-link">&#8811; Find more boards here</a>
-                            </div>
-                        </div>
-
-                        <div class="list-group-item menuGroup menuList" id="friendList">
-                            <h5 class="menuLabel">Friends</h5>
-                            <div class="menuItem">
-                                <img src="/img/icons/user/user_filled.svg" alt="Placeholder icon for a user" />
-                                <a href="#" class="disabled-link">Kasra</a>
-                            </div>
-                            <div class="menuItem">
-                                <img src="/img/icons/user/user_filled.svg" alt="Placeholder icon for a user" />
-                                <a href="#" class="disabled-link">Linus</a>
-                            </div>
-                            <div class="menuItem">
-                                <img src="/img/icons/user/user_filled.svg" alt="Placeholder icon for a user" />
-                                <a href="#" class="disabled-link">Jacob</a>
-                            </div>
-                            <div class="menuItem">
-                                <img src="/img/icons/user/user_filled.svg" alt="Placeholder icon for a user" />
-                                <a href="#" class="disabled-link">Bryant</a>
-                            </div>
-                            <div class="menuItem">
-                                <img src="/img/icons/user/user_filled.svg" alt="Placeholder icon for a user" />
-                                <a href="#" class="disabled-link">Gabriel</a>
-                            </div>
-                            <div class="menuItem">
-                                <a href="#" class="menuMore disabled-link">&#8811; Friends List</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--This is the start of the profile menu. TODO: Make this inserted in runtime, w/ data populated.-->
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
-                <div class="offcanvas-body">
-                    <div class="profileHeader">
-                        <img src="/img/icons/user/user_filled.svg" alt="Default User Icon" id="avatarIcon" />
-                        <div id="placeUsernameHere"></div>
-                    </div>
-                    <div class="profileItem">
-                        <p class="menuLabel">Display Name</p>
-                        <div id="placeFullNameHere"></div>
-                    </div>
-
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item menuList">
-                            <a href="/account" id="accountLink">
-                                <img src="/img/icons/user/user.svg" alt="User Account Icon" class="menuIcon" />
-                                Account
-                            </a>
-                        </li>
-                        <li class="list-group-item menuList">
-                            <a href="#" class="disabled-link">
-                                <img src="/img/icons/basic/settings-grey.svg" alt="Settings Gear Icon"
-                                    class="menuIcon" />
-                                Settings
-                            </a>
-                        </li>
-                        <li class="list-group-item menuList">
-                            <a href="#" class="disabled-link">
-                                <img src="/img/icons/basic/bug.svg" alt="Bug Icon" class="menuIcon" />
-                                Report a Bug
-                            </a>
-                        </li>
-                        <li class="list-group-item menuList">
-                            <a href="#" class="disabled-link">
-                                <img src="/img/icons/basic/update-log.svg" alt="Scroll/Update Log Icon"
-                                    class="menuIcon" />
-                                Update Log
-                            </a>
-                        </li>
-                        <li class="list-group-item menuList">
-                            <a href="#" class="disabled-link">
-                                <img src="/img/icons/basic/support.svg" alt="Chat room Icon"
-                                    class="Question mark/Support Icon" />
-                                Support
-                            </a>
-                        </li>
-                        <li class="list-group-item menuList">
-                            <a href="#" class="disabled-link">
-                                <img src="/img/icons/basic/book-outline.svg" alt="Book/Acknowledgements Icon"
-                                    class="menuIcon" />
-                                Acknowledgements
-                            </a>
-                        </li>
-                        <li class="list-group-item menuList">
-                            <img src="/img/icons/menu/sign-out.svg" alt="Signout Icon" class="menuIcon" />
-                            <button type="button" id="signOutButton">Sign out</button>
-                        </li>
-                    </ul>
-
-                    <p id="appVersion">Version 0.0001</p>
                 </div>
             </div>
         </section>
@@ -312,6 +92,7 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="/js/shop-summary.js"></script>
 </body>
 
 </html>
