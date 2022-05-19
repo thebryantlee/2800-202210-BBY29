@@ -1,13 +1,5 @@
 // Bryant's code below (start)
 document.getElementById("submit").addEventListener("click", login);
-
-// window.addEventListener('keypress', function (e) {
-//     if (e.keyCode === 13) {
-//       login();
-//     }
-// });
-
-document.getElementById("signOutButton").addEventListener("click", logout);
 document.getElementById("submit1").addEventListener("click", signup);
 
 async function login() {
