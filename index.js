@@ -6,6 +6,9 @@ const fs = require("fs");
 const mysql = require("mysql2");
 const crypto = require("crypto");
 
+const puppeteer = require('puppeteer');
+require('dotenv').config();
+
 // Typically salt should be added by process.env but for purpose of application
 // we have hard coded it
 const salt = "VEhJU0lTU0FMVA==";
@@ -262,6 +265,71 @@ app.post("/delete_user", function (req, res) {
     }
   );
 });
+
+app.post("/add_item", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.body.user_name;
+  const url = req.body.url;
+  console.log(user);
+
+  // connection.execute(
+  //   "INSERT INTO BBY29_item_tracker (item_user_name, url) values (?, ?)",
+  //   [
+  //     user,
+  //     url,
+  //   ],
+  //   function(error, results, fields) {
+  //     if(error) {
+  //       console.log(error);
+  //     }
+  //     res.send({
+  //       status: "success",
+  //       msg:"Record added.",
+  //     });
+  //   }
+  // );
+});
+
+app.get("/get_items", function (req, res) {
+  connection.execute(
+    "SELECT url FROM BBY29_item_tracker WHERE item_user_name = " + req.session.user_name,
+    function (error, results, fields) {
+      if(error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if(results.length > 0) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  )
+});
+
+app.post("/get_item_details", function (req, res) {
+  const item_url = req.body.url;
+    const browser =  puppeteer.launch({ headless: true });
+    const page =  browser.newPage();
+     page.goto(item_url);
+     page.waitFor(1000);
+    const result =  page.evaluate(() => {
+      let title = document.querySelector('#productTitle').innerText;
+      let imgUrl = document.querySelector('#imgTagWrapperId > img').src;
+      let priceStr = document.querySelector('#priceblock_ourprice').innerText;
+      let priceInt = parseInt(priceStr.replace(/£/g, ''));
+      return {
+        title,
+        imgUrl,
+        priceInt
+      };
+    });
+    browser.close();
+    document.getElementsByClassName("title").innerHTML = result.title;
+    document.getElementsByClassName("price").innerHTML = result.priceStr;
+    document.getElementsByClassName("imgUrl").src = result.imgUrl;
+  });
 // Gabriel's code (end)
 
 function hash(pw) {
@@ -367,6 +435,27 @@ app.get("/account/:user_name", function (req, res) {
     res.send(doc);
   } else if (req.session.loggedIn) {
     res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/tracker", function (req, res) {
+  if (req.session.loggedIn) {
+    // Redirect to account page
+    res.redirect(`/tracker/${req.session.user_name}`);
+    console.log("Redirected to tracking page.");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/tracker/:user_name", function (req, res) {
+  if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
+    let doc = fs.readFileSync("./tracker.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/tracker");
   } else {
     res.redirect("/");
   }
