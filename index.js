@@ -514,6 +514,25 @@ app.post("/delete_news", function (req, res) {
   );
 });
 
+app.get("/recent_news", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT * FROM news_post ORDER BY post_datetime DESC LIMIT 3",
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length > 0) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
 // Jacob's code (end)
 // Heroku Dynamically assigns port via process.env.PORT.
 // When running locally process.env.PORT is undefined so runs on port 8000
