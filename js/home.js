@@ -14,29 +14,29 @@ function getRecentNews() {
     '<div class="row mb-2">' +
     '<div class="col-md-6">' +
     '<div class="row g-0 border-dark rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">' +
-    '<div class="col p-4 d-flex flex-column position-static bg-dark">' +
+    '<div class="col p-4 d-flex flex-column position-static bg-dark featureTextBox">' +
     '<strong class="d-inline-block mb-2 text-primary" id="secondaryNews1Category" >World</strong>' +
     '<h3 class="mb-0" id="secondaryNews1Title">Featured post</h3>' +
     '<div class="mb-1 text-muted" id="secondaryNews1Datetime">Nov 12</div>' +
     '<p class="card-text mb-auto" id="secondaryNews1Sample">This is a wider card with supporting text below as a natural lead-in to additional content.</p>' +
     '<button class="btn btn-sm btn-outline-primary fw-semibold" id="secondaryNews1Link">Continue reading &#8811;</button>' +
     "</div>" +
-    '<div class="col-auto d-none d-lg-block">' +
-    '<svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>' +
+    '<div class="col-6 d-none d-lg-block">' +
+    '<img src="/img/images/homeFeature1.png" alt="Picturing highlighting the title of this feature" class="homeFeatureImage col-12"/>' +
     "</div>" +
     "</div>" +
     "</div>" +
     '<div class="col-md-6">' +
     '<div class="row g-0 border-dark rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">' +
-    '<div class="col p-4 d-flex flex-column position-static bg-dark">' +
+    '<div class="col p-4 d-flex flex-column position-static bg-dark featureTextBox">' +
     '<strong class="d-inline-block mb-2 text-primary" id="secondaryNews2Category">Design</strong>' +
     '<h3 class="mb-0" id="secondaryNews2Title">Post title</h3>' +
     '<div class="mb-1 text-muted" id="secondaryNews2Datetime">Nov 11</div>' +
     '<p class="mb-auto" id="secondaryNews2Sample">This is a wider card with supporting text below as a natural lead-in to additional content.</p>' +
     '<button class="btn btn-sm btn-outline-primary fw-semibold" id="secondaryNews2Link">Continue reading &#8811;</button>' +
     "</div>" +
-    '<div class="col-auto d-none d-lg-block">' +
-    '<svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>' +
+    '<div class="col-6 d-none d-lg-block">' +
+    '<img src="/img/images/homeFeature2.png" alt="Picturing highlighting the title of this feature" class="homeFeatureImage col-12"/>' +
     "</div>" +
     "</div>" +
     "</div>" +
