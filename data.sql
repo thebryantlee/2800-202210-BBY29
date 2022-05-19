@@ -13,6 +13,14 @@ CREATE TABLE BBY29_user (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE BBY29_item_tracker (
+  ID int NOT NULL AUTO_INCREMENT,
+  item_user_name VARCHAR(30),
+  url VARCHAR(60),
+  PRIMARY KEY (ID),
+  FOREIGN KEY (item_user_name) REFERENCES bby29_user(user_name)
+);
+
 INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, admin, password, avatar_path) VALUES
 ('bby29test', 'BBY', 'Test', 'insertemailhere@bcit.ca', '1234567890', 0, '8uj2xIpNW29d5MwFEBfd5A==', 0),
 ('BryantSWE', 'Bryant', 'Lee', 'bryant@bcit.ca', '6048224011', 1, 'jkUEEPLdqJOfkvy5bUpERw==', 5),
