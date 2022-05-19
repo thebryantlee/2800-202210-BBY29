@@ -1,27 +1,26 @@
-#addTuple{
+#addTuple {
   margin-bottom: 1em;
 }
 
-#addUserHeader{
-  margin:0;
-  padding:0;
+#addUserHeader {
+  margin: 0;
+  padding: 0;
   margin-bottom: 0.5em;
 }
 
-#accountTitle{
+#accountTitle {
   margin: 0.5em;
 }
 
-#adminTable{
+#adminTable {
   width: 100%;
 }
 
-
-#adminTableContainer{
+#adminTableContainer {
   width: 100%;
 }
 
-#appName{
+#appName {
   font-size: 10pt;
   font-weight: bold;
 }
@@ -31,14 +30,14 @@
   margin-top: 1.5em;
 }
 
-#formid{
-  padding:1em;
+#formid {
+  padding: 1em;
   background-color: #666666;
   border-radius: 1%;
 }
 
-#formSection{
-  margin:0.5em;
+#formSection {
+  margin: 0.5em;
 }
 
 #helpButton {
@@ -53,22 +52,22 @@
   border-radius: 50%;
 }
 
-#navButton{
+#navButton {
   background-color: #000814;
-  border:none;
+  border: none;
 }
 
-#newsFocusedTitle{
+#newsFocusedTitle {
   grid-column: 1;
   grid-row: 1;
 }
 
-#newsFocusedAuthor{
+#newsFocusedAuthor {
   grid-column: 1;
   grid-row: 2;
 }
 
-#newsFocusCloseButton{
+#newsFocusCloseButton {
   grid-column: 2;
   grid-row: 1 / span 2;
 }
@@ -77,10 +76,10 @@
   margin: 0;
 }
 
-#profileButton{
-  float:right;
+#profileButton {
+  float: right;
   background-color: #000814;
-  border:none;
+  border: none;
 }
 
 #signOutButton {
@@ -90,11 +89,11 @@
   padding: 0;
 }
 
-.actionsHeader{
+.actionsHeader {
   text-align: center;
 }
 
-.cardCategory{
+.cardCategory {
   font-size: small;
 }
 
@@ -106,7 +105,7 @@
   font-size: 18pt;
   font-weight: bold;
   padding-left: 0.5em;
-  color:#c2c2c2
+  color: #c2c2c2;
 }
 
 .contentHeader > p {
@@ -114,24 +113,23 @@
   margin-top: 1em;
 }
 
-.deleteButton{
-  padding:0;
+.deleteButton {
+  padding: 0;
 }
 
-.disabled-link{
+.disabled-link {
   cursor: default !important;
   pointer-events: none !important;
-  color: grey !important; 
+  color: grey !important;
 }
 
-.formEntry{
-  border-color:#3D3D3D;
+.formEntry {
+  border-color: #3d3d3d;
 }
 
-.formOptions{
+.formOptions {
   margin: 0.5em;
 }
-
 
 .menuGroup {
   margin-top: 0.5em;
@@ -139,7 +137,7 @@
 
 .menuIcon {
   color: #939393;
-  margin-right:0.25em;
+  margin-right: 0.25em;
 }
 
 .menuItem > img {
@@ -165,43 +163,42 @@
 }
 
 .modalAccount {
-  background-color: #3D3D3D;
-  
+  background-color: #3d3d3d;
 }
 
-.newsCategoryIcon{
+.newsCategoryIcon {
   background-color: #939393;
   margin-right: 0.25em;
   border-radius: 25%;
 }
 
-.newsDashboardPrimary{
-  padding:0;
+.newsDashboardPrimary {
+  padding: 0;
   padding-bottom: 1em;
 }
 
-.newsFocusHeading{
+.newsFocusHeading {
   display: grid;
   grid-template-columns: 93% 5% 2%;
   grid-template-rows: 65% 35%;
 }
 
-.newsPrimaryHeader{
+.newsPrimaryHeader {
   padding-left: 1em;
 }
 
-.newsSecondaryHeader{
+.newsSecondaryHeader {
   font-size: 10pt;
 }
 
-.newsTitle{
-  font-weight:600;
+.newsTitle {
+  font-weight: 600;
 }
 
 .offcanvas {
   max-width: 80%;
   background-color: #000814;
-  border-color: #001D3D;
+  border-color: #001d3d;
   color: white;
 }
 
@@ -233,11 +230,12 @@
   font-size: 10pt;
 }
 
-.viewArticleButton{
+.viewArticleButton {
   padding-top: 0.4rem;
 }
 
-a:link, a:visited {       
+a:link,
+a:visited {
   text-decoration: none;
   color: white;
 }
@@ -249,12 +247,11 @@ a:active {
 body {
   font-family: "Roboto", sans-serif;
   background-color: #000814;
-  color:white;
+  color: white;
 }
 
 @media only screen and (max-width: 700px) {
-
-  #adminTableContainer{
+  #adminTableContainer {
     overflow-x: scroll;
   }
 }
