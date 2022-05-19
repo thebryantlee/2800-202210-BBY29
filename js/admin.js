@@ -1,5 +1,3 @@
-// window.addEventListener("load", getUsers);
-document.getElementById("signOutButton").addEventListener("click", logout);
 document.getElementById("addTuple").addEventListener("click", addUser);
 window.addEventListener("load", getUsers);
 window.addEventListener("load", getNewsForm);
@@ -288,50 +286,6 @@ async function deleteRow(e) {
   };
   try {
     let responseObject = await fetch("/delete_user", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    if (responseObject.status == 200) {
-      var alertPlaceholder = document.getElementById("tempAlert");
-      var temp = document.getElementById("alert-created");
-      var wrapper = document.createElement("div");
-      refreshTable();
-      if (!temp) {
-        wrapper.innerHTML =
-          '<div id="alert-created" class="alert alert-' +
-          "success" +
-          ' role="alert">' +
-          "User Has Been Deleted." +
-          "</div>";
-        alertPlaceholder.append(wrapper);
-      } else {
-        var alertPlaceholder = document.getElementById("tempAlert");
-        var temp = document.getElementById("alert-created");
-        var wrapper = document.createElement("div");
-        if (!temp) {
-          wrapper.innerHTML =
-            '<div id="alert-created" class="alert alert-' +
-            "danger" +
-            ' role="alert">' +
-            "There was problem deleting that user." +
-            "</div>";
-          alertPlaceholder.append(wrapper);
-        }
-        console.log(responseObject.status);
-      }
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function logout() {
-  try {
-    let responseObject = await fetch("/logout", {
       method: "POST",
       headers: {
         Accept: "application/json",
