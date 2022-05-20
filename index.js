@@ -304,7 +304,7 @@ app.get("/get_items", function (req, res) {
         if(results.length > 0) {
           res.send(results);
         } else {
-          res.sendStatus(400);
+          console.log("There are no items being tracked for this user");
         }
       }
     }

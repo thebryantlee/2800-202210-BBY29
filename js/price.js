@@ -13,9 +13,11 @@ async function getItems() {
       const itemLocation = document.getElementById("items");
       for (let j = 0; j < response.length; j++) {
         var item = document.createElement("div");
+        var temp = document.getElementById(response[j].ID);
+
         item.setAttribute("class", "col-md-4");
         item.setAttribute("id", "article-" + response[j].ID);
-        if(response[j].title != null) {
+        if(response[j].title != null && !temp) {
            item.innerHTML =
           '<div class="card bg-dark text-white mb-4 box-shadow">' +
           '<div class="card-header cardCategory">' +
@@ -45,11 +47,26 @@ async function getItems() {
           for (let k = 0; k < delete_records.length; k++) {
             delete_records[k].addEventListener("click", deleteItem);
           }
-        }      
+        }    
       }
     }
   };
   xhr.send();
+}
+
+async function itemAlert() {
+  var alertPlaceholder = document.getElementById("wait");
+  var temp = document.getElementById("alert-created1");
+  var wrapper = document.createElement("div");
+  if(!temp) {
+    wrapper.innerHTML =
+          '<div id="alert-created1" class="alert alert-' +
+          "success" +
+          ' role="alert">' +
+          "Please Wait Up To Five Minutes To See Changes In Your Table." +
+          "</div>";
+        alertPlaceholder.append(wrapper);
+      } 
 }
 
 async function deleteItem(e) {
@@ -131,7 +148,7 @@ async function clearUrlForm(){
 async function addUrl(e) {
   var formPlaceholder = document.getElementById("urlForm");
   var temp = document.getElementById("formid");
-  var wrapper = document.createElement("form");
+  var wrapper = document.createElement("div");
   wrapper.setAttribute("id", "formid");
   if(!temp) {
     wrapper.innerHTML =
@@ -167,8 +184,10 @@ async function addItem() {
       },
       body: JSON.stringify(formData),
     });
-    if(responseObject.status == 200) {
+    if(responseObject.status == 200) {      
+      itemAlert();
       clearUrlForm();
+
     } else {
       console.log(error);
     }
