@@ -268,31 +268,34 @@ app.post("/delete_user", function (req, res) {
 
 app.post("/add_item", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-  const user = req.body.user_name;
+  const user = req.session.user_ID;
   const url = req.body.url;
   console.log(user);
 
-  // connection.execute(
-  //   "INSERT INTO BBY29_item_tracker (item_user_name, url) values (?, ?)",
-  //   [
-  //     user,
-  //     url,
-  //   ],
-  //   function(error, results, fields) {
-  //     if(error) {
-  //       console.log(error);
-  //     }
-  //     res.send({
-  //       status: "success",
-  //       msg:"Record added.",
-  //     });
-  //   }
-  // );
+  connection.execute(
+    "INSERT INTO BBY29_item_tracker (item_user_ID, url, title, priceStr, imgUrl) values (?, ?, ?, ?, ?)",
+    [
+      user,
+      url,
+      null,
+      null,
+      null,
+    ],
+    function(error, results, fields) {
+      if(error) {
+        console.log(error);
+      }
+      res.send({
+        status: "success",
+        msg:"Record added.",
+      });
+    }
+  );
 });
 
 app.get("/get_items", function (req, res) {
   connection.execute(
-    "SELECT url FROM BBY29_item_tracker WHERE item_user_name = " + req.session.user_name,
+    "SELECT url FROM BBY29_item_tracker WHERE item_user_ID = " + req.session.user_ID,
     function (error, results, fields) {
       if(error) {
         console.log(error);
@@ -308,27 +311,39 @@ app.get("/get_items", function (req, res) {
   )
 });
 
-app.post("/get_item_details", function (req, res) {
+app.post("/get_item_details", async function (req, res) {
   const item_url = req.body.url;
-    const browser =  puppeteer.launch({ headless: true });
-    const page =  browser.newPage();
-     page.goto(item_url);
-     page.waitFor(1000);
-    const result =  page.evaluate(() => {
-      let title = document.querySelector('#productTitle').innerText;
-      let imgUrl = document.querySelector('#imgTagWrapperId > img').src;
-      let priceStr = document.querySelector('#priceblock_ourprice').innerText;
-      let priceInt = parseInt(priceStr.replace(/£/g, ''));
-      return {
-        title,
-        imgUrl,
-        priceInt
-      };
+    const browser =  await puppeteer.launch({ headless: true });
+    const page =  await browser.newPage();
+    console.log("opened the browser");
+    await page.goto(item_url);
+    console.log("got here :)");
+    try{
+      const result =  await page.evaluate(() => {
+      console.log("TESTING");
+      var title = document.getElementById("productTitle").innerHTML;
+      var imgUrl = document.getElementById('landingImage').src;
+      var priceStr = document.querySelector('.a-offscreen').innerHTML;    
+       console.log(title);
+       console.log(priceStr);
+       return {
+         title,
+         imgUrl,
+         priceStr
+       };
     });
+  } catch(error) {
+    console.log(error);
+  }    
     browser.close();
-    document.getElementsByClassName("title").innerHTML = result.title;
-    document.getElementsByClassName("price").innerHTML = result.priceStr;
-    document.getElementsByClassName("imgUrl").src = result.imgUrl;
+    res.send({
+      status: "success",
+      msg:"Record added.",
+    });
+
+    // document.getElementsByClassName("title").innerHTML = result.title;
+    // document.getElementsByClassName("price").innerHTML = result.priceStr;
+    // document.getElementsByClassName("imgUrl").src = result.imgUrl;
   });
 // Gabriel's code (end)
 

@@ -15,10 +15,13 @@ CREATE TABLE BBY29_user (
 
 CREATE TABLE BBY29_item_tracker (
   ID int NOT NULL AUTO_INCREMENT,
-  item_user_name VARCHAR(30),
-  url VARCHAR(60),
+  item_user_ID int,
+  url VARCHAR(400),
+  title VARCHAR(30),
+  priceStr VARCHAR(30),
+  imgUrl VARCHAR(40),
   PRIMARY KEY (ID),
-  FOREIGN KEY (item_user_name) REFERENCES bby29_user(user_name)
+  FOREIGN KEY (item_user_ID) REFERENCES BBY29_user(ID)
 );
 
 INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, admin, password, avatar_path) VALUES
