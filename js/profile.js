@@ -1,5 +1,3 @@
-document.getElementById('signOutButton').addEventListener('click', logout);
-
 // Gabriel's code below (start)
 async function logout() {
     try {

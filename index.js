@@ -28,16 +28,16 @@ const dbConfigHeroku = {
   user: "x5jik86tot8uvxxj",
   password: "i00fx64bxpqn6c86",
   database: "m83arv6eoap3s9bs",
-  multipleStatements: false
-}
+  multipleStatements: false,
+};
 
 const dbConfigLocal = {
   host: "localhost",
   user: "root",
   password: "",
   database: "COMP2800",
-  multipleStatements: false
-}
+  multipleStatements: false,
+};
 
 if (is_heroku) {
   var connection = mysql.createPool(dbConfigHeroku);
@@ -520,6 +520,148 @@ app.get("/current_user", function (req, res) {
         res.sendStatus(500);
       } else {
         if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.post("/uploadNews", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.session.user_ID;
+  const title = req.body.title;
+  const datetime = req.body.post_datetime;
+  const categ = req.body.category;
+  const article = req.body.full_article;
+
+  //With password
+  connection.execute(
+    "INSERT INTO news_post (user_id, title, post_datetime, category, full_article) values (?, ?, ?, ?, ?)",
+    [user, title, datetime, categ, article],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.get("/news", function (req, res) {
+  if (req.session.loggedIn) {
+    // Redirect to account page
+    res.redirect(`/news/${req.session.user_name}`);
+    console.log("Redirected to news page.");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/news/:user_name", function (req, res) {
+  if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
+    let doc = fs.readFileSync("./news.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/news");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/getNews", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT * FROM news_post ORDER BY post_datetime DESC",
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length > 0) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.get("/article/:articleID", function (req, res) {
+  connection.execute(
+    "SELECT * FROM news_post WHERE news_post.ID = " + req.params.articleID,
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.get("/get_user/:userID", function (req, res) {
+  connection.execute(
+    "SELECT * FROM BBY29_user WHERE BBY29_user.ID = " + req.params.userID,
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.post("/delete_news", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const id = req.body.id;
+
+  connection.execute(
+    "DELETE FROM news_post WHERE ID = ?",
+    [id],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record deleted.",
+        });
+      }
+    }
+  );
+});
+
+app.get("/recent_news", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT * FROM news_post ORDER BY post_datetime DESC LIMIT 3",
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length > 0) {
           res.send(results);
         } else {
           res.sendStatus(400);

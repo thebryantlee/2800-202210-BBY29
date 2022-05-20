@@ -1,34 +1,30 @@
-#addTuple{
-  margin-top: 0.5em;
+#addTuple {
   margin-bottom: 1em;
 }
 
-#addUserHeader{
-  margin:0;
-  padding:0;
+#addUserHeader {
+  margin: 0;
+  padding: 0;
   margin-bottom: 0.5em;
 }
 
-#accountTitle{
+#addUrl{
+  margin-bottom: 1em;
+}
+
+#accountTitle {
   margin: 0.5em;
 }
 
-#adminTable{
+#adminTable {
   width: 100%;
 }
 
-#adminTable > th, td{
-  border: 1px solid;
-  padding:0.5em;
-  background-color: #c4c4c4;
-  color:black;
-}
-
-#adminTableContainer{
+#adminTableContainer {
   width: 100%;
 }
 
-#appName{
+#appName {
   font-size: 10pt;
   font-weight: bold;
 }
@@ -38,14 +34,13 @@
   margin-top: 1.5em;
 }
 
-#formid{
-  padding:1em;
-  background-color: #666666;
+#formid {
+  padding: 1em;
   border-radius: 1%;
 }
 
-#formSection{
-  margin:0.5em;
+#formSection {
+  margin: 0.5em;
 }
 
 #helpButton {
@@ -60,19 +55,34 @@
   border-radius: 50%;
 }
 
-#navButton{
-  background-color: #535353;
-  border:none;
+#navButton {
+  background-color: #000814;
+  border: none;
+}
+
+#newsFocusedTitle {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+#newsFocusedAuthor {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+#newsFocusCloseButton {
+  grid-column: 2;
+  grid-row: 1 / span 2;
 }
 
 #offcanvasRightLabel {
   margin: 0;
 }
 
-#profileButton{
-  float:right;
-  background-color: #535353;
-  border:none;
+#profileButton {
+  float: right;
+  background-color: #000814;
+  border: none;
 }
 
 #signOutButton {
@@ -82,8 +92,16 @@
   padding: 0;
 }
 
-.actionsHeader{
+#urlForm{
+  margin-bottom: 1em;
+}
+
+.actionsHeader {
   text-align: center;
+}
+
+.cardCategory {
+  font-size: small;
 }
 
 .content {
@@ -94,7 +112,7 @@
   font-size: 18pt;
   font-weight: bold;
   padding-left: 0.5em;
-  color:#999999
+  color: #c2c2c2;
 }
 
 .contentHeader > p {
@@ -102,24 +120,27 @@
   margin-top: 1em;
 }
 
-.deleteButton{
-  padding:0;
+.deleteButton {
+  padding: 0;
 }
 
-.disabled-link{
+.disabled-link {
   cursor: default !important;
   pointer-events: none !important;
-  color: grey !important; 
+  color: grey !important;
 }
 
-.formEntry{
-  border-color:#3D3D3D;
+.formEntry {
+  border-color: #3d3d3d;
 }
 
-.formOptions{
+.formFooter{
+  margin-top: 1em;
+}
+
+.formOptions {
   margin: 0.5em;
 }
-
 
 .menuGroup {
   margin-top: 0.5em;
@@ -127,6 +148,7 @@
 
 .menuIcon {
   color: #939393;
+  margin-right: 0.25em;
 }
 
 .menuItem > img {
@@ -143,7 +165,7 @@
 }
 
 .menuList {
-  background-color: #3D3D3D;
+  background-color: #000814;
 }
 
 .menuMore {
@@ -152,25 +174,42 @@
 }
 
 .modalAccount {
-  background-color: #3D3D3D;
-  }
+  background-color: #3d3d3d;
+}
 
-.newsDashboardPrimary{
-  padding:0;
+.newsCategoryIcon {
+  background-color: #939393;
+  margin-right: 0.25em;
+  border-radius: 25%;
+}
+
+.newsDashboardPrimary {
+  padding: 0;
   padding-bottom: 1em;
 }
 
-.newsPrimaryHeader{
+.newsFocusHeading {
+  display: grid;
+  grid-template-columns: 93% 5% 2%;
+  grid-template-rows: 65% 35%;
+}
+
+.newsPrimaryHeader {
   padding-left: 1em;
 }
 
-.newsSecondaryHeader{
+.newsSecondaryHeader {
   font-size: 10pt;
+}
+
+.newsTitle {
+  font-weight: 600;
 }
 
 .offcanvas {
   max-width: 80%;
-  background-color: #3D3D3D;
+  background-color: #000814;
+  border-color: #001d3d;
   color: white;
 }
 
@@ -193,6 +232,11 @@
   margin-right: 0.5em;
 }
 
+.stock-image{
+  max-width: 100%;
+  margin-bottom:1em;
+}
+
 .stockGraphic {
   max-width: 100%;
 }
@@ -202,7 +246,17 @@
   font-size: 10pt;
 }
 
-a:link, a:visited {       
+.urlButton{
+  margin-left:0.5em;
+  margin-bottom:1em;
+}
+
+.viewArticleButton {
+  padding-top: 0.4rem;
+}
+
+a:link,
+a:visited {
   text-decoration: none;
   color: white;
 }
@@ -213,15 +267,12 @@ a:active {
 
 body {
   font-family: "Roboto", sans-serif;
-  max-width: 768px;
-  margin: 0 auto;
-  background-color: #535353;
-  color:white;
+  background-color: #000814;
+  color: white;
 }
 
 @media only screen and (max-width: 700px) {
-
-  #adminTableContainer{
+  #adminTableContainer {
     overflow-x: scroll;
   }
 }

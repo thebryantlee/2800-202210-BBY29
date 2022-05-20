@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Main Page - Tech to the Moon</title>
+    <title>News Page - Tech to the Moon</title>
     <meta name="author" content="BCIT" />
     <meta name="author" content="Jacob Romano Carlsen" />
     <!-- Required meta tags -->
@@ -29,9 +29,6 @@
   </head>
 
   <body>
-    <div id="submit">
-      <div id="submit1"></div>
-    </div>
     <nav id="navButtons">
       <button
         class="btn btn-light"
@@ -47,7 +44,7 @@
         />
       </button>
 
-      <span id="appName">Tech to the Moon - PC Part Price Tracker</span>
+      <span id="appName">Tech to the Moon - Latest News</span>
       <button
         class="btn btn-light"
         id="profileButton"
@@ -64,18 +61,57 @@
       </button>
     </nav>
 
+    <div id="submit1"></div>
+    <div id="submit"></div>
+
     <main>
-      <div class="container" id="contentSection">
-        <div id="tempAlert">
-          <div id="wait"></div>
-        </div>
-        <div id="stockFavourites">
-          <div class="contentHeader">
-            <p>PC PART PRICES</p>
-            <button class="btn btn-primary" id="addUrl">Add Item</button> 
+      <!--This is the beginning of the main content of the page.-->
+      <div id="contentSection">
+        <div class="album py-5">
+          <div class="container">
+            <div id="tempAlert"></div>
+            <div class="row" id="insertNewsHere"></div>
+            <div id="newsFocusedContainer">
+              <div class="modal" tabindex="-1" id="newsFocusedModal">
+                <div
+                  class="modal-dialog modal-xl modal-fullscreen-md-down modal-dialog-centered modal-dialog-scrollable"
+                >
+                  <div class="modal-content bg-dark">
+                    <div class="modal-header newsFocusHeading">
+                      <h5 class="modal-title col-10" id="newsFocusedTitle">
+                        Modal title
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close btn-lg btn-close-white col-2 float-end"
+                        id="newsFocusCloseButton"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+
+                      <h6
+                        class="modal-subtitle mb-2 text-muted"
+                        id="newsFocusedAuthor"
+                      >
+                        Modal Author
+                      </h6>
+                    </div>
+                    <div></div>
+
+                    <div class="modal-body" id="newsFocusedText">
+                      <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                      <p class="mb-2 text-muted" id="newsFocusedDate">
+                        Modal Date
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div id="urlForm"></div>
-          <div id="items"></div>
+        </div>
       </div>
     </main>
 
@@ -89,8 +125,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="/js/main.js"></script>
-    <script src="/js/profile.js"></script>
     <script src="/js/menu.js"></script>
-    <script src="/js/price.js"></script>
+    <script src="/js/news.js"></script>
   </body>
 </html>
