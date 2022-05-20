@@ -295,7 +295,7 @@ app.post("/add_item", function (req, res) {
 
 app.get("/get_items", function (req, res) {
   connection.execute(
-    "SELECT url FROM BBY29_item_tracker WHERE item_user_ID = " + req.session.user_ID,
+    "SELECT * FROM BBY29_item_tracker WHERE item_user_ID = " + req.session.user_ID,
     function (error, results, fields) {
       if(error) {
         console.log(error);
@@ -313,38 +313,55 @@ app.get("/get_items", function (req, res) {
 
 app.post("/get_item_details", async function (req, res) {
   const item_url = req.body.url;
-    const browser =  await puppeteer.launch({ headless: true });
-    const page =  await browser.newPage();
-    console.log("opened the browser");
-    await page.goto(item_url);
-    console.log("got here :)");
-    try{
+  var title;
+  var priceStr;
+  var imgUrl;
+  try{
+      const browser =  await puppeteer.launch({ headless: true });
+      const page =  await browser.newPage();
+      await page.goto(item_url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await page.waitForSelector('#productTitle', { visible: true});
+      await page.waitForSelector('.a-offscreen', { visible: true});
+
+        
       const result =  await page.evaluate(() => {
-      console.log("TESTING");
-      var title = document.getElementById("productTitle").innerHTML;
-      var imgUrl = document.getElementById('landingImage').src;
-      var priceStr = document.querySelector('.a-offscreen').innerHTML;    
-       console.log(title);
-       console.log(priceStr);
-       return {
-         title,
-         imgUrl,
-         priceStr
-       };
+       return [
+        JSON.stringify(document.getElementById("productTitle").innerHTML),
+        JSON.stringify(document.getElementById('landingImage').src),
+        JSON.stringify(document.getElementsByClassName('a-offscreen')[0].innerHTML)
+       ];
     });
+    [title] = [ JSON.parse(result[0]) ];
+    [priceStr] = [ JSON.parse(result[2]) ];
+    [imgUrl] = [ JSON.parse(result[1]) ];
+    console.log({ title });
+    console.log({ priceStr });    
+    console.log({ imgUrl });
+    browser.close();
   } catch(error) {
     console.log(error);
-  }    
-    browser.close();
-    res.send({
-      status: "success",
-      msg:"Record added.",
-    });
+  }   
+
+  connection.execute(
+    "UPDATE BBY29_item_tracker SET title = ?, priceStr = ?, imgUrl = ? WHERE ID = " + req.body.id,
+    [title, priceStr, imgUrl],
+    function (error, results, fields) {
+      if(error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
 
     // document.getElementsByClassName("title").innerHTML = result.title;
     // document.getElementsByClassName("price").innerHTML = result.priceStr;
     // document.getElementsByClassName("imgUrl").src = result.imgUrl;
-  });
 // Gabriel's code (end)
 
 function hash(pw) {
