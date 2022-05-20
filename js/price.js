@@ -27,7 +27,7 @@ async function getItems() {
         if (response[j].title != null && !temp) {
           item.innerHTML =
             '<div class="card bg-dark text-white mb-4 box-shadow">' +
-            '<div class="card-header cardCategory">' +
+            '<div class="card-header">' +
             '<h5 class="card-title newsTitle">' +
             response[j].title +
             "</h5>" +
@@ -144,6 +144,7 @@ async function addUrl(e) {
   var temp = document.getElementById("formid");
   var wrapper = document.createElement("div");
   wrapper.setAttribute("id", "formid");
+  wrapper.setAttribute("class", "container bg-dark");
   if (!temp) {
     wrapper.innerHTML =
       '<div class="row g-3 align-items-center">' +
@@ -157,8 +158,8 @@ async function addUrl(e) {
       '<span id="urlHelpInline" class="form-text">' +
       "Must be a valid URL." +
       "</span>" +
-      '<button type="submit" class="btn btn-primary" onclick="addItem()">Submit</button>' +
-      '<button class="btn btn-primary" onclick="clearUrlForm()">Cancel</button>' +
+      '<button class="btn btn-secondary formOptions" onclick="clearUrlForm()">Cancel</button>' +
+      '<button type="submit" class="btn btn-primary formOptions" onclick="addItem()">Submit</button>' +
       "</div>" +
       "</div>";
     formPlaceholder.append(wrapper);
