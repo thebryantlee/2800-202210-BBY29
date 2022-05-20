@@ -32,7 +32,7 @@ const dbConfigHeroku = {
 };
 
 const dbConfigLocal = {
-  host: 'localhost',
+  host: "localhost",
   user: "root",
   password: "",
   database: "COMP2800",
@@ -318,8 +318,14 @@ app.post("/get_item_details", async function (req, res) {
       waitUntil: "domcontentloaded",
       timeout: 60000,
     });
-    await page.waitForSelector("#productTitle", { visible: true });
-    await page.waitForSelector(".a-offscreen", { visible: true });
+    try {
+      await page.waitForSelector("#productTitle", { visible: true });
+      await page.waitForSelector(".a-offscreen", { visible: true });
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+      return;
+    }
 
     const result = await page.evaluate(() => {
       return [
@@ -810,7 +816,6 @@ app.put("/updateCheckout", function (req, res) {
 
 // App.get function to get the current cart
 app.get("/currentCart", function (req, res) {
-
   connection.execute(
     "SELECT item5, item6, item1, item2, item3, item4 FROM BBY29_user WHERE ID = ?",
     [req.session.user_ID],
@@ -831,7 +836,6 @@ app.get("/currentCart", function (req, res) {
 
 // App.get function to get checkout
 app.get("/currentCheckout", function (req, res) {
-
   connection.execute(
     "SELECT checkedout FROM BBY29_user WHERE ID = ?",
     [req.session.user_ID],
