@@ -359,9 +359,26 @@ app.post("/get_item_details", async function (req, res) {
   );
 });
 
-    // document.getElementsByClassName("title").innerHTML = result.title;
-    // document.getElementsByClassName("price").innerHTML = result.priceStr;
-    // document.getElementsByClassName("imgUrl").src = result.imgUrl;
+app.post("/delete_item", function(req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const item_id = req.body.id;
+
+  connection.execute(
+    "DELETE FROM BBY29_item_tracker WHERE ID = ?",
+    [item_id],
+    function(error, results, fields) {
+      if(error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
 // Gabriel's code (end)
 
 function hash(pw) {
