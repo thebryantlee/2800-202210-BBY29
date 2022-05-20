@@ -29,9 +29,9 @@ const dbConfigHeroku = {
 }
 
 const dbConfigLocal = {
-  host: "localhost",
+  host: '127.0.0.1',
   user: "root",
-  password: "",
+  password: "comp1537",
   database: "COMP2800",
   multipleStatements: false
 }
@@ -371,5 +371,215 @@ app.get("/current_user", function (req, res) {
 
 // Jacob's code (end)
 // Heroku Dynamically assigns port via process.env.PORT.
+
+app.put("/updateItem5", function (req, res) {
+  const item5 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item5 = ? WHERE ID = ?",
+    [item5, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateItem6", function (req, res) {
+  const item6 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item6 = ? WHERE ID = ?",
+    [item6, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateItem1", function (req, res) {
+  const item1 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item1 = ? WHERE ID = ?",
+    [item1, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateItem2", function (req, res) {
+  const item2 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item2 = ? WHERE ID = ?",
+    [item2, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateItem3", function (req, res) {
+  const item3 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item3 = ? WHERE ID = ?",
+    [item3, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateItem4", function (req, res) {
+  const item4 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item4 = ? WHERE ID = ?",
+    [item4, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateCheckout", function (req, res) {
+  // what to put for const
+  const checkedout = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET checkedout = ? WHERE ID = ?",
+    [item4, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+// App.get function to get the current cart
+app.get("/currentCart", function (req, res) {
+
+  connection.execute(
+    "SELECT item5, item6, item1, item2, item3, item4 FROM BBY29_user WHERE ID = ?",
+    [req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+// App.get function to get checkout
+app.get("/currentCheckout", function (req, res) {
+
+  connection.execute(
+    "SELECT checkedout FROM BBY29_user WHERE ID = ?",
+    [req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.get("/shop", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("shop.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/summary", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("shop-summary.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/checkout", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("shop-confirm.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
 // When running locally process.env.PORT is undefined so runs on port 8000
 app.listen(process.env.PORT || 8000);

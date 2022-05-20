@@ -10,7 +10,14 @@ CREATE TABLE BBY29_user (
   admin boolean,
   password VARCHAR(50),
   avatar_path int,
-  PRIMARY KEY (ID)
+  PRIMARY KEY (ID),
+  item1 int,
+  item2 int,
+  item3 int,
+  item4 int,
+  item5 int,
+  item6 int,
+  checkedout boolean
 );
 
 INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, admin, password, avatar_path) VALUES

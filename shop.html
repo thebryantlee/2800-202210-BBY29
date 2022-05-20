@@ -6,7 +6,7 @@
 	<title>Tech to the Moon | Products</title>
 	<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css'>
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
-	<link rel="stylesheet" href="./style.css">
+	<link rel="stylesheet" href="./css/shop.css">
 
 </head>
 
@@ -27,14 +27,19 @@
 				<div class="col-md-6 col-lg-4 col-xl-3">
 					<div id="product-5" class="single-product">
 						<div class="part-1">
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-							</ul>
 						</div>
 						<div class="part-2">
 							<h3 class="product-title">TTTM PopSocket</h3>
 							<h4 class="product-price">$14.99</h4>
 						</div>
+						<div class="col-md-4 quantity">
+							<label for="product-5-quantity">Quantity:</label>
+							<input id="product-5-quantity" type="number" min="0" max="999" value="1"
+								class="form-control quantity-input">
+						</div>
+						<button id="product-5-button">
+							Add to Cart
+						</button>
 					</div>
 				</div>
 				<!-- Single Product -->
@@ -42,23 +47,25 @@
 					<div id="product-6" class="single-product">
 						<div class="part-1">
 							<span class="new">new</span>
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-							</ul>
 						</div>
 						<div class="part-2">
 							<h3 class="product-title">TTTM Water Bottle</h3>
 							<h4 class="product-price">$24.99</h4>
 						</div>
+						<div class="col-md-4 quantity">
+							<label for="product-6-quantity">Quantity:</label>
+							<input id="product-6-quantity" type="number" min="0" max="999" value="1"
+								class="form-control quantity-input">
+						</div>
+						<button id="product-6-button">
+							Add to Cart
+						</button>
 					</div>
 				</div>
 				<!-- Single Product -->
 				<div class="col-md-6 col-lg-4 col-xl-3">
 					<div id="product-1" class="single-product">
 						<div class="part-1">
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-							</ul>
 						</div>
 						<div class="part-2">
 
@@ -66,55 +73,83 @@
 							<h4 class="product-price">$19.99</h4>
 						</div>
 					</div>
+					<div class="col-md-4 quantity">
+						<label for="product-1-quantity">Quantity:</label>
+						<input id="product-1-quantity" type="number" min="0" max="999" value="1"
+							class="form-control quantity-input">
+					</div>
+					<button id="product-1-button">
+						Add to Cart
+					</button>
 				</div>
 				<!-- Single Product -->
 				<div class="col-md-6 col-lg-4 col-xl-3">
 					<div id="product-2" class="single-product">
 						<div class="part-1">
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-							</ul>
 						</div>
 						<div class="part-2">
 							<h3 class="product-title">TTTM Phone case</h3>
 							<h4 class="product-price">$24.99</h4>
 						</div>
 					</div>
+					<div class="col-md-4 quantity">
+						<label for="product-2-quantity">Quantity:</label>
+						<input id="product-2-quantity" type="number" min="0" max="999" value="1"
+							class="form-control quantity-input">
+					</div>
+					<button id="product-2-button">
+						Add to Cart
+					</button>
 				</div>
 				<!-- Single Product -->
 				<div class="col-md-6 col-lg-4 col-xl-3">
 					<div id="product-3" class="single-product">
 						<div class="part-1">
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-							</ul>
 						</div>
 						<div class="part-2">
 							<h3 class="product-title">TTTM Mug</h3>
 							<h4 class="product-price">$9.99</h4>
 						</div>
 					</div>
+					<div class="col-md-4 quantity">
+						<label for="product-3-quantity">Quantity:</label>
+						<input id="product-3-quantity" type="number" min="0" max="999" value="1"
+							class="form-control quantity-input">
+					</div>
+					<button id="product-3-button">
+						Add to Cart
+					</button>
 				</div>
 				<!-- Single Product -->
 				<div class="col-md-6 col-lg-4 col-xl-3">
 					<div id="product-4" class="single-product">
 						<div class="part-1">
 							<span class="new">new</span>
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-							</ul>
 						</div>
 						<div class="part-2">
 							<h3 class="product-title">TTTM Hat</h3>
 							<h4 class="product-price">$17.99</h4>
 						</div>
 					</div>
+					<div class="col-md-4 quantity">
+						<label for="product-4-quantity">Quantity:</label>
+						<input id="product-4-quantity" type="number" min="0" max="999" value="1"
+							class="form-control quantity-input">
+					</div>
+					<button id="product-4-button">
+						Add to Cart
+					</button>
 				</div>
 			</div>
 		</div>
 	</section>
+	<button id="confirmShop" onclick="location.href = '/shop-summary.html'">
+		Checkout
+	</button>
 	<!-- partial -->
 
 </body>
+
+<script src="/js/shop-store.js"></script>
 
 </html>

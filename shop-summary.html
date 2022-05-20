@@ -42,6 +42,7 @@
                                         </div>
                                         <div class="col-md-8">
                                             <div class="info">
+                                                <!-- Copy row for each item first, then dynamically populate. -->
                                                 <div class="row">
                                                     <div class="col-md-5 product-name">
                                                         <div class="product-name">
@@ -54,10 +55,12 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 quantity">
-                                                        <label for="quantity">Quantity:</label>
-                                                        <!-- TODO: display and pull values from database based on selection -->
-                                                        <input id="quantity" type="number" min="0" max="999" value="1"
+                                                        <label for="product-5-quantity">Quantity:</label>
+                                                        <input id="product-5-quantity" type="number" min="0" max="999" value="1"
                                                             class="form-control quantity-input">
+                                                            <button id="product-5-button">
+                                                                Update Cart
+                                                            </button>
                                                     </div>
                                                     <div class="col-md-3 price">
                                                         <span class="product-line-price">$120</span>

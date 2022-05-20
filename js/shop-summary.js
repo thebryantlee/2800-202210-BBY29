@@ -1,57 +1,190 @@
+window.addEventListener("load", loadItems);
 document.getElementById('checkout-button').addEventListener('click', checkout);
 
-// Recalculate the shopping cart
-function recalculateCart() {
-    const taxRate = 0.12;
-    const shipping = 5.00;
-    var subtotal = 0;
-
-    // Subtotals
-    $('.item').each(function () {
-        subtotal += parseFloat($(this).children('.product-line-price').text());
-    });
-
-    // Forumlas for tax and total amounts
-    var tax = subtotal * taxRate;
-    var total = subtotal + shipping + tax;
-
-    // Updating the displayed total
-    $('.totals-value').fadeOut(fadeTime, function () {
-        $('#cart-subtotal').html(subtotal.toFixed(2));
-        $('#cart-shipping').html(shipping.toFixed(2));
-        $('#cart-tax').html(tax.toFixed(2));
-        $('.cart-total').html(total.toFixed(2));
-    });
-}
-
-// Update quantity
-function updateQuantity(quantityInput) {
-    // Calculate line price
-    var productRow = $(quantityInput).parent().parent();
-    var price = parseFloat(productRow.children('.product-price').text());
-    var quantity = $(quantityInput).val();
-    var linePrice = price * quantity;
-
-    // Update line price display and recalc cart totals
-    productRow.children('.product-line-price').each(function () {
-        // What goes into fadeOut?
-        $(this).fadeOut(function () {
-            $(this).text(linePrice.toFixed(2));
-            recalculateCart();
+function loadItems() {
+    try {
+        let responseObject = await fetch('/currentCart', {
+            method: 'GET',
+            headers: {
+                "Accept": 'application/json',
+                "Content-Type": 'application/json'
+            }
         });
-    });
+        if (responseObject.status === 200) {
+            console.log(responseObject)
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-// Remove item from cart
-function removeItem(removeButton) {
-    // Remove row from DOM and recalculate cart total
-    var productRow = $(removeButton).parent().parent();
-    productRow.slideUp(fadeTime, function () {
-        productRow.remove();
-        recalculateCart();
-    });
+document.getElementById('product-5-button').onclick = function() {
+    const quantity = document.getElementById('product-5-quantity').value;
+    console.log(quantity);
+    const putObj = {
+        quantity
+    };
+    try {
+        let responseObject = fetch('/updateItem5', {
+            method: 'PUT',
+            headers: {
+                "Accept": 'application/json',
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify(putObj)
+        });
+        if (responseObject.status === 200) {
+            console.log(responseObject)
+            loadItems();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+document.getElementById('product-6-button').onclick = function() {
+    const quantity = document.getElementById('product-6-quantity').value;
+    console.log(quantity);
+    const putObj = {
+        quantity
+    };
+    try {
+        let responseObject = fetch('/updateItem6', {
+            method: 'PUT',
+            headers: {
+                "Accept": 'application/json',
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify(putObj)
+        });
+        if (responseObject.status === 200) {
+            console.log(responseObject)
+            loadItems();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+document.getElementById('product-1-button').onclick = function() {
+    const quantity = document.getElementById('product-1-quantity').value;
+    console.log(quantity);
+    const putObj = {
+        quantity
+    };
+    try {
+        let responseObject = fetch('/updateItem1', {
+            method: 'PUT',
+            headers: {
+                "Accept": 'application/json',
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify(putObj)
+        });
+        if (responseObject.status === 200) {
+            console.log(responseObject)
+            loadItems();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+document.getElementById('product-2-button').onclick = function() {
+    const quantity = document.getElementById('product-2-quantity').value;
+    console.log(quantity);
+    const putObj = {
+        quantity
+    };
+    try {
+        let responseObject = fetch('/updateItem2', {
+            method: 'PUT',
+            headers: {
+                "Accept": 'application/json',
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify(putObj)
+        });
+        if (responseObject.status === 200) {
+            console.log(responseObject)
+            loadItems();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+document.getElementById('product-3-button').onclick = function() {
+    const quantity = document.getElementById('product-3-quantity').value;
+    console.log(quantity);
+    const putObj = {
+        quantity
+    };
+    try {
+        let responseObject = fetch('/updateItem3', {
+            method: 'PUT',
+            headers: {
+                "Accept": 'application/json',
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify(putObj)
+        });
+        if (responseObject.status === 200) {
+            console.log(responseObject)
+            loadItems();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+document.getElementById('product-4-button').onclick = function() {
+    const quantity = document.getElementById('product-4-quantity').value;
+    console.log(quantity);
+    const putObj = {
+        quantity
+    };
+    try {
+        let responseObject = fetch('/updateItem4', {
+            method: 'PUT',
+            headers: {
+                "Accept": 'application/json',
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify(putObj)
+        });
+        if (responseObject.status === 200) {
+            console.log(responseObject)
+            loadItems();
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function checkout() {
+    document.getElementById('checkout-button').onclick = function() {
+        const quantity = document.getElementById('checkout-button').value;
+        console.log(quantity);
+        const putObj = {
+            quantity
+        };
+        try {
+            let responseObject = fetch('/updateCheckout', {
+                method: 'PUT',
+                headers: {
+                    "Accept": 'application/json',
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify(putObj)
+            });
+            if (responseObject.status === 200) {
+                console.log(responseObject)
+                loadItems();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     location.href = "/shop-confirm.html";
 }
