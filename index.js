@@ -6,8 +6,8 @@ const fs = require("fs");
 const mysql = require("mysql2");
 const crypto = require("crypto");
 
-const puppeteer = require('puppeteer');
-require('dotenv').config();
+const puppeteer = require("puppeteer");
+require("dotenv").config();
 
 // Typically salt should be added by process.env but for purpose of application
 // we have hard coded it
@@ -274,20 +274,14 @@ app.post("/add_item", function (req, res) {
 
   connection.execute(
     "INSERT INTO BBY29_item_tracker (item_user_ID, url, title, priceStr, imgUrl) values (?, ?, ?, ?, ?)",
-    [
-      user,
-      url,
-      null,
-      null,
-      null,
-    ],
-    function(error, results, fields) {
-      if(error) {
+    [user, url, null, null, null],
+    function (error, results, fields) {
+      if (error) {
         console.log(error);
       }
       res.send({
         status: "success",
-        msg:"Record added.",
+        msg: "Record added.",
       });
     }
   );
@@ -295,20 +289,21 @@ app.post("/add_item", function (req, res) {
 
 app.get("/get_items", function (req, res) {
   connection.execute(
-    "SELECT * FROM BBY29_item_tracker WHERE item_user_ID = " + req.session.user_ID,
+    "SELECT * FROM BBY29_item_tracker WHERE item_user_ID = " +
+      req.session.user_ID,
     function (error, results, fields) {
-      if(error) {
+      if (error) {
         console.log(error);
         res.sendStatus(500);
       } else {
-        if(results.length > 0) {
+        if (results.length > 0) {
           res.send(results);
         } else {
-          res.sendStatus(400);
+          res.send(results);
         }
       }
     }
-  )
+  );
 });
 
 app.post("/get_item_details", async function (req, res) {
@@ -316,37 +311,42 @@ app.post("/get_item_details", async function (req, res) {
   var title;
   var priceStr;
   var imgUrl;
-  try{
-      const browser =  await puppeteer.launch({ headless: true });
-      const page =  await browser.newPage();
-      await page.goto(item_url, { waitUntil: 'domcontentloaded', timeout: 60000 });
-      await page.waitForSelector('#productTitle', { visible: true});
-      await page.waitForSelector('.a-offscreen', { visible: true});
-
-        
-      const result =  await page.evaluate(() => {
-       return [
-        JSON.stringify(document.getElementById("productTitle").innerHTML),
-        JSON.stringify(document.getElementById('landingImage').src),
-        JSON.stringify(document.getElementsByClassName('a-offscreen')[0].innerHTML)
-       ];
+  try {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+    await page.goto(item_url, {
+      waitUntil: "domcontentloaded",
+      timeout: 60000,
     });
-    [title] = [ JSON.parse(result[0]) ];
-    [priceStr] = [ JSON.parse(result[2]) ];
-    [imgUrl] = [ JSON.parse(result[1]) ];
+    await page.waitForSelector("#productTitle", { visible: true });
+    await page.waitForSelector(".a-offscreen", { visible: true });
+
+    const result = await page.evaluate(() => {
+      return [
+        JSON.stringify(document.getElementById("productTitle").innerHTML),
+        JSON.stringify(document.getElementById("landingImage").src),
+        JSON.stringify(
+          document.getElementsByClassName("a-offscreen")[0].innerHTML
+        ),
+      ];
+    });
+    [title] = [JSON.parse(result[0])];
+    [priceStr] = [JSON.parse(result[2])];
+    [imgUrl] = [JSON.parse(result[1])];
     console.log({ title });
-    console.log({ priceStr });    
+    console.log({ priceStr });
     console.log({ imgUrl });
     browser.close();
-  } catch(error) {
+  } catch (error) {
     console.log(error);
-  }   
+  }
 
   connection.execute(
-    "UPDATE BBY29_item_tracker SET title = ?, priceStr = ?, imgUrl = ? WHERE ID = " + req.body.id,
+    "UPDATE BBY29_item_tracker SET title = ?, priceStr = ?, imgUrl = ? WHERE ID = " +
+      req.body.id,
     [title, priceStr, imgUrl],
     function (error, results, fields) {
-      if(error) {
+      if (error) {
         console.log(error);
         res.sendStatus(500);
       } else {
@@ -359,15 +359,15 @@ app.post("/get_item_details", async function (req, res) {
   );
 });
 
-app.post("/delete_item", function(req, res) {
+app.post("/delete_item", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const item_id = req.body.id;
 
   connection.execute(
     "DELETE FROM BBY29_item_tracker WHERE ID = ?",
     [item_id],
-    function(error, results, fields) {
-      if(error) {
+    function (error, results, fields) {
+      if (error) {
         console.log(error);
         res.sendStatus(500);
       } else {

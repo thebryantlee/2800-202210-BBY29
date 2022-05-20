@@ -130,6 +130,10 @@
   color: grey !important;
 }
 
+.easterEggImage{
+  max-width: 100%;
+}
+
 .formEntry {
   border-color: #3d3d3d;
 }

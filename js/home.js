@@ -1,4 +1,7 @@
 window.addEventListener("load", getRecentNews);
+document
+  .getElementById("easterEggStonks")
+  .addEventListener("click", stonkFunction);
 
 function getRecentNews() {
   const newsLocation = document.getElementById("insertRecentNewsHere");
@@ -54,7 +57,10 @@ function getRecentNews() {
       const primaryLink = document.getElementById("primaryRecentNewsLink");
       primaryTitle.innerHTML = response[0].title;
       primarySample.innerHTML = getSampleText(response[0].full_article);
-      primaryLink.setAttribute("onclick", "viewNewsArticle(" + response[0].ID + ")");
+      primaryLink.setAttribute(
+        "onclick",
+        "viewNewsArticle(" + response[0].ID + ")"
+      );
 
       const secondary1Category = document.getElementById(
         "secondaryNews1Category"
@@ -70,7 +76,10 @@ function getRecentNews() {
       const date1 = new Date(response[1].post_datetime).toDateString();
       secondary1Datetime.innerHTML = date1;
       secondary1Sample.innerHTML = getSampleText(response[1].full_article);
-      secondary1Link.setAttribute("onclick", "viewNewsArticle(" + response[1].ID + ")");
+      secondary1Link.setAttribute(
+        "onclick",
+        "viewNewsArticle(" + response[1].ID + ")"
+      );
 
       const secondary2Category = document.getElementById(
         "secondaryNews2Category"
@@ -86,7 +95,10 @@ function getRecentNews() {
       const date2 = new Date(response[2].post_datetime).toDateString();
       secondary2Datetime.innerHTML = date2;
       secondary2Sample.innerHTML = getSampleText(response[2].full_article);
-      secondary2Link.setAttribute("onclick", "viewNewsArticle(" + response[2].ID + ")");
+      secondary2Link.setAttribute(
+        "onclick",
+        "viewNewsArticle(" + response[2].ID + ")"
+      );
     }
   };
 
@@ -193,4 +205,17 @@ function openNewsArticle() {
   );
 
   modal.show();
+}
+
+function stonkFunction() {
+  const location = document.getElementById("easterEggStonks");
+  location.innerHTML =
+    "STONKS" +
+    '<div class="container">' +
+    "<img" +
+    ' src="/img/images/stonks.png"' +
+    ' alt="Stonks image"' +
+    ' class="easterEggImage"' +
+    "/>" +
+    "</div>";
 }

@@ -7,6 +7,13 @@ async function getItems() {
   xhr.onload = function () {
     if (this.status == 200) {
       const response = JSON.parse(this.responseText);
+      if (response.length == 0) {
+        const messageLocation = document.getElementById("noTrackersMessage");
+        messageLocation.innerHTML =
+          '<h5 class="text-muted">' +
+          "There are no items currently being tracked!" +
+          "</h5>";
+      }
       for (let i = 0; i < response.length; i++) {
         updatePrices(response[i].url, response[i].ID);
       }
@@ -174,6 +181,8 @@ async function addItem() {
     if (responseObject.status == 200) {
       itemAlert();
       clearUrlForm();
+      const messageLocation = document.getElementById("noTrackersMessage");
+      messageLocation.innerHTML = "";
     } else {
       console.log(error);
     }
