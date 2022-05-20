@@ -8,17 +8,47 @@ async function getItems() {
     if(this.status == 200) {
       const response = JSON.parse(this.responseText);
       for(let i = 0; i < response.length; i++) { 
-        updatePrices(response[i].url);
+        updatePrices(response[i].url, response[i].ID);
+      }
+      const itemLocation = document.getElementById("items");
+      for (let j = 0; j < response.length; j++) {
+        var item = document.createElement("div");
+        item.setAttribute("class", "col-md-4");
+        item.setAttribute("id", "article-" + response[j].ID);
+        if(response[j].title != null) {
+           item.innerHTML =
+          '<div class="card bg-dark text-white mb-4 box-shadow">' +
+          '<div class="card-header cardCategory">' +
+          '<h5 class="card-title newsTitle">' +
+          response[j].title +
+          "</h5>" +
+          '<div class="card-body">' +
+          '<p class="card-text">' +
+          "Current Price: " + response[j].priceStr + 
+          "</p>" +
+          '<img src="' + response[j].imgUrl + '" alt="amazon-images" class="stock-image" />' +
+          '<div class="d-flex justify-content-between align-items-center">' +
+          '<div class="btn-group newsButtonLocation" id="card-' +
+          response[j].ID +
+          '">' +
+          '<button class="btn btn-sm btn-light deleteNewsButton" onclick=""><img src="/img/icons/basic/trash_full.svg" alt="trash bin image"></button>' +
+          "</div>" +
+          "</div>" +
+          "</div>" +
+          "</div>" +
+          "</div>";
+          itemLocation.appendChild(item);
+        }      
       }
     }
   };
-  xhr.open("GET", `/get_items`, true);
-  xhr.send(); 
+  xhr.send();
 }
 
-async function updatePrices(e) {
+async function updatePrices(e, f) {
   const data = {
-    url: e
+    url: e,
+    id: f
   };
   try {
       let responseObject = await fetch("/get_item_details", {
@@ -47,7 +77,7 @@ async function clearUrlForm(){
 async function addUrl(e) {
   var formPlaceholder = document.getElementById("urlForm");
   var temp = document.getElementById("formid");
-  var wrapper = document.createElement("div");
+  var wrapper = document.createElement("form");
   wrapper.setAttribute("id", "formid");
   if(!temp) {
     wrapper.innerHTML =
@@ -84,8 +114,7 @@ async function addItem() {
       body: JSON.stringify(formData),
     });
     if(responseObject.status == 200) {
-      // clearUrlForm();
-      console.log("got to here.");
+      clearUrlForm();
     } else {
       console.log(error);
     }
