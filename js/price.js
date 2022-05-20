@@ -28,21 +28,75 @@ async function getItems() {
           "</p>" +
           '<img src="' + response[j].imgUrl + '" alt="amazon-images" class="stock-image" />' +
           '<div class="d-flex justify-content-between align-items-center">' +
-          '<div class="btn-group newsButtonLocation" id="card-' +
+          '<div class="btn-group newsButtonLocation" id="' +
           response[j].ID +
           '">' +
-          '<button class="btn btn-sm btn-light deleteNewsButton" onclick=""><img src="/img/icons/basic/trash_full.svg" alt="trash bin image"></button>' +
+          '<button class="btn btn-sm btn-light deleteItem"><img src="/img/icons/basic/trash_full.svg" alt="trash bin image"></button>' +
           "</div>" +
           "</div>" +
           "</div>" +
           "</div>" +
           "</div>";
           itemLocation.appendChild(item);
+
+          let delete_records = document.querySelectorAll(
+            "button[class='btn btn-sm btn-light deleteItem']"
+          );
+          for (let k = 0; k < delete_records.length; k++) {
+            delete_records[k].addEventListener("click", deleteItem);
+          }
         }      
       }
     }
   };
   xhr.send();
+}
+
+async function deleteItem(e) {
+  const data = {
+    id: e.target.parentNode.parentNode.id,
+  };
+  try {
+    let responseObject = await fetch("/delete_item", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (responseObject.status == 200) {
+      var alertPlaceholder = document.getElementById("tempAlert");
+      var temp = document.getElementById("alert-created");
+      var wrapper = document.createElement("div");
+      getItems();
+      if (!temp) {
+        wrapper.innerHTML =
+          '<div id="alert-created" class="alert alert-' +
+          "success" +
+          ' role="alert">' +
+          "Item Has Been Deleted." +
+          "</div>";
+        alertPlaceholder.append(wrapper);
+      } else {
+        var alertPlaceholder = document.getElementById("tempAlert");
+        var temp = document.getElementById("alert-created");
+        var wrapper = document.createElement("div");
+        if (!temp) {
+          wrapper.innerHTML =
+            '<div id="alert-created" class="alert alert-' +
+            "danger" +
+            ' role="alert">' +
+            "There was problem deleting that item." +
+            "</div>";
+          alertPlaceholder.append(wrapper);
+        }
+        console.log(responseObject.status);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function updatePrices(e, f) {
