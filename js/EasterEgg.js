@@ -38,7 +38,6 @@ var instructions = "up,down,right,left";
 var easterEggName = "TechtotheMoon was created by Team BBY29";
 
 var action = function () {
-    console.log("Triggered");
 };
 
 egg.addCode(instructions, action, easterEggName)
