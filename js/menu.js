@@ -19,8 +19,8 @@ function getMenus() {
     "</li>" +
     '<li class="list-group-item menuList">' +
     '<a href="#" class="disabled-link">' +
-    '<img src="/img/icons/arrow/compare.svg" alt="Compare arrows Icon" class="menuIcon"/>' +
-    "Compatibility Guides</a>" +
+    '<img src="/img/icons/basic/shopping-cart.svg" alt="Shopping cart Icon" class="menuIcon"/>' +
+    "Merchandise Store</a>" +
     "</li>" +
     '<li class="list-group-item menuList">' +
     '<a href="/news">' +
