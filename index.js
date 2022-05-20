@@ -29,9 +29,9 @@ const dbConfigHeroku = {
 }
 
 const dbConfigLocal = {
-  host: '127.0.0.1',
+  host: 'localhost',
   user: "root",
-  password: "comp1537",
+  password: "",
   database: "COMP2800",
   multipleStatements: false
 }
