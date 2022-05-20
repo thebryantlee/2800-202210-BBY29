@@ -17,9 +17,9 @@ CREATE TABLE BBY29_item_tracker (
   ID int NOT NULL AUTO_INCREMENT,
   item_user_ID int,
   url VARCHAR(400),
-  title VARCHAR(30),
-  priceStr VARCHAR(30),
-  imgUrl VARCHAR(40),
+  title VARCHAR(200),
+  priceStr VARCHAR(50),
+  imgUrl VARCHAR(350),
   PRIMARY KEY (ID),
   FOREIGN KEY (item_user_ID) REFERENCES BBY29_user(ID)
 );
