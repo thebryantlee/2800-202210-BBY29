@@ -100,6 +100,10 @@
   text-align: center;
 }
 
+.addCartButton{
+  margin-top: 0.5em;
+}
+
 .cardCategory {
   font-size: small;
 }
@@ -144,6 +148,10 @@
 
 .formOptions {
   margin: 0.5em;
+}
+
+.itemContainer{
+  padding:1em;
 }
 
 .menuGroup {
@@ -236,6 +244,10 @@
   margin-right: 0.5em;
 }
 
+.shopTitle{
+  padding:1em;
+}
+
 .stock-image{
   max-width: 100%;
   margin-bottom:1em;
@@ -248,6 +260,10 @@
 .stockHeader {
   margin: 0;
   font-size: 10pt;
+}
+
+.updateButton{
+  margin-top:0.5em;
 }
 
 .urlButton{
