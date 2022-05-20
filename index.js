@@ -23,11 +23,11 @@ app.use("/fonts", express.static("./fonts"));
 const is_heroku = process.env.IS_HEROKU || false;
 
 const dbConfigHeroku = {
-  host: "qz8si2yulh3i7gl3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+  host: "ebh2y8tqym512wqs.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
   port: 3306,
-  user: "x5jik86tot8uvxxj",
-  password: "i00fx64bxpqn6c86",
-  database: "m83arv6eoap3s9bs",
+  user: "qp4pykpoi4im9ma3",
+  password: "f3e5453kwi5dj8z8",
+  database: "vuj5jsaqhkrllnp5",
   multipleStatements: false,
 };
 
