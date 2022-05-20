@@ -1,4 +1,4 @@
-document.getElementById('product-5-button').onclick = function() {
+document.getElementById('product-5-button').onclick = function () {
     const quantity = document.getElementById('product-5-quantity').value;
     console.log(quantity);
     const putObj = {
@@ -21,7 +21,7 @@ document.getElementById('product-5-button').onclick = function() {
     }
 }
 
-document.getElementById('product-6-button').onclick = function() {
+document.getElementById('product-6-button').onclick = function () {
     const quantity = document.getElementById('product-6-quantity').value;
     console.log(quantity);
     const putObj = {
@@ -44,7 +44,7 @@ document.getElementById('product-6-button').onclick = function() {
     }
 }
 
-document.getElementById('product-1-button').onclick = function() {
+document.getElementById('product-1-button').onclick = function () {
     const quantity = document.getElementById('product-1-quantity').value;
     console.log(quantity);
     const putObj = {
@@ -67,7 +67,7 @@ document.getElementById('product-1-button').onclick = function() {
     }
 }
 
-document.getElementById('product-2-button').onclick = function() {
+document.getElementById('product-2-button').onclick = function () {
     const quantity = document.getElementById('product-2-quantity').value;
     console.log(quantity);
     const putObj = {
@@ -90,7 +90,7 @@ document.getElementById('product-2-button').onclick = function() {
     }
 }
 
-document.getElementById('product-3-button').onclick = function() {
+document.getElementById('product-3-button').onclick = function () {
     const quantity = document.getElementById('product-3-quantity').value;
     console.log(quantity);
     const putObj = {
@@ -113,7 +113,7 @@ document.getElementById('product-3-button').onclick = function() {
     }
 }
 
-document.getElementById('product-4-button').onclick = function() {
+document.getElementById('product-4-button').onclick = function () {
     const quantity = document.getElementById('product-4-quantity').value;
     console.log(quantity);
     const putObj = {
@@ -135,3 +135,4 @@ document.getElementById('product-4-button').onclick = function() {
         console.log(error);
     }
 }
+

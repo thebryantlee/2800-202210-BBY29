@@ -1,7 +1,7 @@
 window.addEventListener("load", loadItems);
 document.getElementById('checkout-button').addEventListener('click', checkout);
 
-function loadItems() {
+async function loadItems() {
     try {
         let responseObject = await fetch('/currentCart', {
             method: 'GET',
@@ -170,7 +170,7 @@ function checkout() {
             quantity
         };
         try {
-            let responseObject = fetch('/updateCheckout', {
+            let responseObject = fetch('/checkout', {
                 method: 'PUT',
                 headers: {
                     "Accept": 'application/json',
