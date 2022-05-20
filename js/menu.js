@@ -18,7 +18,7 @@ function getMenus() {
     "PC Part Price Tracker</a>" +
     "</li>" +
     '<li class="list-group-item menuList">' +
-    '<a href="#" class="disabled-link">' +
+    '<a href="/shop">' +
     '<img src="/img/icons/basic/shopping-cart.svg" alt="Shopping cart Icon" class="menuIcon"/>' +
     "Merchandise Store</a>" +
     "</li>" +

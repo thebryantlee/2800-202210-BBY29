@@ -11,7 +11,14 @@ CREATE TABLE BBY29_user (
   password VARCHAR(50),
   avatar_path int,
   UNIQUE(user_name),
-  PRIMARY KEY (ID)
+  PRIMARY KEY (ID),
+  item1 int,
+  item2 int,
+  item3 int,
+  item4 int,
+  item5 int,
+  item6 int,
+  checkedout boolean
 );
 
 CREATE TABLE BBY29_item_tracker (
