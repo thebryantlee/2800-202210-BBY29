@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PC Price Tracker Page - Tech to the Moon</title>
+    <meta name="author" content="BCIT" />
+    <meta name="author" content="Jacob Romano Carlsen" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap Packages -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- My CSS Stylesheet -->
+    <link rel="stylesheet" href="/css/template.css" />
+  </head>
+
+  <body>
+    <div id="submit">
+      <div id="submit1"></div>
+    </div>
+    <nav id="navButtons">
+      <button
+        class="btn btn-light"
+        id="navButton"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasWithBackdrop"
+        aria-controls="offcanvasWithBackdrop"
+      >
+        <img
+          src="/img/icons/menu/hamburger-light.svg"
+          alt="Hamburger Menu Icon"
+        />
+      </button>
+
+      <span id="appName">Tech to the Moon - PC Part Price Tracker</span>
+      <button
+        class="btn btn-light"
+        id="profileButton"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasRight"
+        aria-controls="offcanvasRight"
+      >
+        <img
+          src="/img/icons/user/user_light.svg"
+          alt="User Profile Icon"
+          id="profileIcon"
+        />
+      </button>
+    </nav>
+
+    <main>
+      <div class="container" id="contentSection">
+        <div id="tempAlert">
+          <div id="wait"></div>
+        </div>
+        <div id="stockFavourites">
+          <div class="contentHeader">
+            <p>PC PART PRICES</p>
+            <button class="btn btn-primary" id="addUrl">Add Item</button> 
+          </div>
+          <div id="noTrackersMessage"></div>
+          <div id="urlForm"></div>
+          <div id="items"></div>
+      </div>
+    </main>
+
+    <div id="menus"></div>
+    <footer class="container">
+      <p>©2022 BBY-29, TTTM Inc.</p>
+    </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/menu.js"></script>
+    <script src="/js/price.js"></script>
+  </body>
+</html>

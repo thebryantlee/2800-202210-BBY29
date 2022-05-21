@@ -6,6 +6,9 @@ const fs = require("fs");
 const mysql = require("mysql2");
 const crypto = require("crypto");
 
+const puppeteer = require("puppeteer");
+require("dotenv").config();
+
 // Typically salt should be added by process.env but for purpose of application
 // we have hard coded it
 const salt = "VEhJU0lTU0FMVA==";
@@ -20,21 +23,21 @@ app.use("/fonts", express.static("./fonts"));
 const is_heroku = process.env.IS_HEROKU || false;
 
 const dbConfigHeroku = {
-  host: "qz8si2yulh3i7gl3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+  host: "ebh2y8tqym512wqs.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
   port: 3306,
-  user: "x5jik86tot8uvxxj",
-  password: "i00fx64bxpqn6c86",
-  database: "m83arv6eoap3s9bs",
-  multipleStatements: false
-}
+  user: "qp4pykpoi4im9ma3",
+  password: "f3e5453kwi5dj8z8",
+  database: "vuj5jsaqhkrllnp5",
+  multipleStatements: false,
+};
 
 const dbConfigLocal = {
   host: "localhost",
   user: "root",
   password: "",
   database: "COMP2800",
-  multipleStatements: false
-}
+  multipleStatements: false,
+};
 
 if (is_heroku) {
   var connection = mysql.createPool(dbConfigHeroku);
@@ -52,6 +55,29 @@ app.use(
 );
 
 app.get("/", function (req, res) {
+  if (req.session.loggedIn) {
+    if (req.session.admin) {
+      // redirect to admin page
+      res.redirect(`/profile/${req.session.user_name}`);
+    } else {
+      res.redirect(`/profile/${req.session.user_name}`);
+    }
+  } else {
+    let doc = fs.readFileSync("./landing.html", "utf8");
+    res.set("Server", "TechToTheMoon Engine");
+    res.set("X-Powered-By", "MoonPC");
+    res.send(doc);
+  }
+});
+
+app.get("/about", function (req, res) {
+  let doc = fs.readFileSync("./about.html", "utf8");
+  res.set("Server", "TechToTheMoon Engine");
+  res.set("X-Powered-By", "MoonPC");
+  res.send(doc);
+});
+
+app.get("/signin", function (req, res) {
   if (req.session.loggedIn) {
     if (req.session.admin) {
       // redirect to admin page
@@ -239,6 +265,138 @@ app.post("/delete_user", function (req, res) {
     }
   );
 });
+
+app.post("/add_item", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.session.user_ID;
+  const url = req.body.url;
+  console.log(user);
+
+  connection.execute(
+    "INSERT INTO BBY29_item_tracker (item_user_ID, url, title, priceStr, imgUrl) values (?, ?, ?, ?, ?)",
+    [user, url, null, null, null],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+      }
+      res.send({
+        status: "success",
+        msg: "Record added.",
+      });
+    }
+  );
+});
+
+app.get("/get_items", function (req, res) {
+  connection.execute(
+    "SELECT * FROM BBY29_item_tracker WHERE item_user_ID = " +
+    req.session.user_ID,
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length > 0) {
+          res.send(results);
+        } else {
+          res.send(results);
+        }
+      }
+    }
+  );
+});
+
+app.post("/get_item_details", async function (req, res) {
+  const item_url = req.body.url;
+  var title;
+  var priceStr;
+  var imgUrl;
+  try {
+    const browser = await puppeteer.launch({
+      headless: true
+    });
+    const page = await browser.newPage();
+    await page.goto(item_url, {
+      waitUntil: "domcontentloaded",
+      timeout: 60000,
+    });
+    try {
+      await page.waitForSelector("#productTitle", {
+        visible: true
+      });
+      await page.waitForSelector(".a-offscreen", {
+        visible: true
+      });
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+      return;
+    }
+
+    const result = await page.evaluate(() => {
+      return [
+        JSON.stringify(document.getElementById("productTitle").innerHTML),
+        JSON.stringify(document.getElementById("landingImage").src),
+        JSON.stringify(
+          document.getElementsByClassName("a-offscreen")[0].innerHTML
+        ),
+      ];
+    });
+    [title] = [JSON.parse(result[0])];
+    [priceStr] = [JSON.parse(result[2])];
+    [imgUrl] = [JSON.parse(result[1])];
+    console.log({
+      title
+    });
+    console.log({
+      priceStr
+    });
+    console.log({
+      imgUrl
+    });
+    browser.close();
+  } catch (error) {
+    console.log(error);
+  }
+
+  connection.execute(
+    "UPDATE BBY29_item_tracker SET title = ?, priceStr = ?, imgUrl = ? WHERE ID = " +
+    req.body.id,
+    [title, priceStr, imgUrl],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.post("/delete_item", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const item_id = req.body.id;
+
+  connection.execute(
+    "DELETE FROM BBY29_item_tracker WHERE ID = ?",
+    [item_id],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
 // Gabriel's code (end)
 
 function hash(pw) {
@@ -349,8 +507,28 @@ app.get("/account/:user_name", function (req, res) {
   }
 });
 
-app.get("/current_user", function (req, res) {
+app.get("/tracker", function (req, res) {
+  if (req.session.loggedIn) {
+    // Redirect to account page
+    res.redirect(`/tracker/${req.session.user_name}`);
+    console.log("Redirected to tracking page.");
+  } else {
+    res.redirect("/");
+  }
+});
 
+app.get("/tracker/:user_name", function (req, res) {
+  if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
+    let doc = fs.readFileSync("./tracker.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/tracker");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/current_user", function (req, res) {
   connection.execute(
     "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ?",
     [req.session.user_name],
@@ -369,7 +547,385 @@ app.get("/current_user", function (req, res) {
   );
 });
 
+app.post("/uploadNews", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.session.user_ID;
+  const title = req.body.title;
+  const datetime = req.body.post_datetime;
+  const categ = req.body.category;
+  const article = req.body.full_article;
+
+  //With password
+  connection.execute(
+    "INSERT INTO news_post (user_id, title, post_datetime, category, full_article) values (?, ?, ?, ?, ?)",
+    [user, title, datetime, categ, article],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.get("/news", function (req, res) {
+  if (req.session.loggedIn) {
+    // Redirect to account page
+    res.redirect(`/news/${req.session.user_name}`);
+    console.log("Redirected to news page.");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/news/:user_name", function (req, res) {
+  if (req.session.loggedIn && req.session.user_name === req.params.user_name) {
+    let doc = fs.readFileSync("./news.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/news");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/getNews", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT * FROM news_post ORDER BY post_datetime DESC",
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length > 0) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.get("/article/:articleID", function (req, res) {
+  connection.execute(
+    "SELECT * FROM news_post WHERE news_post.ID = " + req.params.articleID,
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.get("/get_user/:userID", function (req, res) {
+  connection.execute(
+    "SELECT * FROM BBY29_user WHERE BBY29_user.ID = " + req.params.userID,
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.post("/delete_news", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const id = req.body.id;
+
+  connection.execute(
+    "DELETE FROM news_post WHERE ID = ?",
+    [id],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record deleted.",
+        });
+      }
+    }
+  );
+});
+
+app.get("/recent_news", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT * FROM news_post ORDER BY post_datetime DESC LIMIT 3",
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length > 0) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
 // Jacob's code (end)
 // Heroku Dynamically assigns port via process.env.PORT.
+
+app.put("/updateItem5", function (req, res) {
+  const item5 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item5 = ? WHERE ID = ?",
+    [item5, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateItem6", function (req, res) {
+  const item6 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item6 = ? WHERE ID = ?",
+    [item6, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateItem1", function (req, res) {
+  const item1 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item1 = ? WHERE ID = ?",
+    [item1, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateItem2", function (req, res) {
+  const item2 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item2 = ? WHERE ID = ?",
+    [item2, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateItem3", function (req, res) {
+  const item3 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item3 = ? WHERE ID = ?",
+    [item3, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateItem4", function (req, res) {
+  const item4 = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET item4 = ? WHERE ID = ?",
+    [item4, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.put("/updateCheckout", function (req, res) {
+  // what to put for const
+  const checkedout = req.body.quantity;
+  connection.execute(
+    "UPDATE BBY29_user SET checkedout = ? WHERE ID = ?",
+    [item4, req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+// App.get function to get the current cart
+app.get("/currentCart", function (req, res) {
+  connection.execute(
+    "SELECT item5, item6, item1, item2, item3, item4 FROM BBY29_user WHERE ID = ?",
+    [req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+// App.get function to get checkout
+app.get("/currentCheckout", function (req, res) {
+  connection.execute(
+    "SELECT checkedout FROM BBY29_user WHERE ID = ?",
+    [req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length === 1) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.get("/shop", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("shop.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/summary", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("shop-summary.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/checkout", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("shop-confirm.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.post("/upload_cart", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.query(
+    "INSERT INTO BBY29_shopping_cart (user_name, quantityPopSocket, quantityBottle, quantityShirt, quantityCase, quantityMug, quantityHat, total, purchaseDate) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      req.session.user_name,
+      req.body.quantityPopSocket,
+      req.body.quantityBottle,
+      req.body.quantityShirt,
+      req.body.quantityCase,
+      req.body.quantityMug,
+      req.body.quantityHat,
+      req.body.total,
+      req.body.purchaseDate,
+    ],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
 // When running locally process.env.PORT is undefined so runs on port 8000
 app.listen(process.env.PORT || 8000);

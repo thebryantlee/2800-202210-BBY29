@@ -1,0 +1,54 @@
+#groupPhoto{
+    height:auto;
+    width: 100%;
+}
+
+#marketingContainer{
+    max-width: 100%;
+}
+
+#navbarLogo{
+    height: 3em;
+    border-radius: 50%;
+}
+
+.aboutImage{
+    width: 140px;
+    height: 140px;
+}
+
+.carousel-item{
+    text-align: center;
+}
+
+.carouselImage{
+    width:100%;
+    align-self: center;
+}
+
+.featureImage{
+max-width: 100%;
+}
+
+.row{
+    text-align: center;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+  } 
+
+  @media only screen and (max-width: 991px) {
+    #groupPhotoContainer{
+        width: 100%;
+        height:auto;
+    }
+  }
+
+@media only screen and (max-width: 770px) {
+
+    .carouselImage{
+        width: 300%;
+        align-self: center;
+    }
+  }

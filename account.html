@@ -49,15 +49,15 @@
       <div id="signOutButton"></div>
       <!--This is the beginning of the main content of the page.-->
       <div id="contentSection">
-        <h1 id="accountTitle">Account</h1>
-        <div id="alertLocation"></div>
-        <div id="passReminder"></div>
         <div id="formSection">
           <form
-            class="needs-validation"
+            class="needs-validation container"
             id="editAccountForm"
             oninput='pass2.setCustomValidity(pass2.value != pass.value ? "Passwords do not match." : "")'
           >
+            <h1 id="accountTitle">Account</h1>
+            <div id="alertLocation"></div>
+            <div id="passReminder"></div>
             <div class="form-floating mb-3">
               <select
                 class="form-select formEntry bg-secondary text-white"
