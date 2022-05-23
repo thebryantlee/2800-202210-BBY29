@@ -154,6 +154,11 @@
   padding:1em;
 }
 
+.itemTitle{
+  font-weight: 600;
+  text-decoration: underline !important;
+}
+
 .menuGroup {
   margin-top: 0.5em;
 }

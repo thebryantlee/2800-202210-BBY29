@@ -296,10 +296,10 @@ app.get("/get_items", function (req, res) {
         console.log(error);
         res.sendStatus(500);
       } else {
-        if (results.length > 0) {
+        if (results.length >= 0) {
           res.send(results);
         } else {
-          res.send(results);
+          res.sendStatus(500);
         }
       }
     }
@@ -315,24 +315,23 @@ app.post("/get_item_details", async function (req, res) {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto(item_url, {
-      waitUntil: "domcontentloaded",
-      timeout: 60000,
+      waitUntil: "networkidle2",
     });
-    try {
-      await page.waitForSelector("#productTitle", { visible: true });
-      await page.waitForSelector(".a-offscreen", { visible: true });
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-      return;
-    }
+    // await page.waitForSelector("#productTitle", { visible: true });
+    // await page.waitForSelector(".a-offscreen", { visible: true });
 
     const result = await page.evaluate(() => {
       return [
-        JSON.stringify(document.getElementById("productTitle").innerHTML),
-        JSON.stringify(document.getElementById("landingImage").src),
         JSON.stringify(
-          document.getElementsByClassName("a-offscreen")[0].innerHTML
+          document.querySelector('span[id="productTitle"').innerText
+        ),
+        JSON.stringify(
+          document.querySelector('div[id="imgTagWrapperId"] > img').src
+        ),
+        JSON.stringify(
+          document
+            .querySelector('span[class="a-offscreen"]')
+            .innerText.substring(1)
         ),
       ];
     });

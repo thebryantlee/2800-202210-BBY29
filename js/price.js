@@ -2,40 +2,43 @@ window.addEventListener("load", getItems);
 document.getElementById("addUrl").addEventListener("click", addUrl);
 
 async function getItems() {
+  const itemLocation = document.getElementById("items");
+  itemLocation.innerHTML = "";
   var xhr = new XMLHttpRequest();
   xhr.open("GET", `/get_items`, true);
   xhr.onload = function () {
     if (this.status == 200) {
       const response = JSON.parse(this.responseText);
-      if (response.length == 0) {
+      if (
+        response.length > 0 &&
+        !(response.length == 1 && response[0].priceStr == null)
+      ) {
         const messageLocation = document.getElementById("noTrackersMessage");
-        messageLocation.innerHTML =
-          '<h5 class="text-muted">' +
-          "There are no items currently being tracked!" +
-          "</h5>";
+        messageLocation.innerHTML = "";
       }
       for (let i = 0; i < response.length; i++) {
         updatePrices(response[i].url, response[i].ID);
       }
-      const itemLocation = document.getElementById("items");
       for (let j = 0; j < response.length; j++) {
         var item = document.createElement("div");
-        var temp = document.getElementById(response[j].ID);
 
         item.setAttribute("class", "col-md-4");
         item.setAttribute("id", "article-" + response[j].ID);
-        if (response[j].title != null && !temp) {
+        if (response[j].priceStr != null) {
           item.innerHTML =
             '<div class="card bg-dark text-white mb-4 box-shadow">' +
             '<div class="card-header">' +
-            '<h5 class="card-title newsTitle">' +
+            '<a class="card-title itemTitle" target="_blank" href="' +
+            response[j].url +
+            '">' +
             response[j].title +
-            "</h5>" +
+            "</a>" +
+            "</div>" +
             '<div class="card-body">' +
-            '<p class="card-text">' +
-            "Current Price: " +
+            '<h5 class="card-text">' +
+            "Current Price: $" +
             response[j].priceStr +
-            "</p>" +
+            "</h5>" +
             '<img src="' +
             response[j].imgUrl +
             '" alt="amazon-images" class="stock-image" />' +
@@ -47,16 +50,15 @@ async function getItems() {
             "</div>" +
             "</div>" +
             "</div>" +
-            "</div>" +
             "</div>";
           itemLocation.appendChild(item);
+        }
 
-          let delete_records = document.querySelectorAll(
-            "button[class='btn btn-sm btn-light deleteItem']"
-          );
-          for (let k = 0; k < delete_records.length; k++) {
-            delete_records[k].addEventListener("click", deleteItem);
-          }
+        let delete_records = document.querySelectorAll(
+          "button[class='btn btn-sm btn-light deleteItem']"
+        );
+        for (let k = 0; k < delete_records.length; k++) {
+          delete_records[k].addEventListener("click", deleteItem);
         }
       }
     }
@@ -184,6 +186,7 @@ async function addItem() {
       clearUrlForm();
       const messageLocation = document.getElementById("noTrackersMessage");
       messageLocation.innerHTML = "";
+      getItems();
     } else {
       console.log(error);
     }
@@ -201,7 +204,7 @@ async function itemAlert() {
       '<div id="alert-created1" class="alert alert-' +
       "success" +
       ' role="alert">' +
-      "Please Wait Up To Five Minutes To See Changes In Your Table." +
+      "Your item is successfully being tracked! Please wait up to five minutes to see your new tracker." +
       "</div>";
     alertPlaceholder.append(wrapper);
   }
