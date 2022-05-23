@@ -67,6 +67,8 @@
               pay for maintaining the site.
             </p>
           </div>
+          <div id="tempAlert">
+          </div>
           <div class="content bg-dark">
             <div class="row">
               <div class="col-md-12 col-lg-8">
@@ -99,7 +101,7 @@
                               <button class="btn btn-sm btn-light updateButton" id="product-5-button">Update Cart</button>
                             </div>
                             <div class="col-md-3 price">
-                              <span class="product-line-price">$14.99</span>
+                              <span class="product-line-price">x $14.99</span>
                             </div>
                           </div>
                         </div>
@@ -131,7 +133,7 @@
                               <button class="btn btn-sm btn-light updateButton" id="product-6-button">Update Cart</button>
                             </div>
                             <div class="col-md-3 price">
-                              <span class="product-line-price">$24.99</span>
+                              <span class="product-line-price">x $24.99</span>
                             </div>
                           </div>
                         </div>
@@ -163,7 +165,7 @@
                               <button class="btn btn-sm btn-light updateButton" id="product-1-button">Update Cart</button>
                             </div>
                             <div class="col-md-3 price">
-                              <span class="product-line-price">$19.99</span>
+                              <span class="product-line-price">x $19.99</span>
                             </div>
                           </div>
                         </div>
@@ -195,7 +197,7 @@
                               <button class="btn btn-sm btn-light updateButton" id="product-2-button">Update Cart</button>
                             </div>
                             <div class="col-md-3 price">
-                              <span class="product-line-price">$24.99</span>
+                              <span class="product-line-price">x $24.99</span>
                             </div>
                           </div>
                         </div>
@@ -227,7 +229,7 @@
                               <button class="btn btn-sm btn-light updateButton" id="product-3-button">Update Cart</button>
                             </div>
                             <div class="col-md-3 price">
-                              <span class="product-line-price">$9.99</span>
+                              <span class="product-line-price">x $9.99</span>
                             </div>
                           </div>
                         </div>
@@ -259,7 +261,7 @@
                               <button class="btn btn-sm btn-light updateButton" id="product-4-button">Update Cart</button>
                             </div>
                             <div class="col-md-3 price">
-                              <span class="product-line-price">$17.99</span>
+                              <span class="product-line-price">x $17.99</span>
                             </div>
                           </div>
                         </div>
@@ -274,22 +276,21 @@
                   <!-- Calculations need to be dynamic based on product ID -->
                   <li class="list-group-item bg-dark text-light">
                     <span class="text">Subtotal</span
-                    ><span class="cart-subtotal float-end">$112.94</span>
+                    ><span class="cart-subtotal float-end" id="subtotalLocation">112.94</span><span class="float-end">$</span>
                   </li>
                   <li class="list-group-item bg-dark text-light">
                     <span class="text">Shipping</span
-                    ><span class="cart-shipping float-end">$5.00</span>
+                    ><span class="cart-shipping float-end">5.00</span><span class="float-end">$</span>
                   </li>
                   <li class="list-group-item bg-dark text-light">
                     <span class="text">Tax</span
-                    ><span class="cart-tax float-end">$13.55</span>
+                    ><span class="cart-tax float-end" id="taxLocation">13.55</span><span class="float-end">$</span>
                   </li>
                   <li class="list-group-item bg-dark text-light">
                     <span class="text fw-bold">Total</span
-                    ><span class="cart-total float-end fw-bold">$131.49</span>
+                    ><span class="cart-total float-end fw-bold" id="totalLocation">131.49</span><span class="float-end">$</span>
                   </li>
-                  <a
-                    href="/checkout"
+                  <a href = "#"
                     id="checkout-button"
                     class="btn btn-primary btn-lg btn-block"
                     >Checkout</a

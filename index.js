@@ -290,7 +290,7 @@ app.post("/add_item", function (req, res) {
 app.get("/get_items", function (req, res) {
   connection.execute(
     "SELECT * FROM BBY29_item_tracker WHERE item_user_ID = " +
-      req.session.user_ID,
+    req.session.user_ID,
     function (error, results, fields) {
       if (error) {
         console.log(error);
@@ -312,13 +312,30 @@ app.post("/get_item_details", async function (req, res) {
   var priceStr;
   var imgUrl;
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      headless: true
+    });
     const page = await browser.newPage();
     await page.goto(item_url, {
       waitUntil: "networkidle2",
     });
+<<<<<<< HEAD
     // await page.waitForSelector("#productTitle", { visible: true });
     // await page.waitForSelector(".a-offscreen", { visible: true });
+=======
+    try {
+      await page.waitForSelector("#productTitle", {
+        visible: true
+      });
+      await page.waitForSelector(".a-offscreen", {
+        visible: true
+      });
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+      return;
+    }
+>>>>>>> 0a984950099b098ef37d2ffff68fb9109d49609d
 
     const result = await page.evaluate(() => {
       return [
@@ -338,9 +355,15 @@ app.post("/get_item_details", async function (req, res) {
     [title] = [JSON.parse(result[0])];
     [priceStr] = [JSON.parse(result[2])];
     [imgUrl] = [JSON.parse(result[1])];
-    console.log({ title });
-    console.log({ priceStr });
-    console.log({ imgUrl });
+    console.log({
+      title
+    });
+    console.log({
+      priceStr
+    });
+    console.log({
+      imgUrl
+    });
     browser.close();
   } catch (error) {
     console.log(error);
@@ -348,7 +371,7 @@ app.post("/get_item_details", async function (req, res) {
 
   connection.execute(
     "UPDATE BBY29_item_tracker SET title = ?, priceStr = ?, imgUrl = ? WHERE ID = " +
-      req.body.id,
+    req.body.id,
     [title, priceStr, imgUrl],
     function (error, results, fields) {
       if (error) {
@@ -884,6 +907,34 @@ app.get("/checkout", function (req, res) {
   } else {
     res.redirect("/");
   }
+});
+
+app.post("/upload_cart", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.query(
+    "INSERT INTO BBY29_shopping_cart (user_name, quantityPopSocket, quantityBottle, quantityShirt, quantityCase, quantityMug, quantityHat, total, purchaseDate) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      req.session.user_name,
+      req.body.quantityPopSocket,
+      req.body.quantityBottle,
+      req.body.quantityShirt,
+      req.body.quantityCase,
+      req.body.quantityMug,
+      req.body.quantityHat,
+      req.body.total,
+      req.body.purchaseDate,
+    ],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
 });
 
 // When running locally process.env.PORT is undefined so runs on port 8000

@@ -42,6 +42,21 @@ INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, a
 ('arronUser', 'Arron', 'User', 'arronuser@gmail.com', '7788904567', 0, '8uj2xIpNW29d5MwFEBfd5A==', 0);
 
 
+CREATE TABLE BBY29_shopping_cart (
+  ID int NOT NULL AUTO_INCREMENT,
+  user_name VARCHAR(30) NOT NULL,
+  quantityPopSocket int,
+  quantityBottle int,
+  quantityShirt int,
+  quantityCase int,
+  quantityMug int,
+  quantityHat int,
+  total float,
+  purchaseDate DATETIME,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (user_name) REFERENCES BBY29_user(user_name)
+);
+
 
 CREATE TABLE news_post (
   ID int NOT NULL AUTO_INCREMENT,
