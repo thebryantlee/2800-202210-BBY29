@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
     <title>Merchandise Store Page - Tech to the Moon</title>
+    <meta name="author" content="BCIT" />
+    <meta name="author" content="Kasra Esfahanian" />
+    <meta name="author" content="Jacob Romano Carlsen" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -28,7 +32,7 @@
   </head>
 
   <body>
-    <nav id="navButtons">
+    <nav class="fixed-top navContainer" id="navButtons">
       <button
         class="btn btn-light"
         id="navButton"
@@ -43,9 +47,9 @@
         />
       </button>
 
-      <span id="appName">Tech to the Moon - Merchandise Store</span>
+      <span id="appName">Tech to the Moon - Merch</span>
       <button
-        class="btn btn-light"
+        class="btn btn-light float-end"
         id="profileButton"
         type="button"
         data-bs-toggle="offcanvas"
@@ -58,206 +62,257 @@
           id="profileIcon"
         />
       </button>
+      <button
+        class="btn btn-light float-end"
+        id="shoppingCartButton"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasShoppingCart"
+        aria-controls="offcanvasShoppingCart"
+      >
+        <img
+          src="/img/icons/basic/shopping-cart.svg"
+          alt="Shopping cart icon"
+          id="shoppingCartIcon"
+        />
+      </button>
     </nav>
     <div id="submit">
       <div id="submit1"></div>
     </div>
-    <!-- partial:index.partial.html -->
-    <section class="section-products">
-      <div class="container text-white">
-        <div class="row justify-content-center text-center">
-          <div class="col-md-8 col-lg-6">
-            <div class="header bg-light rounded shopTitle">
-              <h2>Tech to the Moon Store</h2>
-              <h3>Shop in style</h3>
+    <main>
+      <div class="section-products" id="contentSection">
+        <div class="container text-white">
+          <div class="row justify-content-center text-center">
+            <div class="col-md-8 col-lg-6">
+              <div class="header bg-light rounded shopTitle">
+                <h2>Tech to the Moon Store</h2>
+                <h3>Shop in style</h3>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-secondary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#shoppingHistoryModal"
+                >
+                  Purchase History
+                </button>
+              </div>
             </div>
           </div>
+          <div class="row">
+            <!-- Single Product -->
+            <div class="col-sm-auto col-md-6 col-lg-4 col-xl-3">
+              <div id="product-5" class="single-product">
+                <div class="part-1"></div>
+                <div class="container bg-light text-dark itemContainer rounded">
+                  <div class="part-2">
+                    <h3 class="product-title">TTTM PopSocket</h3>
+                    <h4 class="product-price">$14.99</h4>
+                  </div>
+                  <div class="col-md-4 quantity">
+                    <label for="product-5-quantity">Quantity:</label>
+                    <input
+                      id="popsocket-quantity"
+                      type="number"
+                      min="0"
+                      max="999"
+                      value="1"
+                      class="form-control quantity-input"
+                    />
+                  </div>
+                  <button
+                    class="btn btn-primary addCartButton"
+                    id="add-popsocket-button"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Single Product -->
+            <div class="col-sm-auto col-md-6 col-lg-4 col-xl-3">
+              <div id="product-6" class="single-product">
+                <div class="part-1">
+                  <span class="new">new</span>
+                </div>
+                <div class="container bg-light text-dark itemContainer rounded">
+                  <div class="part-2">
+                    <h3 class="product-title">TTTM Water Bottle</h3>
+                    <h4 class="product-price">$24.99</h4>
+                  </div>
+                  <div class="col-md-4 quantity">
+                    <label for="product-6-quantity">Quantity:</label>
+                    <input
+                      id="water-bottle-quantity"
+                      type="number"
+                      min="0"
+                      max="999"
+                      value="1"
+                      class="form-control quantity-input"
+                    />
+                  </div>
+                  <button
+                    class="btn btn-primary addCartButton"
+                    id="add-water-bottle-button"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Single Product -->
+            <div class="col-sm-auto col-md-6 col-lg-4 col-xl-3">
+              <div id="product-1" class="single-product">
+                <div class="part-1"></div>
+                <div class="container bg-light text-dark itemContainer rounded">
+                  <div class="part-2">
+                    <h3 class="product-title">TTTM T-Shirt</h3>
+                    <h4 class="product-price">$19.99</h4>
+                  </div>
+                  <div class="col-md-4 quantity">
+                    <label for="product-1-quantity">Quantity:</label>
+                    <input
+                      id="t-shirt-quantity"
+                      type="number"
+                      min="0"
+                      max="999"
+                      value="1"
+                      class="form-control quantity-input"
+                    />
+                  </div>
+                  <button
+                    class="btn btn-primary addCartButton"
+                    id="add-t-shirt-button"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Single Product -->
+            <div class="col-sm-auto col-md-6 col-lg-4 col-xl-3">
+              <div id="product-2" class="single-product">
+                <div class="part-1"></div>
+                <div class="container bg-light text-dark itemContainer rounded">
+                  <div class="part-2">
+                    <h3 class="product-title">TTTM Phone Case</h3>
+                    <h4 class="product-price">$24.99</h4>
+                  </div>
+                  <div class="col-md-4 quantity">
+                    <label for="product-2-quantity">Quantity:</label>
+                    <input
+                      id="phone-case-quantity"
+                      type="number"
+                      min="0"
+                      max="999"
+                      value="1"
+                      class="form-control quantity-input"
+                    />
+                  </div>
+                  <button
+                    class="btn btn-primary addCartButton"
+                    id="add-phone-case-button"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Single Product -->
+            <div class="col-sm-auto col-md-6 col-lg-4 col-xl-3">
+              <div id="product-3" class="single-product">
+                <div class="part-1"></div>
+                <div class="container bg-light text-dark itemContainer rounded">
+                  <div class="part-2">
+                    <h3 class="product-title">TTTM Mug</h3>
+                    <h4 class="product-price">$9.99</h4>
+                  </div>
+                  <div class="col-md-4 quantity">
+                    <label for="product-3-quantity">Quantity:</label>
+                    <input
+                      id="mug-quantity"
+                      type="number"
+                      min="0"
+                      max="999"
+                      value="1"
+                      class="form-control quantity-input"
+                    />
+                  </div>
+                  <button
+                    class="btn btn-primary addCartButton"
+                    id="add-mug-button"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Single Product -->
+            <div class="col-sm-auto col-md-6 col-lg-4 col-xl-3">
+              <div id="product-4" class="single-product">
+                <div class="part-1">
+                  <span class="new">new</span>
+                </div>
+                <div class="container bg-light text-dark itemContainer rounded">
+                  <div class="part-2">
+                    <h3 class="product-title">TTTM Hat</h3>
+                    <h4 class="product-price">$17.99</h4>
+                  </div>
+                  <div class="col-md-4 quantity">
+                    <label for="product-4-quantity">Quantity:</label>
+                    <input
+                      id="hat-quantity"
+                      type="number"
+                      min="0"
+                      max="999"
+                      value="1"
+                      class="form-control quantity-input"
+                    />
+                  </div>
+                  <button
+                    class="btn btn-primary addCartButton"
+                    id="add-hat-button"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <a href="/summary" class="btn btn-success" id="summaryShop">Summary</a> -->
         </div>
-        <div class="row">
-          <!-- Single Product -->
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div id="product-5" class="single-product">
-              <div class="part-1"></div>
-              <div class="container bg-light text-dark itemContainer rounded">
-                <div class="part-2">
-                  <h3 class="product-title">TTTM PopSocket</h3>
-                  <h4 class="product-price">$14.99</h4>
-                </div>
-                <div class="col-md-4 quantity">
-                  <label for="product-5-quantity">Quantity:</label>
-                  <input
-                    id="product-5-quantity"
-                    type="number"
-                    min="0"
-                    max="999"
-                    value="1"
-                    class="form-control quantity-input"
-                  />
-                </div>
-                <button
-                  class="btn btn-primary addCartButton"
-                  id="product-5-button"
-                >
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Single Product -->
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div id="product-6" class="single-product">
-              <div class="part-1">
-                <span class="new">new</span>
-              </div>
-              <div class="container bg-light text-dark itemContainer rounded">
-                <div class="part-2">
-                  <h3 class="product-title">TTTM Water Bottle</h3>
-                  <h4 class="product-price">$24.99</h4>
-                </div>
-                <div class="col-md-4 quantity">
-                  <label for="product-6-quantity">Quantity:</label>
-                  <input
-                    id="product-6-quantity"
-                    type="number"
-                    min="0"
-                    max="999"
-                    value="1"
-                    class="form-control quantity-input"
-                  />
-                </div>
-                <button
-                  class="btn btn-primary addCartButton"
-                  id="product-6-button"
-                >
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Single Product -->
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div id="product-1" class="single-product">
-              <div class="part-1"></div>
-              <div class="container bg-light text-dark itemContainer rounded">
-                <div class="part-2">
-                  <h3 class="product-title">TTTM T-Shirt</h3>
-                  <h4 class="product-price">$19.99</h4>
-                </div>
-                <div class="col-md-4 quantity">
-                  <label for="product-1-quantity">Quantity:</label>
-                  <input
-                    id="product-1-quantity"
-                    type="number"
-                    min="0"
-                    max="999"
-                    value="1"
-                    class="form-control quantity-input"
-                  />
-                </div>
-                <button
-                  class="btn btn-primary addCartButton"
-                  id="product-1-button"
-                >
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Single Product -->
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div id="product-2" class="single-product">
-              <div class="part-1"></div>
-              <div class="container bg-light text-dark itemContainer rounded">
-                <div class="part-2">
-                  <h3 class="product-title">TTTM Phone Case</h3>
-                  <h4 class="product-price">$24.99</h4>
-                </div>
-                <div class="col-md-4 quantity">
-                  <label for="product-2-quantity">Quantity:</label>
-                  <input
-                    id="product-2-quantity"
-                    type="number"
-                    min="0"
-                    max="999"
-                    value="1"
-                    class="form-control quantity-input"
-                  />
-                </div>
-                <button
-                  class="btn btn-primary addCartButton"
-                  id="product-2-button"
-                >
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Single Product -->
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div id="product-3" class="single-product">
-              <div class="part-1"></div>
-              <div class="container bg-light text-dark itemContainer rounded">
-                <div class="part-2">
-                  <h3 class="product-title">TTTM Mug</h3>
-                  <h4 class="product-price">$9.99</h4>
-                </div>
-                <div class="col-md-4 quantity">
-                  <label for="product-3-quantity">Quantity:</label>
-                  <input
-                    id="product-3-quantity"
-                    type="number"
-                    min="0"
-                    max="999"
-                    value="1"
-                    class="form-control quantity-input"
-                  />
-                </div>
-                <button
-                  class="btn btn-primary addCartButton"
-                  id="product-3-button"
-                >
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Single Product -->
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <div id="product-4" class="single-product">
-              <div class="part-1">
-                <span class="new">new</span>
-              </div>
-              <div class="container bg-light text-dark itemContainer rounded">
-                <div class="part-2">
-                  <h3 class="product-title">TTTM Hat</h3>
-                  <h4 class="product-price">$17.99</h4>
-                </div>
-                <div class="col-md-4 quantity">
-                  <label for="product-4-quantity">Quantity:</label>
-                  <input
-                    id="product-4-quantity"
-                    type="number"
-                    min="0"
-                    max="999"
-                    value="1"
-                    class="form-control quantity-input"
-                  />
-                </div>
-                <button
-                  class="btn btn-primary addCartButton"
-                  id="product-4-button"
-                >
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-          <a href="/summary" class="btn btn-success" id="summaryShop">Summary</a>
-        <div id="menus"></div>
       </div>
-    </section>
+    </main>
+    <div id="menus"></div>
+    <div id="shoppingCartMenu"></div>
+    <div id="shoppingHistoryContainer">
+      <div class="modal" tabindex="-1" id="shoppingHistoryModal">
+        <div
+          class="modal-dialog modal-xl modal-fullscreen-md-down modal-dialog-centered modal-dialog-scrollable"
+        >
+          <div class="modal-content bg-dark">
+            <div class="modal-header">
+              <h5 class="modal-title col-10" id="purchaseHistoryTitle">
+                Purchase History
+              </h5>
+              <button
+                type="button"
+                class="btn-close btn-close-white col-2 float-end"
+                id="newsFocusCloseButton"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div class="modal-body" id="historyContainer">
+              <div class="conatiner" id="insertHistoryHere"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <footer class="container">
+      <p class="float-end"><a href="#">Back to top</a></p>
       <p>©2022 BBY-29, TTTM Inc.</p>
     </footer>
     <script
