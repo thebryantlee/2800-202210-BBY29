@@ -290,7 +290,7 @@ app.post("/add_item", function (req, res) {
 app.get("/get_items", function (req, res) {
   connection.execute(
     "SELECT * FROM BBY29_item_tracker WHERE item_user_ID = " +
-    req.session.user_ID,
+      req.session.user_ID,
     function (error, results, fields) {
       if (error) {
         console.log(error);
@@ -313,29 +313,14 @@ app.post("/get_item_details", async function (req, res) {
   var imgUrl;
   try {
     const browser = await puppeteer.launch({
-      headless: true
+      headless: true,
     });
     const page = await browser.newPage();
     await page.goto(item_url, {
       waitUntil: "networkidle2",
     });
-<<<<<<< HEAD
     // await page.waitForSelector("#productTitle", { visible: true });
     // await page.waitForSelector(".a-offscreen", { visible: true });
-=======
-    try {
-      await page.waitForSelector("#productTitle", {
-        visible: true
-      });
-      await page.waitForSelector(".a-offscreen", {
-        visible: true
-      });
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-      return;
-    }
->>>>>>> 0a984950099b098ef37d2ffff68fb9109d49609d
 
     const result = await page.evaluate(() => {
       return [
@@ -356,13 +341,13 @@ app.post("/get_item_details", async function (req, res) {
     [priceStr] = [JSON.parse(result[2])];
     [imgUrl] = [JSON.parse(result[1])];
     console.log({
-      title
+      title,
     });
     console.log({
-      priceStr
+      priceStr,
     });
     console.log({
-      imgUrl
+      imgUrl,
     });
     browser.close();
   } catch (error) {
@@ -371,7 +356,7 @@ app.post("/get_item_details", async function (req, res) {
 
   connection.execute(
     "UPDATE BBY29_item_tracker SET title = ?, priceStr = ?, imgUrl = ? WHERE ID = " +
-    req.body.id,
+      req.body.id,
     [title, priceStr, imgUrl],
     function (error, results, fields) {
       if (error) {
@@ -699,182 +684,150 @@ app.get("/recent_news", function (req, res) {
   );
 });
 
+app.get("/getShoppingSessionItems", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT * FROM shopping_cart_item WHERE userID = " + req.session.user_ID,
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length >= 0) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.post("/addCartItem", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.session.user_ID;
+  const itemID = req.body.itemID;
+  const quantity = req.body.quantity;
+
+  connection.execute(
+    "INSERT INTO shopping_cart_item (userID, productID, quantity) values (?, ?, ?)",
+    [user, itemID, quantity],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Cart Item added.",
+        });
+      }
+    }
+  );
+});
+
+app.post("/delete_cart_item", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.session.user_ID;
+  const itemID = req.body.itemID;
+
+  connection.execute(
+    "DELETE FROM shopping_cart_item WHERE ID = ? AND userID = ?",
+    [itemID, user],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Cart item deleted.",
+        });
+      }
+    }
+  );
+});
+
+app.get("/delete_cart", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "DELETE FROM shopping_cart_item WHERE userID = " + req.session.user_ID,
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "All cart items deleted.",
+        });
+      }
+    }
+  );
+});
+
+app.get("/getShoppingQuantities", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT productID, SUM(quantity) as count FROM shopping_cart_item WHERE userID = ? GROUP BY productID",
+    [req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send(results);
+      }
+    }
+  );
+});
+
+app.post("/upload_cart", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.query(
+    "INSERT INTO shopping_order_history (userID, quantityPopSocket, quantityBottle, quantityShirt, quantityCase, quantityMug, quantityHat, total, purchaseDate) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      req.session.user_ID,
+      req.body.quantityPopSocket,
+      req.body.quantityBottle,
+      req.body.quantityShirt,
+      req.body.quantityCase,
+      req.body.quantityMug,
+      req.body.quantityHat,
+      req.body.total,
+      req.body.purchaseDate,
+    ],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Purchase added to history.",
+        });
+      }
+    }
+  );
+});
+
+app.get("/get_purchase_history", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT * FROM shopping_order_history WHERE userID = ?",
+    [req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send(results);
+      }
+    }
+  );
+});
 // Jacob's code (end)
+
 // Heroku Dynamically assigns port via process.env.PORT.
-
-app.put("/updateItem5", function (req, res) {
-  const item5 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item5 = ? WHERE ID = ?",
-    [item5, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateItem6", function (req, res) {
-  const item6 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item6 = ? WHERE ID = ?",
-    [item6, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateItem1", function (req, res) {
-  const item1 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item1 = ? WHERE ID = ?",
-    [item1, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateItem2", function (req, res) {
-  const item2 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item2 = ? WHERE ID = ?",
-    [item2, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateItem3", function (req, res) {
-  const item3 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item3 = ? WHERE ID = ?",
-    [item3, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateItem4", function (req, res) {
-  const item4 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item4 = ? WHERE ID = ?",
-    [item4, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateCheckout", function (req, res) {
-  // what to put for const
-  const checkedout = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET checkedout = ? WHERE ID = ?",
-    [item4, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-// App.get function to get the current cart
-app.get("/currentCart", function (req, res) {
-  connection.execute(
-    "SELECT item5, item6, item1, item2, item3, item4 FROM BBY29_user WHERE ID = ?",
-    [req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        if (results.length === 1) {
-          res.send(results);
-        } else {
-          res.sendStatus(400);
-        }
-      }
-    }
-  );
-});
-
-// App.get function to get checkout
-app.get("/currentCheckout", function (req, res) {
-  connection.execute(
-    "SELECT checkedout FROM BBY29_user WHERE ID = ?",
-    [req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        if (results.length === 1) {
-          res.send(results);
-        } else {
-          res.sendStatus(400);
-        }
-      }
-    }
-  );
-});
 
 app.get("/shop", function (req, res) {
   if (req.session.loggedIn) {
@@ -907,34 +860,6 @@ app.get("/checkout", function (req, res) {
   } else {
     res.redirect("/");
   }
-});
-
-app.post("/upload_cart", function (req, res) {
-  res.setHeader("Content-Type", "application/json");
-  connection.query(
-    "INSERT INTO BBY29_shopping_cart (user_name, quantityPopSocket, quantityBottle, quantityShirt, quantityCase, quantityMug, quantityHat, total, purchaseDate) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [
-      req.session.user_name,
-      req.body.quantityPopSocket,
-      req.body.quantityBottle,
-      req.body.quantityShirt,
-      req.body.quantityCase,
-      req.body.quantityMug,
-      req.body.quantityHat,
-      req.body.total,
-      req.body.purchaseDate,
-    ],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
 });
 
 // When running locally process.env.PORT is undefined so runs on port 8000
