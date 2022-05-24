@@ -55,6 +55,12 @@
   border-radius: 50%;
 }
 
+#insertHistoryHere{
+  border-color: #3d3d3d;
+  border-width: 1px;
+  border-style: solid;
+}
+
 #navButton {
   background-color: #000814;
   border: none;
@@ -85,6 +91,11 @@
   border: none;
 }
 
+#shoppingCartButton{
+  border:none;
+  background-color: #000814;
+}
+
 #signOutButton {
   background: none;
   border: none;
@@ -106,6 +117,12 @@
 
 .cardCategory {
   font-size: small;
+}
+
+.cartImage{
+  max-height: 150px;
+  width: auto;
+  padding:1em;
 }
 
 .content {
@@ -150,6 +167,21 @@
   margin: 0.5em;
 }
 
+.historyGroup{
+  padding-right: 0;
+}
+
+.historyImage{
+width: 35%;
+max-width: 150px;
+height: auto;
+padding:0.5em;
+}
+
+.historyLabel{
+  margin-right:0.5em;
+}
+
 .itemContainer{
   padding:1em;
 }
@@ -192,6 +224,10 @@
 
 .modalAccount {
   background-color: #3d3d3d;
+}
+
+.navContainer{
+  background-color: #000814;
 }
 
 .newsCategoryIcon {
