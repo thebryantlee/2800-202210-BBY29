@@ -35,7 +35,7 @@ function getTime() {
 
 // Gets the first message
 function firstBotMessage() {
-    let firstMessage = "Welcome to Tech to the Moon. Please enter in a message and I will try to assist you."
+    let firstMessage = "Welcome to Tech to the Moon. Please enter in a message and I will try to help you."
     document.getElementById("botStarterMessage").innerHTML = '<p class="botText"><span>' + firstMessage + '</span></p>';
 
     let time = getTime();
@@ -94,7 +94,7 @@ function sendButton() {
 }
 
 function heartButton() {
-    buttonSendText("Heart clicked!")
+    buttonSendText("Heart sent!")
 }
 
 // Press enter to send a message
