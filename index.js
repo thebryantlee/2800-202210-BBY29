@@ -292,10 +292,9 @@ app.post("/add_item", function (req, res) {
 
 app.get("/get_items", function (req, res) {
   connection.execute(
-    "SELECT * FROM BBY29_item_tracker WHERE user_ID = " +
-      req.session.user_ID,
+    "SELECT * FROM BBY29_item_tracker WHERE user_ID = " + req.session.user_ID,
     function (error, results, fields) {
-     if (error) {
+      if (error) {
         console.log(error);
         res.sendStatus(500);
       } else {
@@ -311,7 +310,6 @@ app.get("/get_items", function (req, res) {
 
 app.post("/get_item_details_amazon", async function (req, res) {
   const item_url = req.body.url;
-  var title;
   var priceStr;
   var imgUrl;
   try {
@@ -326,24 +324,18 @@ app.post("/get_item_details_amazon", async function (req, res) {
     const result = await page.evaluate(() => {
       return [
         JSON.stringify(
-          document.querySelector('span[id="productTitle"').innerText
-        ),
-        JSON.stringify(
           document.querySelector('div[id="imgTagWrapperId"] > img').src
         ),
         JSON.parse(
           document
             .querySelector('span[class="a-offscreen"]')
-            .innerText.substring(1).replace(/,/g, '')
+            .innerText.substring(1)
+            .replace(/,/g, "")
         ),
       ];
     });
-    [title] = [JSON.parse(result[0])];
-    [priceStr] = [JSON.parse(result[2])];
-    [imgUrl] = [JSON.parse(result[1])];
-    console.log({
-      title,
-    });
+    [priceStr] = [JSON.parse(result[1])];
+    [imgUrl] = [JSON.parse(result[0])];
     console.log({
       priceStr,
     });
@@ -356,9 +348,9 @@ app.post("/get_item_details_amazon", async function (req, res) {
   }
 
   connection.execute(
-    "UPDATE BBY29_item_tracker SET title = ?, priceAmazon = ?, imgUrl = ? WHERE ID = " +
+    "UPDATE BBY29_item_tracker SET priceAmazon = ?, imgUrl = ? WHERE ID = " +
       req.body.id,
-    [title, priceStr, imgUrl],
+    [priceStr, imgUrl],
     function (error, results, fields) {
       if (error) {
         console.log(error);
@@ -375,7 +367,6 @@ app.post("/get_item_details_amazon", async function (req, res) {
 
 app.post("/get_item_details_bestbuy", async function (req, res) {
   const item_url = req.body.url;
-  var title;
   var priceStr;
   try {
     const browser = await puppeteer.launch({
@@ -383,14 +374,11 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
     });
     const page = await browser.newPage();
     await page.goto(item_url, {
-      waitUntil: "networkidle0",
+      waitUntil: "networkidle2",
     });
 
     const result = await page.evaluate(() => {
       return [
-        JSON.stringify(
-          document.querySelector('h1[class="productName_2KoPa"').innerText
-        ),
         JSON.parse(
           document
             .querySelector('span[class="screenReaderOnly_2mubv large_3uSI_"]')
@@ -398,11 +386,7 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
         ),
       ];
     });
-    [title] = [JSON.parse(result[0])];
-    [priceStr] = [JSON.parse(result[1])];
-    console.log({
-      title,
-    });
+    [priceStr] = [JSON.parse(result[0])];
     console.log({
       priceStr,
     });
@@ -413,9 +397,8 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
   }
 
   connection.execute(
-    "UPDATE BBY29_item_tracker SET title = ?, priceBestBuy = ? WHERE ID = " +
-      req.body.id,
-    [title, priceStr],
+    "UPDATE BBY29_item_tracker SET priceBestBuy = ? WHERE ID = " + req.body.id,
+    [priceStr],
     function (error, results, fields) {
       if (error) {
         console.log(error);
@@ -432,7 +415,6 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
 
 app.post("/get_item_details_newegg", async function (req, res) {
   const item_url = req.body.url;
-  var title;
   var priceStr;
   try {
     const browser = await puppeteer.launch({
@@ -445,21 +427,15 @@ app.post("/get_item_details_newegg", async function (req, res) {
 
     const result = await page.evaluate(() => {
       return [
-        JSON.stringify(
-          document.querySelector('h1[class="product-title"').innerText
-        ),
         JSON.parse(
           document
             .querySelector('div[class="product-offer"]')
-            .children[1].innerText.substring(1).replace(/,/g, '')
+            .children[1].innerText.substring(1)
+            .replace(/,/g, "")
         ),
       ];
     });
-    [title] = [JSON.parse(result[0])];
-    [priceStr] = [JSON.parse(result[1])];
-    console.log({
-      title,
-    });
+    [priceStr] = [JSON.parse(result[0])];
     console.log({
       priceStr,
     });
@@ -469,9 +445,8 @@ app.post("/get_item_details_newegg", async function (req, res) {
   }
 
   connection.execute(
-    "UPDATE BBY29_item_tracker SET title = ?, priceNewEgg = ? WHERE ID = " +
-      req.body.id,
-    [title, priceStr],
+    "UPDATE BBY29_item_tracker SET priceNewEgg = ? WHERE ID = " + req.body.id,
+    [priceStr],
     function (error, results, fields) {
       if (error) {
         console.log(error);
