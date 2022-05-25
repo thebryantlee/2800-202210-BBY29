@@ -1,6 +1,5 @@
 window.addEventListener("load", getItems);
 window.addEventListener("load", removeButton);
-document.getElementById("updateTable").addEventListener("click", getItems);
 
 async function getItems() {
   removeButton();
@@ -19,17 +18,17 @@ async function getItems() {
         messageLocation.innerHTML = "";
       }
       for (let i = 0; i < response.length; i++) {
-         updatePrices(
+        updatePrices(
           "/get_item_details_amazon",
           response[i].urlAmazon,
           response[i].ID
         );
-         updatePrices(
+        updatePrices(
           "/get_item_details_bestbuy",
           response[i].urlBestBuy,
           response[i].ID
         );
-         updatePrices(
+        updatePrices(
           "/get_item_details_newegg",
           response[i].urlNewEgg,
           response[i].ID
@@ -111,8 +110,7 @@ function removeButton() {
 function returnButton() {
   var page = document.getElementById("insertUpdateHere");
   page.innerHTML =
-    '<button class="btn btn-primary" id="updateTable">Update</button>';
-  document.getElementById("updateTable").setAttribute("onclick", "getItems()");
+    '<button class="btn btn-primary" id="updateTable" onclick="getItems()">Update</button>';
 }
 
 function getUrlHref(link, type) {
@@ -186,6 +184,7 @@ async function deleteItem(e) {
         document
           .getElementById("closebtn" + count)
           .setAttribute("onclick", "this.parentElement.style.display='none'");
+        getItems();
       } else {
         var alertPlaceholder = document.getElementById("tempAlert");
         var temp = document.getElementById("alert-created " + count);
