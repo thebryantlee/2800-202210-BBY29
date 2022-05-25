@@ -3,7 +3,8 @@ document.getElementById("addUrl").addEventListener("click", addUrl);
 document.getElementById("updateTable").addEventListener("click", getItems);
 
 
-async function getItems() {
+async function getItems(e) {
+  e.preventDefault();
   const itemLocation = document.getElementById("items");
   itemLocation.innerHTML = "";
   var xhr = new XMLHttpRequest();
@@ -143,18 +144,20 @@ async function deleteItem(e) {
       body: JSON.stringify(data),
     });
     if (responseObject.status == 200) {
+      let count = Math.floor(Math.random() * 1000);
       var alertPlaceholder = document.getElementById("tempAlert");
       var temp = document.getElementById("alert-created");
       var wrapper = document.createElement("div");
-      getItems();
       if (!temp) {
         wrapper.innerHTML =
           '<div id="alert-created" class="alert alert-' +
           "success" +
           ' role="alert">' +
           "Item Has Been Deleted." +
+          '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' + count + '"aria-label="Close" ></button>' +
           "</div>";
         alertPlaceholder.append(wrapper);
+        document.getElementById("closebtn" + count).setAttribute("onclick", "this.parentElement.style.display='none'");
       } else {
         var alertPlaceholder = document.getElementById("tempAlert");
         var temp = document.getElementById("alert-created");
@@ -165,8 +168,10 @@ async function deleteItem(e) {
             "danger" +
             ' role="alert">' +
             "There was problem deleting that item." +
+            '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' + count + '"aria-label="Close" ></button>' +
             "</div>";
           alertPlaceholder.append(wrapper);
+          document.getElementById("closebtn" + count).setAttribute("onclick", "this.parentElement.style.display='none'");
         }
         console.log(responseObject.status);
       }
@@ -211,6 +216,8 @@ async function addUrl() {
   var wrapper = document.createElement("form");
   wrapper.setAttribute("id", "formid");
   wrapper.setAttribute("class", "container bg-dark");
+  wrapper.setAttribute("onsubmit", "return false");
+
   if (!temp) {
     wrapper.innerHTML =
       '<div class="row g-3 mb-3 align-items-center">' +
@@ -253,7 +260,7 @@ async function addUrl() {
       "</div>" + 
       '</form>';
     formPlaceholder.append(wrapper);
-    document.getElementById("additem").addEventListener("click", addItem);
+    document.getElementById("additem").setAttribute("onclick", "addItem()");
   }
 }
 
@@ -264,7 +271,8 @@ async function addItem() {
     bestBuyUrl: document.getElementById("bestBuyUrl").value,
     neweggUrl: document.getElementById("neweggUrl").value,
   };
-  try {
+  if(formData.amazonUrl.includes("amazon") && formData.bestBuyUrl.includes("bestbuy") && formData.neweggUrl.includes("newegg")) {
+      try {
     let responseObject = await fetch("/add_item", {
       method: "POST",
       headers: {
@@ -285,19 +293,45 @@ async function addItem() {
   } catch (error) {
     console.log(error);
   }
+  } else {
+    invalidLinkAlert();
+  }
 }
 
-async function itemAlert() {
-  var alertPlaceholder = document.getElementById("wait");
-  var temp = document.getElementById("alert-created1");
+async function invalidLinkAlert() {  
+  let count = Math.floor(Math.random() * 1000);
+  console.log(count);
+  var alertPlaceholder = document.getElementById("invalidurl");
+  var temp = document.getElementById("alert-created " + count);
   var wrapper = document.createElement("div");
+
   if (!temp) {
     wrapper.innerHTML =
-      '<div id="alert-created1" class="alert alert-' +
-      "success" +
+      '<div id="alert-created ' + count + '" class="alert alert-danger"' +
       ' role="alert">' +
-      "Your item is successfully being tracked! Please wait up to five minutes to see your new tracker." +
+      "One of the entered URLs were invalid please try again." +
+      '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' + count + '"aria-label="Close" ></button>' +
       "</div>";
     alertPlaceholder.append(wrapper);
+    document.getElementById("closebtn" + count).setAttribute("onclick", "this.parentElement.style.display='none'");
+  }
+}
+  
+async function itemAlert() {
+  let count = Math.floor(Math.random() * 1000);
+  var alertPlaceholder = document.getElementById("wait");
+  var temp = document.getElementById("alert-created " + count);
+  var wrapper = document.createElement("div");
+
+  if (!temp) {
+    wrapper.innerHTML =
+      '<div id="alert-created ' + count + '" class="alert alert-' +
+      "success" +
+      ' role="alert">' +
+      "Your item is being tracked! Please wait up to five minutes to see your new tracker." +
+      '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' + count + '"aria-label="Close" ></button>' +
+      "</div>";
+    alertPlaceholder.append(wrapper);
+    document.getElementById("closebtn" + count).setAttribute("onclick", "this.parentElement.style.display='none'");
   }
 }
