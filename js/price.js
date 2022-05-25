@@ -2,6 +2,7 @@ window.addEventListener("load", getItems);
 document.getElementById("addUrl").addEventListener("click", addUrl);
 document.getElementById("updateTable").addEventListener("click", getItems);
 
+
 async function getItems() {
   const itemLocation = document.getElementById("items");
   itemLocation.innerHTML = "";
@@ -207,7 +208,7 @@ async function clearUrlForm() {
 async function addUrl() {
   var formPlaceholder = document.getElementById("urlForm");
   var temp = document.getElementById("formid");
-  var wrapper = document.createElement("div");
+  var wrapper = document.createElement("form");
   wrapper.setAttribute("id", "formid");
   wrapper.setAttribute("class", "container bg-dark");
   if (!temp) {
@@ -223,7 +224,7 @@ async function addUrl() {
       '<label for="amazonUrl" class="col-form-label">Amazon URL</label>' +
       "</div>" +
       '<div class="col-11">' +
-      '<input type="text" id="amazonUrl" class="form-control" aria-describedby="urlHelpInline"> ' +
+      '<input type="text" id="amazonUrl" class="form-control" aria-describedby="urlHelpInline" required> ' +
       "</div>" +
       "</div>" +
       '<div class="row g-3 mb-3 align-items-center">' +
@@ -247,10 +248,12 @@ async function addUrl() {
       "Must be a valid URL." +
       "</span>" +
       '<button class="btn btn-secondary formOptions" onclick="clearUrlForm()">Cancel</button>' +
-      '<button type="submit" class="btn btn-primary formOptions" onclick="addItem()">Submit</button>' +
+      '<input type="submit" class="btn btn-primary" id="additem" value="Submit" ></input>' +
       "</div>" +
-      "</div>";
+      "</div>" + 
+      '</form>';
     formPlaceholder.append(wrapper);
+    document.getElementById("additem").addEventListener("click", addItem);
   }
 }
 
