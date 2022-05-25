@@ -69,19 +69,28 @@
         <div id="tempAlert">
           <div id="wait"></div>
         </div>
-        <div id="stockFavourites">
-          <div class="contentHeader">
+        <div id="stockFavourites mb-3">
+          <div class="contentHeader" id="pageHeader">
             <p>PC PART PRICES</p>
-            <button class="btn btn-primary float-start" id="addUrl">Add Item</button> 
-            <button class="btn btn-primary" id="updateTable">Update</button>
           </div>
-          <div id="noTrackersMessage">
-            <h5 class="text-muted">
-              There are no items currently being tracked!
-              </h5>
+          <div class="container">
+            <button
+              class="btn btn-primary float-start"
+              id="addUrl"
+              onclick="addUrl()"
+            >
+              Add Item
+            </button>
+            <div id="insertUpdateHere">
+              <button class="btn btn-primary" id="updateTable">Update</button>
+            </div>
           </div>
-          <div id="urlForm"></div>
-          <div class="row" id="items"></div>
+
+          <div class="mt-3" id="noTrackersMessage"></div>
+        </div>
+
+        <div id="urlForm"></div>
+        <div class="row col-12" id="items"></div>
       </div>
     </main>
 

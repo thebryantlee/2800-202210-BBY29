@@ -1,8 +1,9 @@
 window.addEventListener("load", getItems);
-document.getElementById("addUrl").addEventListener("click", addUrl);
+window.addEventListener("load", removeButton);
 document.getElementById("updateTable").addEventListener("click", getItems);
 
 async function getItems() {
+  removeButton();
   const itemLocation = document.getElementById("items");
   itemLocation.innerHTML = "";
   var xhr = new XMLHttpRequest();
@@ -10,7 +11,10 @@ async function getItems() {
   xhr.onload = function () {
     if (this.status == 200) {
       const response = JSON.parse(this.responseText);
-      if (response.length > 0 && !(response.length == 1 && response[0].priceStr == null)) {
+      if (
+        response.length > 0 &&
+        !(response.length == 1 && response[0].priceStr == null)
+      ) {
         const messageLocation = document.getElementById("noTrackersMessage");
         messageLocation.innerHTML = "";
       }
@@ -36,7 +40,10 @@ async function getItems() {
 
         item.setAttribute("class", "col-md-4");
         item.setAttribute("id", "article-" + response[j].ID);
-        if (response[j].priceAmazon != null && document.getElementById(response[j].ID) == null) {
+        if (
+          response[j].priceAmazon != null &&
+          document.getElementById(response[j].ID) == null
+        ) {
           item.innerHTML =
             '<div class="card bg-dark text-white mb-4 box-shadow">' +
             '<div class="card-header">' +
@@ -84,9 +91,27 @@ async function getItems() {
           delete_records[k].addEventListener("click", deleteItem);
         }
       }
+    } else {
+      const messageLocation = document.getElementById("noTrackersMessage");
+      messageLocation.innerHTML =
+        '<h5 class="text-muted">' +
+        "There are no items currently being tracked!" +
+        "</h5>";
     }
   };
   xhr.send();
+}
+
+function removeButton() {
+  var page = document.getElementById("insertUpdateHere");
+  page.innerHTML = "";
+  setTimeout(returnButton, 60000);
+}
+
+function returnButton() {
+  var page = document.getElementById("insertUpdateHere");
+  page.innerHTML =
+    '<button class="btn btn-primary" id="updateTable">Update</button>';
 }
 
 function getUrlHref(link, type) {
@@ -192,7 +217,7 @@ async function updatePrices(path, e, f) {
     });
     if (responseObject.status == 200) {
     } else {
-      console.log(error);
+      console.log(responseObject.status);
     }
   } catch (error) {
     console.log(error);
@@ -243,9 +268,6 @@ async function addUrl() {
       "</div>" +
       "</div>" +
       '<div class="col-auto">' +
-      '<span id="urlHelpInline" class="form-text">' +
-      "Must be a valid URL." +
-      "</span>" +
       '<button class="btn btn-secondary formOptions" onclick="clearUrlForm()">Cancel</button>' +
       '<button type="submit" class="btn btn-primary formOptions" onclick="addItem()">Submit</button>' +
       "</div>" +
@@ -255,6 +277,9 @@ async function addUrl() {
 }
 
 async function addItem() {
+  //If amazonUrl does not start with https://www.amazon.ca - Send an alert, return
+  //If bestBuyUrl does not start with https://www.amazon.ca - Send an alert, return
+  //If neweggUrl does not start with https://www.amazon.ca - Send an alert, return
   let formData = {
     modelName: document.getElementById("modelName").value,
     amazonUrl: document.getElementById("amazonUrl").value,
