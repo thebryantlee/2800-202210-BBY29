@@ -112,6 +112,7 @@ function returnButton() {
   var page = document.getElementById("insertUpdateHere");
   page.innerHTML =
     '<button class="btn btn-primary" id="updateTable">Update</button>';
+  document.getElementById("updateTable").setAttribute("onclick", "getItems()");
 }
 
 function getUrlHref(link, type) {
