@@ -17,7 +17,21 @@ async function getItems() {
         messageLocation.innerHTML = "";
       }
       for (let i = 0; i < response.length; i++) {
-        updatePrices(response[i].url, response[i].ID);
+        updatePrices(
+          "/update_amazon_price",
+          response[i].urlAmazon,
+          response[i].ID
+        );
+        updatePrices(
+          "/update_bestbuy_price",
+          response[i].urlBestBuy,
+          response[i].ID
+        );
+        updatePrices(
+          "/update_newegg_price",
+          response[i].urlNewEgg,
+          response[i].ID
+        );
       }
       for (let j = 0; j < response.length; j++) {
         var item = document.createElement("div");
@@ -28,16 +42,24 @@ async function getItems() {
           item.innerHTML =
             '<div class="card bg-dark text-white mb-4 box-shadow">' +
             '<div class="card-header">' +
-            '<a class="card-title itemTitle" target="_blank" href="' +
-            response[j].url +
-            '">' +
+            '<p class="card-title itemTitle">' +
             response[j].title +
-            "</a>" +
+            "</p>" +
             "</div>" +
             '<div class="card-body">' +
             '<h5 class="card-text">' +
-            "Current Price: $" +
-            response[j].priceStr +
+            "Lowest Price (" +
+            lowestSiteLocation(
+              response[j].priceAmazon,
+              response[j].priceBestBuy,
+              response[j].priceNewEgg
+            ) +
+            "): $" +
+            Math.min(
+              response[j].priceAmazon,
+              response[j].priceBestBuy,
+              response[j].priceNewEgg
+            ) +
             "</h5>" +
             '<img src="' +
             response[j].imgUrl +
@@ -46,6 +68,9 @@ async function getItems() {
             '<div class="btn-group newsButtonLocation" id="' +
             response[j].ID +
             '">' +
+            getUrlHref(response[j].urlAmazon, 0) +
+            getUrlHref(response[j].urlBestBuy, 1) +
+            getUrlHref(response[j].urlNewEgg, 2) +
             '<button class="btn btn-sm btn-light deleteItem"><img src="/img/icons/basic/trash_full.svg" alt="trash bin image"></button>' +
             "</div>" +
             "</div>" +
@@ -64,6 +89,45 @@ async function getItems() {
     }
   };
   xhr.send();
+}
+
+function getUrlHref(link, type) {
+  if (!link) {
+    return "";
+  } else {
+    switch (type) {
+      case 0:
+        var output =
+          '<a class="btn btn-sm btn-dark" target="_blank" href="' +
+          link +
+          '"><img src="/img/icons/brand/amazon-logo.svg" alt="amazon icon image"></a>';
+        return output;
+      case 1:
+        var output =
+          '<a class="btn btn-sm btn-dark" target="_blank" href="' +
+          link +
+          '"><img src="/img/icons/brand/best-buy-logo.svg" alt="best buy icon image"></a>';
+        return output;
+      case 2:
+        var output =
+          '<a class="btn btn-sm btn-dark" target="_blank" href="' +
+          link +
+          '"><img src="/img/icons/brand/newegg-logo.svg" alt="newegg icon image"></a>';
+        return output;
+    }
+  }
+}
+
+function lowestSiteLocation(amazon, bestbuy, newegg) {
+  const min = Math.min(amazon, bestbuy, newegg);
+  switch (min) {
+    case amazon:
+      return "Amazon";
+    case bestbuy:
+      return "Best Buy";
+    case newegg:
+      return "Newegg";
+  }
 }
 
 async function deleteItem(e) {
@@ -113,13 +177,14 @@ async function deleteItem(e) {
   }
 }
 
-async function updatePrices(e, f) {
+async function updatePrices(path, e, f) {
+  const appPath = path;
   const data = {
     url: e,
     id: f,
   };
   try {
-    let responseObject = await fetch("/get_item_details", {
+    let responseObject = await fetch(appPath, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -149,12 +214,35 @@ async function addUrl(e) {
   wrapper.setAttribute("class", "container bg-dark");
   if (!temp) {
     wrapper.innerHTML =
-      '<div class="row g-3 align-items-center">' +
-      '<div class="col-auto">' +
-      '<label for="inputUrl" class="col-form-label">Url</label>' +
+      '<div class="row g-3 mb-3 align-items-center">' +
+      '<div class="col-11">' +
+      '<label for="modelName" class="col-form-label">PC Component Name</label>' +
       "</div>" +
+      '<div class="col-11">' +
+      '<input type="text" id="modelName" class="form-control" aria-describedby="urlHelpInline"> ' +
+      "</div>" +
+      '<div class="col-11">' +
+      '<label for="amazonUrl" class="col-form-label">Amazon URL</label>' +
+      "</div>" +
+      '<div class="col-11">' +
+      '<input type="text" id="amazonUrl" class="form-control" aria-describedby="urlHelpInline"> ' +
+      "</div>" +
+      "</div>" +
+      '<div class="row g-3 mb-3 align-items-center">' +
+      '<div class="col-11">' +
+      '<label for="bestBuyUrl" class="col-form-label">Best Buy URL</label>' +
+      "</div>" +
+      '<div class="col-11">' +
+      '<input type="text" id="bestBuyUrl" class="form-control" aria-describedby="urlHelpInline"> ' +
+      "</div>" +
+      "</div>" +
+      '<div class="row g-3 mb-3 align-items-center">' +
       '<div class="col-auto">' +
-      '<input type="text" id="inputUrl" class="form-control" aria-describedby="urlHelpInline"> ' +
+      '<label for="neweggUrl" class="col-form-label">Newegg URL</label>' +
+      "</div>" +
+      '<div class="col-11">' +
+      '<input type="text" id="neweggUrl" class="form-control" aria-describedby="urlHelpInline"> ' +
+      "</div>" +
       "</div>" +
       '<div class="col-auto">' +
       '<span id="urlHelpInline" class="form-text">' +
@@ -170,7 +258,10 @@ async function addUrl(e) {
 
 async function addItem() {
   let formData = {
-    url: document.getElementById("inputUrl").value,
+    modelName: document.getElementById("modelName").value,
+    amazonUrl: document.getElementById("amazonUrl").value,
+    bestBuyUrl: document.getElementById("bestBuyUrl").value,
+    neweggUrl: document.getElementById("neweggUrl").value,
   };
   try {
     let responseObject = await fetch("/add_item", {
