@@ -317,9 +317,15 @@ app.post("/get_item_details_amazon", async function (req, res) {
       headless: true,
     });
     const page = await browser.newPage();
-    await page.goto(item_url, {
-      waitUntil: "networkidle2",
-    });
+    try {
+      await page.goto(item_url, {
+        waitUntil: "networkidle2",
+      });
+    } catch (e) {
+      if (e instanceof puppeteer.errors.TimeoutError) {
+        console.log("Puppeteer took too long to load the page!");
+      }
+    }
 
     const result = await page.evaluate(() => {
       return [
@@ -345,24 +351,29 @@ app.post("/get_item_details_amazon", async function (req, res) {
     browser.close();
   } catch (error) {
     console.log(error);
+    browser.close();
   }
 
-  connection.execute(
-    "UPDATE BBY29_item_tracker SET priceAmazon = ?, imgUrl = ? WHERE ID = " +
-      req.body.id,
-    [priceStr, imgUrl],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
+  if (priceStr && imgUrl) {
+    connection.execute(
+      "UPDATE BBY29_item_tracker SET priceAmazon = ?, imgUrl = ? WHERE ID = " +
+        req.body.id,
+      [priceStr, imgUrl],
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+        } else {
+          res.send({
+            status: "success",
+            msg: "Record added.",
+          });
+        }
       }
-    }
-  );
+    );
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 app.post("/get_item_details_bestbuy", async function (req, res) {
@@ -373,10 +384,15 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
       headless: true,
     });
     const page = await browser.newPage();
-    await page.goto(item_url, {
-      waitUntil: "networkidle2",
-    });
-
+    try {
+      await page.goto(item_url, {
+        waitUntil: "networkidle0",
+      });
+    } catch (e) {
+      if (e instanceof puppeteer.errors.TimeoutError) {
+        console.log("Puppeteer took too long to load the page!");
+      }
+    }
     const result = await page.evaluate(() => {
       return [
         JSON.parse(
@@ -396,21 +412,26 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
     console.log(error);
   }
 
-  connection.execute(
-    "UPDATE BBY29_item_tracker SET priceBestBuy = ? WHERE ID = " + req.body.id,
-    [priceStr],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
+  if (priceStr) {
+    connection.execute(
+      "UPDATE BBY29_item_tracker SET priceBestBuy = ? WHERE ID = " +
+        req.body.id,
+      [priceStr],
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+        } else {
+          res.send({
+            status: "success",
+            msg: "Record added.",
+          });
+        }
       }
-    }
-  );
+    );
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 app.post("/get_item_details_newegg", async function (req, res) {
@@ -421,9 +442,15 @@ app.post("/get_item_details_newegg", async function (req, res) {
       headless: true,
     });
     const page = await browser.newPage();
-    await page.goto(item_url, {
-      waitUntil: "networkidle0",
-    });
+    try {
+      await page.goto(item_url, {
+        waitUntil: "networkidle0",
+      });
+    } catch (e) {
+      if (e instanceof puppeteer.errors.TimeoutError) {
+        console.log("Puppeteer took too long to load the page!");
+      }
+    }
 
     const result = await page.evaluate(() => {
       return [
@@ -444,21 +471,25 @@ app.post("/get_item_details_newegg", async function (req, res) {
     console.log(error);
   }
 
-  connection.execute(
-    "UPDATE BBY29_item_tracker SET priceNewEgg = ? WHERE ID = " + req.body.id,
-    [priceStr],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
+  if (priceStr) {
+    connection.execute(
+      "UPDATE BBY29_item_tracker SET priceNewEgg = ? WHERE ID = " + req.body.id,
+      [priceStr],
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+        } else {
+          res.send({
+            status: "success",
+            msg: "Record added.",
+          });
+        }
       }
-    }
-  );
+    );
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 app.post("/delete_item", function (req, res) {
