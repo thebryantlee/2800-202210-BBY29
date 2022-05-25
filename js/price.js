@@ -1,5 +1,6 @@
 window.addEventListener("load", getItems);
 document.getElementById("addUrl").addEventListener("click", addUrl);
+document.getElementById("updateTable").addEventListener("click", getItems);
 
 async function getItems() {
   const itemLocation = document.getElementById("items");
@@ -9,26 +10,23 @@ async function getItems() {
   xhr.onload = function () {
     if (this.status == 200) {
       const response = JSON.parse(this.responseText);
-      if (
-        response.length > 0 &&
-        !(response.length == 1 && response[0].priceStr == null)
-      ) {
+      if (response.length > 0 && !(response.length == 1 && response[0].priceStr == null)) {
         const messageLocation = document.getElementById("noTrackersMessage");
         messageLocation.innerHTML = "";
       }
       for (let i = 0; i < response.length; i++) {
         updatePrices(
-          "/update_amazon_price",
+          "/get_item_details_amazon",
           response[i].urlAmazon,
           response[i].ID
         );
         updatePrices(
-          "/update_bestbuy_price",
+          "/get_item_details_bestbuy",
           response[i].urlBestBuy,
           response[i].ID
         );
         updatePrices(
-          "/update_newegg_price",
+          "/get_item_details_newegg",
           response[i].urlNewEgg,
           response[i].ID
         );
@@ -38,7 +36,7 @@ async function getItems() {
 
         item.setAttribute("class", "col-md-4");
         item.setAttribute("id", "article-" + response[j].ID);
-        if (response[j].priceStr != null) {
+        if (response[j].priceAmazon != null && document.getElementById(response[j].ID) == null) {
           item.innerHTML =
             '<div class="card bg-dark text-white mb-4 box-shadow">' +
             '<div class="card-header">' +
@@ -59,7 +57,7 @@ async function getItems() {
               response[j].priceAmazon,
               response[j].priceBestBuy,
               response[j].priceNewEgg
-            ) +
+            ).toFixed(2) +
             "</h5>" +
             '<img src="' +
             response[j].imgUrl +
@@ -71,7 +69,7 @@ async function getItems() {
             getUrlHref(response[j].urlAmazon, 0) +
             getUrlHref(response[j].urlBestBuy, 1) +
             getUrlHref(response[j].urlNewEgg, 2) +
-            '<button class="btn btn-sm btn-light deleteItem"><img src="/img/icons/basic/trash_full.svg" alt="trash bin image"></button>' +
+            '<button class="btn btn-sm btn-light float-end deleteItem"><img src="/img/icons/basic/trash_full.svg" alt="trash bin image"></button>' +
             "</div>" +
             "</div>" +
             "</div>" +
@@ -80,7 +78,7 @@ async function getItems() {
         }
 
         let delete_records = document.querySelectorAll(
-          "button[class='btn btn-sm btn-light deleteItem']"
+          "button[class='btn btn-sm btn-light float-end deleteItem']"
         );
         for (let k = 0; k < delete_records.length; k++) {
           delete_records[k].addEventListener("click", deleteItem);
@@ -206,7 +204,7 @@ async function clearUrlForm() {
   fbody.innerHTML = "";
 }
 
-async function addUrl(e) {
+async function addUrl() {
   var formPlaceholder = document.getElementById("urlForm");
   var temp = document.getElementById("formid");
   var wrapper = document.createElement("div");
