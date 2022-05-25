@@ -10,35 +10,22 @@ async function getItems() {
   xhr.onload = function () {
     if (this.status == 200) {
       const response = JSON.parse(this.responseText);
-      if (
-        response.length > 0 &&
-        !(response.length == 1 && response[0].priceStr == null)
-      ) {
+      if (response.length > 0) {
         const messageLocation = document.getElementById("noTrackersMessage");
         messageLocation.innerHTML = "";
+      } else {
+        const messageLocation = document.getElementById("noTrackersMessage");
+        messageLocation.innerHTML =
+          '<h5 class="text-muted">' +
+          "There are no items currently being tracked!" +
+          "</h5>";
       }
-      for (let i = 0; i < response.length; i++) {
-        updatePrices(
-          "/get_item_details_amazon",
-          response[i].urlAmazon,
-          response[i].ID
-        );
-        updatePrices(
-          "/get_item_details_bestbuy",
-          response[i].urlBestBuy,
-          response[i].ID
-        );
-        updatePrices(
-          "/get_item_details_newegg",
-          response[i].urlNewEgg,
-          response[i].ID
-        );
       }
       for (let j = 0; j < response.length; j++) {
         var item = document.createElement("div");
 
         item.setAttribute("class", "col-md-4");
-        item.setAttribute("id", "article-" + response[j].ID);
+        item.setAttribute("id", response[j].ID);
         if (
           response[j].priceAmazon != null &&
           document.getElementById(response[j].ID) == null
@@ -81,22 +68,33 @@ async function getItems() {
             "</div>" +
             "</div>";
           itemLocation.appendChild(item);
-        }
-
+        }        
+        
         let delete_records = document.querySelectorAll(
           "button[class='btn btn-sm btn-light float-end deleteItem']"
         );
         for (let k = 0; k < delete_records.length; k++) {
           delete_records[k].addEventListener("click", deleteItem);
         }
+
+      for (let i = 0; i < response.length; i++) {
+        updatePrices(
+          "/get_item_details_amazon",
+          response[i].urlAmazon,
+          response[i].ID
+        );
+        updatePrices(
+          "/get_item_details_bestbuy",
+          response[i].urlBestBuy,
+          response[i].ID
+        );
+        updatePrices(
+          "/get_item_details_newegg",
+          response[i].urlNewEgg,
+          response[i].ID
+        );
       }
-    } else {
-      const messageLocation = document.getElementById("noTrackersMessage");
-      messageLocation.innerHTML =
-        '<h5 class="text-muted">' +
-        "There are no items currently being tracked!" +
-        "</h5>";
-    }
+      }
   };
   xhr.send();
 }
@@ -154,8 +152,9 @@ function lowestSiteLocation(amazon, bestbuy, newegg) {
 
 async function deleteItem(e) {
   const data = {
-    id: e.target.parentNode.parentNode.id,
+    id: e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id,
   };
+  console.log(data.id);
   try {
     let responseObject = await fetch("/delete_item", {
       method: "POST",
