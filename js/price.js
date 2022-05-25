@@ -19,17 +19,17 @@ async function getItems() {
         messageLocation.innerHTML = "";
       }
       for (let i = 0; i < response.length; i++) {
-        updatePrices(
+         updatePrices(
           "/get_item_details_amazon",
           response[i].urlAmazon,
           response[i].ID
         );
-        updatePrices(
+         updatePrices(
           "/get_item_details_bestbuy",
           response[i].urlBestBuy,
           response[i].ID
         );
-        updatePrices(
+         updatePrices(
           "/get_item_details_newegg",
           response[i].urlNewEgg,
           response[i].ID
@@ -169,7 +169,7 @@ async function deleteItem(e) {
     if (responseObject.status == 200) {
       let count = Math.floor(Math.random() * 1000);
       var alertPlaceholder = document.getElementById("tempAlert");
-      var temp = document.getElementById("alert-created");
+      var temp = document.getElementById("alert-created " + count);
       var wrapper = document.createElement("div");
       if (!temp) {
         wrapper.innerHTML =
@@ -187,7 +187,7 @@ async function deleteItem(e) {
           .setAttribute("onclick", "this.parentElement.style.display='none'");
       } else {
         var alertPlaceholder = document.getElementById("tempAlert");
-        var temp = document.getElementById("alert-created");
+        var temp = document.getElementById("alert-created " + count);
         var wrapper = document.createElement("div");
         if (!temp) {
           wrapper.innerHTML =
