@@ -319,10 +319,6 @@ app.post("/get_item_details", async function (req, res) {
     await page.goto(item_url, {
       waitUntil: "networkidle2",
     });
-<<<<<<< HEAD
-    // await page.waitForSelector("#productTitle", { visible: true });
-    // await page.waitForSelector(".a-offscreen", { visible: true });
-=======
     try {
       await page.waitForSelector("#productTitle", {
         visible: true
@@ -335,7 +331,6 @@ app.post("/get_item_details", async function (req, res) {
       res.sendStatus(500);
       return;
     }
->>>>>>> 0a984950099b098ef37d2ffff68fb9109d49609d
 
     const result = await page.evaluate(() => {
       return [
