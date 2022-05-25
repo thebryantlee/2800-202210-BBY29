@@ -269,12 +269,15 @@ app.post("/delete_user", function (req, res) {
 app.post("/add_item", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const user = req.session.user_ID;
-  const url = req.body.url;
+  const title = req.body.modelName;
+  const amazon_url = req.body.amazonUrl;
+  const bestbuy_url = req.body.bestBuyUrl;
+  const newegg_url = req.body.neweggUrl;
   console.log(user);
 
   connection.execute(
-    "INSERT INTO BBY29_item_tracker (item_user_ID, url, title, priceStr, imgUrl) values (?, ?, ?, ?, ?)",
-    [user, url, null, null, null],
+    "INSERT INTO BBY29_item_tracker (user_ID, title, urlAmazon, urlBestBuy, urlNewEgg, priceAmazon, priceBestBuy, priceNewEgg, imgUrl) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [user, title, amazon_url, bestbuy_url, newegg_url, null, null, null, null],
     function (error, results, fields) {
       if (error) {
         console.log(error);
@@ -289,10 +292,10 @@ app.post("/add_item", function (req, res) {
 
 app.get("/get_items", function (req, res) {
   connection.execute(
-    "SELECT * FROM BBY29_item_tracker WHERE item_user_ID = " +
+    "SELECT * FROM BBY29_item_tracker WHERE user_ID = " +
       req.session.user_ID,
     function (error, results, fields) {
-      if (error) {
+     if (error) {
         console.log(error);
         res.sendStatus(500);
       } else {
@@ -306,7 +309,7 @@ app.get("/get_items", function (req, res) {
   );
 });
 
-app.post("/get_item_details", async function (req, res) {
+app.post("/get_item_details_amazon", async function (req, res) {
   const item_url = req.body.url;
   var title;
   var priceStr;
@@ -319,8 +322,6 @@ app.post("/get_item_details", async function (req, res) {
     await page.goto(item_url, {
       waitUntil: "networkidle2",
     });
-    // await page.waitForSelector("#productTitle", { visible: true });
-    // await page.waitForSelector(".a-offscreen", { visible: true });
 
     const result = await page.evaluate(() => {
       return [
@@ -330,10 +331,10 @@ app.post("/get_item_details", async function (req, res) {
         JSON.stringify(
           document.querySelector('div[id="imgTagWrapperId"] > img').src
         ),
-        JSON.stringify(
+        JSON.parse(
           document
             .querySelector('span[class="a-offscreen"]')
-            .innerText.substring(1)
+            .innerText.substring(1).replace(/,/g, '')
         ),
       ];
     });
@@ -355,9 +356,122 @@ app.post("/get_item_details", async function (req, res) {
   }
 
   connection.execute(
-    "UPDATE BBY29_item_tracker SET title = ?, priceStr = ?, imgUrl = ? WHERE ID = " +
+    "UPDATE BBY29_item_tracker SET title = ?, priceAmazon = ?, imgUrl = ? WHERE ID = " +
       req.body.id,
     [title, priceStr, imgUrl],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.post("/get_item_details_bestbuy", async function (req, res) {
+  const item_url = req.body.url;
+  var title;
+  var priceStr;
+  try {
+    const browser = await puppeteer.launch({
+      headless: true,
+    });
+    const page = await browser.newPage();
+    await page.goto(item_url, {
+      waitUntil: "networkidle0",
+    });
+
+    const result = await page.evaluate(() => {
+      return [
+        JSON.stringify(
+          document.querySelector('h1[class="productName_2KoPa"').innerText
+        ),
+        JSON.parse(
+          document
+            .querySelector('span[class="screenReaderOnly_2mubv large_3uSI_"]')
+            .innerText.substring(1)
+        ),
+      ];
+    });
+    [title] = [JSON.parse(result[0])];
+    [priceStr] = [JSON.parse(result[1])];
+    console.log({
+      title,
+    });
+    console.log({
+      priceStr,
+    });
+
+    browser.close();
+  } catch (error) {
+    console.log(error);
+  }
+
+  connection.execute(
+    "UPDATE BBY29_item_tracker SET title = ?, priceBestBuy = ? WHERE ID = " +
+      req.body.id,
+    [title, priceStr],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record added.",
+        });
+      }
+    }
+  );
+});
+
+app.post("/get_item_details_newegg", async function (req, res) {
+  const item_url = req.body.url;
+  var title;
+  var priceStr;
+  try {
+    const browser = await puppeteer.launch({
+      headless: true,
+    });
+    const page = await browser.newPage();
+    await page.goto(item_url, {
+      waitUntil: "networkidle0",
+    });
+
+    const result = await page.evaluate(() => {
+      return [
+        JSON.stringify(
+          document.querySelector('h1[class="product-title"').innerText
+        ),
+        JSON.parse(
+          document
+            .querySelector('div[class="product-offer"]')
+            .children[1].innerText.substring(1).replace(/,/g, '')
+        ),
+      ];
+    });
+    [title] = [JSON.parse(result[0])];
+    [priceStr] = [JSON.parse(result[1])];
+    console.log({
+      title,
+    });
+    console.log({
+      priceStr,
+    });
+    browser.close();
+  } catch (error) {
+    console.log(error);
+  }
+
+  connection.execute(
+    "UPDATE BBY29_item_tracker SET title = ?, priceNewEgg = ? WHERE ID = " +
+      req.body.id,
+    [title, priceStr],
     function (error, results, fields) {
       if (error) {
         console.log(error);
