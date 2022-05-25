@@ -5,11 +5,6 @@ document.getElementById("updateTable").addEventListener("click", getItems);
 <<<<<<< HEAD
 async function getItems() {
   removeButton();
-=======
-
-async function getItems(e) {
-  e.preventDefault();
->>>>>>> c692da0b72417463343783a2048f9e7d62d8f8ff
   const itemLocation = document.getElementById("items");
   itemLocation.innerHTML = "";
   var xhr = new XMLHttpRequest();
