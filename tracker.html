@@ -70,26 +70,28 @@
           <div id="wait"></div>
           <div id="invalidurl"></div>
         </div>
-        <div id="stockFavourites mb-3">
+        <div id="stockFavourites">
           <div class="contentHeader" id="pageHeader">
-            <p>PC PART PRICES</p>
-          </div>
-          <div class="container">
+            <span>PC PART PRICES</span>
             <button
-              class="btn btn-primary float-start"
+              class="btn btn-sm btn-light addItemButton"
               id="addUrl"
               onclick="addUrl()"
             >
-              Add Item
+              <img
+                src="/img/icons/edit/plus.svg"
+                alt="Plus icon"
+                class="addItem"
+              />
             </button>
-            <div id="insertUpdateHere">
-              <button class="btn btn-primary" id="updateTable">Update</button>
-            </div>
+          </div>
+
+          <div id="insertUpdateHere">
+            <button class="btn btn-primary" id="updateTable">Update</button>
           </div>
 
           <div class="mt-3" id="noTrackersMessage"></div>
         </div>
-
         <div id="urlForm"></div>
         <div class="row col-12" id="items"></div>
       </div>

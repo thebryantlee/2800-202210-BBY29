@@ -76,8 +76,8 @@ async function getItems() {
             getUrlHref(response[j].urlAmazon, 0) +
             getUrlHref(response[j].urlBestBuy, 1) +
             getUrlHref(response[j].urlNewEgg, 2) +
-            '<button class="btn btn-sm btn-light float-end deleteItem"><img src="/img/icons/basic/trash_full.svg" alt="trash bin image"></button>' +
             "</div>" +
+            '<button class="btn btn-sm btn-light float-end deleteItem"><img src="/img/icons/basic/trash_full.svg" alt="trash bin image"></button>' +
             "</div>" +
             "</div>" +
             "</div>";
