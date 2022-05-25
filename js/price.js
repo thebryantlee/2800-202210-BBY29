@@ -2,7 +2,6 @@ window.addEventListener("load", getItems);
 window.addEventListener("load", removeButton);
 document.getElementById("updateTable").addEventListener("click", getItems);
 
-<<<<<<< HEAD
 async function getItems() {
   removeButton();
   const itemLocation = document.getElementById("items");
@@ -178,10 +177,14 @@ async function deleteItem(e) {
           "success" +
           ' role="alert">' +
           "Item Has Been Deleted." +
-          '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' + count + '"aria-label="Close" ></button>' +
+          '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' +
+          count +
+          '"aria-label="Close" ></button>' +
           "</div>";
         alertPlaceholder.append(wrapper);
-        document.getElementById("closebtn" + count).setAttribute("onclick", "this.parentElement.style.display='none'");
+        document
+          .getElementById("closebtn" + count)
+          .setAttribute("onclick", "this.parentElement.style.display='none'");
       } else {
         var alertPlaceholder = document.getElementById("tempAlert");
         var temp = document.getElementById("alert-created");
@@ -192,10 +195,14 @@ async function deleteItem(e) {
             "danger" +
             ' role="alert">' +
             "There was problem deleting that item." +
-            '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' + count + '"aria-label="Close" ></button>' +
+            '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' +
+            count +
+            '"aria-label="Close" ></button>' +
             "</div>";
           alertPlaceholder.append(wrapper);
-          document.getElementById("closebtn" + count).setAttribute("onclick", "this.parentElement.style.display='none'");
+          document
+            .getElementById("closebtn" + count)
+            .setAttribute("onclick", "this.parentElement.style.display='none'");
         }
         console.log(responseObject.status);
       }
@@ -278,8 +285,8 @@ async function addUrl() {
       '<button class="btn btn-secondary formOptions" onclick="clearUrlForm()">Cancel</button>' +
       '<input type="submit" class="btn btn-primary" id="additem" value="Submit" ></input>' +
       "</div>" +
-      "</div>" + 
-      '</form>';
+      "</div>" +
+      "</form>";
     formPlaceholder.append(wrapper);
     document.getElementById("additem").setAttribute("onclick", "addItem()");
   }
@@ -295,34 +302,38 @@ async function addItem() {
     bestBuyUrl: document.getElementById("bestBuyUrl").value,
     neweggUrl: document.getElementById("neweggUrl").value,
   };
-  if(formData.amazonUrl.includes("amazon") && formData.bestBuyUrl.includes("bestbuy") && formData.neweggUrl.includes("newegg")) {
-      try {
-    let responseObject = await fetch("/add_item", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-    if (responseObject.status == 200) {
-      itemAlert();
-      clearUrlForm();
-      const messageLocation = document.getElementById("noTrackersMessage");
-      messageLocation.innerHTML = "";
-      getItems();
-    } else {
+  if (
+    formData.amazonUrl.includes("amazon") &&
+    formData.bestBuyUrl.includes("bestbuy") &&
+    formData.neweggUrl.includes("newegg")
+  ) {
+    try {
+      let responseObject = await fetch("/add_item", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (responseObject.status == 200) {
+        itemAlert();
+        clearUrlForm();
+        const messageLocation = document.getElementById("noTrackersMessage");
+        messageLocation.innerHTML = "";
+        getItems();
+      } else {
+        console.log(error);
+      }
+    } catch (error) {
       console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
   } else {
     invalidLinkAlert();
   }
 }
 
-async function invalidLinkAlert() {  
+async function invalidLinkAlert() {
   let count = Math.floor(Math.random() * 1000);
   console.log(count);
   var alertPlaceholder = document.getElementById("invalidurl");
@@ -331,16 +342,22 @@ async function invalidLinkAlert() {
 
   if (!temp) {
     wrapper.innerHTML =
-      '<div id="alert-created ' + count + '" class="alert alert-danger"' +
+      '<div id="alert-created ' +
+      count +
+      '" class="alert alert-danger"' +
       ' role="alert">' +
       "One of the entered URLs were invalid please try again." +
-      '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' + count + '"aria-label="Close" ></button>' +
+      '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' +
+      count +
+      '"aria-label="Close" ></button>' +
       "</div>";
     alertPlaceholder.append(wrapper);
-    document.getElementById("closebtn" + count).setAttribute("onclick", "this.parentElement.style.display='none'");
+    document
+      .getElementById("closebtn" + count)
+      .setAttribute("onclick", "this.parentElement.style.display='none'");
   }
 }
-  
+
 async function itemAlert() {
   let count = Math.floor(Math.random() * 1000);
   var alertPlaceholder = document.getElementById("wait");
@@ -349,13 +366,19 @@ async function itemAlert() {
 
   if (!temp) {
     wrapper.innerHTML =
-      '<div id="alert-created ' + count + '" class="alert alert-' +
+      '<div id="alert-created ' +
+      count +
+      '" class="alert alert-' +
       "success" +
       ' role="alert">' +
       "Your item is being tracked! Please wait up to five minutes to see your new tracker." +
-      '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' + count + '"aria-label="Close" ></button>' +
+      '<button type="button" class="btn-close btn-close-black float-end" id="closebtn' +
+      count +
+      '"aria-label="Close" ></button>' +
       "</div>";
     alertPlaceholder.append(wrapper);
-    document.getElementById("closebtn" + count).setAttribute("onclick", "this.parentElement.style.display='none'");
+    document
+      .getElementById("closebtn" + count)
+      .setAttribute("onclick", "this.parentElement.style.display='none'");
   }
 }
