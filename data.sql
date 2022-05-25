@@ -21,9 +21,9 @@ CREATE TABLE BBY29_item_tracker (
   urlAmazon VARCHAR(400),
   urlBestBuy VARCHAR(400),
   urlNewEgg VARCHAR(400),
-  priceAmazon int,
-  priceBestBuy int,
-  priceNewEgg int,
+  priceAmazon float,
+  priceBestBuy float,
+  priceNewEgg float,
   imgUrl VARCHAR(350),
   PRIMARY KEY (ID),
   FOREIGN KEY (user_ID) REFERENCES BBY29_user(ID)
