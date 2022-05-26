@@ -1,10 +1,23 @@
+const path = require('path');
+const http = require('http');
 const express = require("express");
+const socketio = require('socket.io');
 const session = require("express-session");
 const app = express();
 app.use(express.json());
 const fs = require("fs");
 const mysql = require("mysql2");
 const crypto = require("crypto");
+const formatMessage = require('./public/js/messages');
+const {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers
+} = require('./public/js/users');
+const server = http.createServer(app);
+const io = socketio(server);
+
 
 const puppeteer = require("puppeteer");
 require("dotenv").config();
@@ -334,9 +347,9 @@ app.post("/get_item_details_amazon", async function (req, res) {
         ),
         JSON.parse(
           document
-            .querySelector('span[class="a-offscreen"]')
-            .innerText.substring(1)
-            .replace(/,/g, "")
+          .querySelector('span[class="a-offscreen"]')
+          .innerText.substring(1)
+          .replace(/,/g, "")
         ),
       ];
     });
@@ -357,7 +370,7 @@ app.post("/get_item_details_amazon", async function (req, res) {
   if (priceStr && imgUrl) {
     connection.execute(
       "UPDATE BBY29_item_tracker SET priceAmazon = ?, imgUrl = ? WHERE ID = " +
-        req.body.id,
+      req.body.id,
       [priceStr, imgUrl],
       function (error, results, fields) {
         if (error) {
@@ -397,8 +410,8 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
       return [
         JSON.parse(
           document
-            .querySelector('span[class="screenReaderOnly_2mubv large_3uSI_"]')
-            .innerText.substring(1)
+          .querySelector('span[class="screenReaderOnly_2mubv large_3uSI_"]')
+          .innerText.substring(1)
         ),
       ];
     });
@@ -415,7 +428,7 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
   if (priceStr) {
     connection.execute(
       "UPDATE BBY29_item_tracker SET priceBestBuy = ? WHERE ID = " +
-        req.body.id,
+      req.body.id,
       [priceStr],
       function (error, results, fields) {
         if (error) {
@@ -456,9 +469,9 @@ app.post("/get_item_details_newegg", async function (req, res) {
       return [
         JSON.parse(
           document
-            .querySelector('div[class="product-offer"]')
-            .children[1].innerText.substring(1)
-            .replace(/,/g, "")
+          .querySelector('div[class="product-offer"]')
+          .children[1].innerText.substring(1)
+          .replace(/,/g, "")
         ),
       ];
     });
@@ -982,5 +995,65 @@ app.get("/checkout", function (req, res) {
   }
 });
 
-// When running locally process.env.PORT is undefined so runs on port 8000
-app.listen(process.env.PORT || 8000);
+// Set static folder
+app.use(express.static(path.join(__dirname, '../2800-202210-BBY29')));
+
+const botName = 'Tech to the Moon Bot';
+
+// Run when client connects
+io.on('connection', socket => {
+  socket.on('joinRoom', ({
+    username,
+    room
+  }) => {
+    const user = userJoin(socket.id, username, room);
+
+    socket.join(user.room);
+
+    // Welcome current user
+    socket.emit('message', formatMessage(botName, 'Welcome to Tech to the Moon chat!'));
+
+    // Broadcast when a user connects
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        'message',
+        formatMessage(botName, `${user.username} has joined the chat`)
+      );
+
+    // Send users and room info
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    });
+  });
+
+  // Listen for chatMessage
+  socket.on('chatMessage', msg => {
+    const user = getCurrentUser(socket.id);
+
+    io.to(user.room).emit('message', formatMessage(user.username, msg));
+  });
+
+  // Runs when client disconnects
+  socket.on('disconnect', () => {
+    const user = userLeave(socket.id);
+
+    if (user) {
+      io.to(user.room).emit(
+        'message',
+        formatMessage(botName, `${user.username} has left the chat`)
+      );
+
+      // Send users and room info
+      io.to(user.room).emit('roomUsers', {
+        room: user.room,
+        users: getRoomUsers(user.room)
+      });
+    }
+  });
+});
+
+const PORT = process.env.PORT || 8000;
+
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
