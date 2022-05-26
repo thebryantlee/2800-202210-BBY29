@@ -3,6 +3,7 @@ window.addEventListener("load", removeButton);
 
 async function getItems() {
   removeButton();
+  console.log("ran getitems");
   const itemLocation = document.getElementById("items");
   itemLocation.innerHTML = "";
   var xhr = new XMLHttpRequest();
@@ -20,7 +21,7 @@ async function getItems() {
           "There are no items currently being tracked!" +
           "</h5>";
       }
-      }
+      
       for (let j = 0; j < response.length; j++) {
         var item = document.createElement("div");
 
@@ -94,7 +95,8 @@ async function getItems() {
           response[i].ID
         );
       }
-      }
+    }
+  }
   };
   xhr.send();
 }
