@@ -1009,6 +1009,14 @@ app.get("/checkout", function (req, res) {
 app.get("/chatroom", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("chatroom.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
 app.get("/contact", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("contact.html", "utf8");
@@ -1020,63 +1028,63 @@ app.get("/contact", function (req, res) {
   }
 });
 
-// Set static folder
-app.use(express.static(path.join(__dirname, '../2800-202210-BBY29')));
+      // Set static folder
+      app.use(express.static(path.join(__dirname, '../2800-202210-BBY29')));
 
-const botName = 'Tech to the Moon Bot';
+      const botName = 'Tech to the Moon Bot';
 
-// Run when client connects
-io.on('connection', socket => {
-  socket.on('joinRoom', ({
-    username,
-    room
-  }) => {
-    const user = userJoin(socket.id, username, room);
+      // Run when client connects
+      io.on('connection', socket => {
+        socket.on('joinRoom', ({
+          username,
+          room
+        }) => {
+          const user = userJoin(socket.id, username, room);
 
-    socket.join(user.room);
+          socket.join(user.room);
 
-    // Welcome current user
-    socket.emit('message', formatMessage(botName, 'Welcome to Tech to the Moon chat!'));
+          // Welcome current user
+          socket.emit('message', formatMessage(botName, 'Welcome to Tech to the Moon chat!'));
 
-    // Broadcast when a user connects
-    socket.broadcast
-      .to(user.room)
-      .emit(
-        'message',
-        formatMessage(botName, `${user.username} has joined the chat`)
-      );
+          // Broadcast when a user connects
+          socket.broadcast
+            .to(user.room)
+            .emit(
+              'message',
+              formatMessage(botName, `${user.username} has joined the chat`)
+            );
 
-    // Send users and room info
-    io.to(user.room).emit('roomUsers', {
-      room: user.room,
-      users: getRoomUsers(user.room)
-    });
-  });
+          // Send users and room info
+          io.to(user.room).emit('roomUsers', {
+            room: user.room,
+            users: getRoomUsers(user.room)
+          });
+        });
 
-  // Listen for chatMessage
-  socket.on('chatMessage', msg => {
-    const user = getCurrentUser(socket.id);
+        // Listen for chatMessage
+        socket.on('chatMessage', msg => {
+          const user = getCurrentUser(socket.id);
 
-    io.to(user.room).emit('message', formatMessage(user.username, msg));
-  });
+          io.to(user.room).emit('message', formatMessage(user.username, msg));
+        });
 
-  // Runs when client disconnects
-  socket.on('disconnect', () => {
-    const user = userLeave(socket.id);
+        // Runs when client disconnects
+        socket.on('disconnect', () => {
+          const user = userLeave(socket.id);
 
-    if (user) {
-      io.to(user.room).emit(
-        'message',
-        formatMessage(botName, `${user.username} has left the chat`)
-      );
+          if (user) {
+            io.to(user.room).emit(
+              'message',
+              formatMessage(botName, `${user.username} has left the chat`)
+            );
 
-      // Send users and room info
-      io.to(user.room).emit('roomUsers', {
-        room: user.room,
-        users: getRoomUsers(user.room)
+            // Send users and room info
+            io.to(user.room).emit('roomUsers', {
+              room: user.room,
+              users: getRoomUsers(user.room)
+            });
+          }
+        });
       });
-    }
-  });
-});
 
-server.listen(PORT);
+      server.listen(PORT);
