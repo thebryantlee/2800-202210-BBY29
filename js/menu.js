@@ -28,7 +28,7 @@ function getMenus() {
     "Latest News</a>" +
     "</li>" +
     '<li class="list-group-item menuList">' +
-    '<a href="/public/index.html">' +
+    '<a href="/chatroom">' +
     '<img src="/img/icons/basic/chatroom.svg" alt="Chat room Icon" class="menuIcon"/>' +
     "Community Boards</a>" +
     "</li>" +

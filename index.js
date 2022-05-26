@@ -8,13 +8,13 @@ app.use(express.json());
 const fs = require("fs");
 const mysql = require("mysql2");
 const crypto = require("crypto");
-const formatMessage = require('./public/js/messages');
+const formatMessage = require('./js/messages');
 const {
   userJoin,
   getCurrentUser,
   userLeave,
   getRoomUsers
-} = require('./public/js/users');
+} = require('./js/users');
 const server = http.createServer(app);
 const io = socketio(server);
 
@@ -987,6 +987,17 @@ app.get("/summary", function (req, res) {
 app.get("/checkout", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("shop-confirm.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/chatroom", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("chatroom.html", "utf8");
     res.send(doc);
   } else if (req.session.loggedIn) {
     res.redirect("/account");
