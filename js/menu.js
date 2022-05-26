@@ -57,7 +57,7 @@ function getMenus() {
     "Settings</a>" +
     "</li>" +
     '<li class="list-group-item menuList">' +
-    '<a href="#" class="disabled-link">' +
+    '<a href="/contact">' +
     '<img src="/img/icons/basic/bug.svg" alt="Bug Icon" class="menuIcon"/>' +
     "Bug Reports</a>" +
     "</li>" +

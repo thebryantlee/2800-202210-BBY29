@@ -1009,6 +1009,9 @@ app.get("/checkout", function (req, res) {
 app.get("/chatroom", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("chatroom.html", "utf8");
+app.get("/contact", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("contact.html", "utf8");
     res.send(doc);
   } else if (req.session.loggedIn) {
     res.redirect("/account");
@@ -1075,7 +1078,5 @@ io.on('connection', socket => {
     }
   });
 });
-
-const PORT = process.env.PORT || 8000;
 
 server.listen(PORT);
