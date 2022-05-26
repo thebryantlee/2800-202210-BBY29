@@ -945,6 +945,22 @@ app.get("/get_purchase_history", function (req, res) {
     }
   );
 });
+
+app.get("/get_stock_samples", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT * FROM bby29_item_tracker WHERE user_ID = ? LIMIT 3;",
+    [req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send(results);
+      }
+    }
+  );
+});
 // Jacob's code (end)
 
 // Heroku Dynamically assigns port via process.env.PORT.
