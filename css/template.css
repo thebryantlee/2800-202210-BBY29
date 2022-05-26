@@ -304,6 +304,11 @@ padding:0.5em;
   padding:1em;
 }
 
+.stockBody{
+  display: grid;
+  grid-template-columns: 40% 60%;
+}
+
 .stock-image{
   max-width: 100%;
   margin-bottom:1em;
@@ -316,6 +321,22 @@ padding:0.5em;
 .stockHeader {
   margin: 0;
   font-size: 10pt;
+}
+
+.stockSampleImage{
+  margin-left: 0.25em;
+  width: 100%;
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  float: right;
+}
+
+.stockPrice{
+  grid-column: 1;
+}
+
+.stockTitle{
+  font-weight: bold;
 }
 
 .updateButton{

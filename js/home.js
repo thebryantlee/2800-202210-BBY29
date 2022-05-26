@@ -1,4 +1,5 @@
 window.addEventListener("load", getRecentNews);
+window.addEventListener("load", getStockSamples);
 document
   .getElementById("easterEggStonks")
   .addEventListener("click", stonkFunction);
@@ -218,4 +219,102 @@ function stonkFunction() {
     ' class="easterEggImage"' +
     "/>" +
     "</div>";
+}
+
+function getStockSamples() {
+  const path = "/get_stock_samples";
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", path, true);
+
+  xhr.onload = function () {
+    if (this.status == 200) {
+      const response = JSON.parse(this.responseText);
+      const stockLocation = document.getElementById("stockFavourites");
+
+      for (let i = 0; i < response.length; i++) {
+        var cell = document.createElement("div");
+        cell.setAttribute("class", "col-md-4");
+        cell.setAttribute("id", "stock-tracker-" + response[i].ID);
+
+        cell.innerHTML =
+          '<div class="card bg-dark text-white mb-4 box-shadow">' +
+          '<div class="card-header cardCategory">' +
+          '<img src="/img/icons/basic/stock-icon.svg" alt="' +
+          "Stock prices icon" +
+          '" class="stocksIcon">' +
+          '<span class="card-title stockTitle"> ' +
+          response[i].title +
+          "</span>" +
+          "</div>" +
+          '<div class="card-body stockBody">' +
+          '<p class="card-text stockPrice"> Amazon: $' +
+          response[i].priceAmazon.toFixed(2) +
+          "</p>" +
+          '<p class="card-text stockPrice"> Best Buy: $' +
+          response[i].priceBestBuy.toFixed(2) +
+          "</p>" +
+          '<p class="card-text stockPrice"> Newegg: $' +
+          response[i].priceNewEgg.toFixed(2) +
+          "</p>" +
+          '<img src="' +
+          response[i].imgUrl +
+          '" alt="amazon-images" class="stockSampleImage col-6" />' +
+          '<div class="d-flex justify-content-between align-items-center">' +
+          '<div class="btn-group" id="card-' +
+          response[i].ID +
+          '">' +
+          getUrlHref(response[i].urlAmazon, 0) +
+          getUrlHref(response[i].urlBestBuy, 1) +
+          getUrlHref(response[i].urlNewEgg, 2) +
+          "</div>" +
+          "</div>" +
+          "</div>" +
+          "</div>";
+
+        stockLocation.appendChild(cell);
+      }
+    } else {
+      var alertPlaceholder = document.getElementById("tempAlert");
+      var temp = document.getElementById("alert-created");
+      var wrapper = document.createElement("div");
+      if (!temp) {
+        wrapper.innerHTML =
+          '<div id="alert-created" class="alert alert-' +
+          "danger" +
+          ' role="alert">' +
+          "There was a problem getting your tracked components!" +
+          "</div>";
+        alertPlaceholder.append(wrapper);
+      }
+      console.log(response.status);
+    }
+  };
+  xhr.send();
+}
+
+function getUrlHref(link, type) {
+  if (!link) {
+    return "";
+  } else {
+    switch (type) {
+      case 0:
+        var output =
+          '<a class="btn btn-sm btn-dark" target="_blank" href="' +
+          link +
+          '"><img src="/img/icons/brand/amazon-logo.svg" alt="amazon icon image"></a>';
+        return output;
+      case 1:
+        var output =
+          '<a class="btn btn-sm btn-dark" target="_blank" href="' +
+          link +
+          '"><img src="/img/icons/brand/best-buy-logo.svg" alt="best buy icon image"></a>';
+        return output;
+      case 2:
+        var output =
+          '<a class="btn btn-sm btn-dark" target="_blank" href="' +
+          link +
+          '"><img src="/img/icons/brand/newegg-logo.svg" alt="newegg icon image"></a>';
+        return output;
+    }
+  }
 }
