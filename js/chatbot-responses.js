@@ -46,6 +46,14 @@ function getBotResponse(input) {
         return "View the price tracker " + '<a href="/tracker.html">here.</a>';
     } else if (input == "I want to track prices") {
         return "View the price tracker " + '<a href="/tracker.html">here.</a>';
+    } else if (input == "Thanks") {
+        return "You're welcome!";
+    } else if (input == "Thank you") {
+        return "You're welcome!";
+    } else if (input == "thanks") {
+        return "You're welcome!";
+    } else if (input == "thank you") {
+        return "You're welcome!";
     } else {
         return "Please enter another message.";
     }
