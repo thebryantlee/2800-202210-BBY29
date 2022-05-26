@@ -984,6 +984,17 @@ app.get("/summary", function (req, res) {
   }
 });
 
+app.get("/shop-confirm", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("shop-confirm.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
 app.get("/checkout", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("shop-confirm.html", "utf8");
