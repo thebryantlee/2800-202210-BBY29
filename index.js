@@ -1,23 +1,22 @@
-const path = require('path');
-const http = require('http');
+const path = require("path");
+const http = require("http");
 const express = require("express");
-const socketio = require('socket.io');
+const socketio = require("socket.io");
 const session = require("express-session");
 const app = express();
 app.use(express.json());
 const fs = require("fs");
 const mysql = require("mysql2");
 const crypto = require("crypto");
-const formatMessage = require('./js/messages');
+const formatMessage = require("./js/messages");
 const {
   userJoin,
   getCurrentUser,
   userLeave,
-  getRoomUsers
-} = require('./js/users');
+  getRoomUsers,
+} = require("./js/users");
 const server = http.createServer(app);
 const io = socketio(server);
-
 
 const puppeteer = require("puppeteer");
 require("dotenv").config();
@@ -347,9 +346,9 @@ app.post("/get_item_details_amazon", async function (req, res) {
         ),
         JSON.parse(
           document
-          .querySelector('span[class="a-offscreen"]')
-          .innerText.substring(1)
-          .replace(/,/g, "")
+            .querySelector('span[class="a-offscreen"]')
+            .innerText.substring(1)
+            .replace(/,/g, "")
         ),
       ];
     });
@@ -370,7 +369,7 @@ app.post("/get_item_details_amazon", async function (req, res) {
   if (priceStr && imgUrl) {
     connection.execute(
       "UPDATE BBY29_item_tracker SET priceAmazon = ?, imgUrl = ? WHERE ID = " +
-      req.body.id,
+        req.body.id,
       [priceStr, imgUrl],
       function (error, results, fields) {
         if (error) {
@@ -410,8 +409,8 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
       return [
         JSON.parse(
           document
-          .querySelector('span[class="screenReaderOnly_2mubv large_3uSI_"]')
-          .innerText.substring(1)
+            .querySelector('span[class="screenReaderOnly_2mubv large_3uSI_"]')
+            .innerText.substring(1)
         ),
       ];
     });
@@ -428,7 +427,7 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
   if (priceStr) {
     connection.execute(
       "UPDATE BBY29_item_tracker SET priceBestBuy = ? WHERE ID = " +
-      req.body.id,
+        req.body.id,
       [priceStr],
       function (error, results, fields) {
         if (error) {
@@ -469,9 +468,9 @@ app.post("/get_item_details_newegg", async function (req, res) {
       return [
         JSON.parse(
           document
-          .querySelector('div[class="product-offer"]')
-          .children[1].innerText.substring(1)
-          .replace(/,/g, "")
+            .querySelector('div[class="product-offer"]')
+            .children[1].innerText.substring(1)
+            .replace(/,/g, "")
         ),
       ];
     });
@@ -564,7 +563,7 @@ app.post("/updateData", function (req, res) {
   const em = req.body.email;
   const pNum = req.body.phone_number;
   const avatar = req.body.avatar_path;
-  const pass = req.body.password;
+  const pass = hash(req.body.password + salt);
 
   //With password
   if (pass) {
@@ -1044,65 +1043,65 @@ app.get("/contact", function (req, res) {
   }
 });
 
-      // Set static folder
-      app.use(express.static(path.join(__dirname, '../2800-202210-BBY29')));
+// Set static folder
+app.use(express.static(path.join(__dirname, "../2800-202210-BBY29")));
 
-      const botName = 'Tech to the Moon Bot';
+const botName = "Tech to the Moon Bot";
 
-      // Run when client connects
-      io.on('connection', socket => {
-        socket.on('joinRoom', ({
-          username,
-          room
-        }) => {
-          const user = userJoin(socket.id, username, room);
+// Run when client connects
+io.on("connection", (socket) => {
+  socket.on("joinRoom", ({ username, room }) => {
+    const user = userJoin(socket.id, username, room);
 
-          socket.join(user.room);
+    socket.join(user.room);
 
-          // Welcome current user
-          socket.emit('message', formatMessage(botName, 'Welcome to Tech to the Moon chat!'));
+    // Welcome current user
+    socket.emit(
+      "message",
+      formatMessage(botName, "Welcome to Tech to the Moon chat!")
+    );
 
-          // Broadcast when a user connects
-          socket.broadcast
-            .to(user.room)
-            .emit(
-              'message',
-              formatMessage(botName, `${user.username} has joined the chat`)
-            );
+    // Broadcast when a user connects
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        "message",
+        formatMessage(botName, `${user.username} has joined the chat`)
+      );
 
-          // Send users and room info
-          io.to(user.room).emit('roomUsers', {
-            room: user.room,
-            users: getRoomUsers(user.room)
-          });
-        });
+    // Send users and room info
+    io.to(user.room).emit("roomUsers", {
+      room: user.room,
+      users: getRoomUsers(user.room),
+    });
+  });
 
-        // Listen for chatMessage
-        socket.on('chatMessage', msg => {
-          const user = getCurrentUser(socket.id);
+  // Listen for chatMessage
+  socket.on("chatMessage", (msg) => {
+    const user = getCurrentUser(socket.id);
 
-          io.to(user.room).emit('message', formatMessage(user.username, msg));
-        });
+    io.to(user.room).emit("message", formatMessage(user.username, msg));
+  });
 
-        // Runs when client disconnects
-        socket.on('disconnect', () => {
-          const user = userLeave(socket.id);
+  // Runs when client disconnects
+  socket.on("disconnect", () => {
+    const user = userLeave(socket.id);
 
-          if (user) {
-            io.to(user.room).emit(
-              'message',
-              formatMessage(botName, `${user.username} has left the chat`)
-            );
+    if (user) {
+      io.to(user.room).emit(
+        "message",
+        formatMessage(botName, `${user.username} has left the chat`)
+      );
 
-            // Send users and room info
-            io.to(user.room).emit('roomUsers', {
-              room: user.room,
-              users: getRoomUsers(user.room)
-            });
-          }
-        });
+      // Send users and room info
+      io.to(user.room).emit("roomUsers", {
+        room: user.room,
+        users: getRoomUsers(user.room),
       });
+    }
+  });
+});
 
-      const PORT = 8000;
+const PORT = 8000;
 
-      server.listen(process.env.port || PORT);
+server.listen(process.env.port || PORT);
