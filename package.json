@@ -7,6 +7,7 @@
     "http": "^0.0.1-security",
     "mysql2": "^2.3.3",
     "puppeteer": "^14.1.1",
+    "socket.io": "^4.5.1",
     "url": "^0.11.0"
   },
   "name": "2800-202210-bby29",
