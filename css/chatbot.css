@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'Exo 2';
+    src: url(/fonts/Exo2-VariableFont_wght.ttf);
+}
+
+* {
+    font-family: 'Exo 2';
+}
+
 .chat-bar-collapsible {
     position: fixed;
     bottom: 0;
@@ -8,7 +17,7 @@
 .collapsible {
     /* Align with TTTM colour pallette */
     background-color: #ffeba7;
-    color: white;
+    color: #2a2b38;
     cursor: pointer;
     padding: 18px;
     width: 350px;
@@ -105,7 +114,6 @@
 
 .userText {
     color: white;
-    font-family: Helvetica;
     font-size: 16px;
     font-weight: normal;
     text-align: right;
@@ -126,7 +134,6 @@
 
 .botText {
     color: #000;
-    font-family: Helvetica;
     font-weight: normal;
     font-size: 16px;
     text-align: left;

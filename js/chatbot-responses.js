@@ -12,12 +12,14 @@ function getBotResponse(input) {
         return "Talk to you later!";
     } else if (input == "Good bye") {
         return "Talk to you later!";
+    } else if (input == "goodbye") {
+        return "Talk to you later!";
     } else if (input == "Bye") {
         return "Talk to you later!";
     } else if (input == "bye") {
         return "Talk to you later!";
     } else if (input == "shop") {
-        return "Buy our merch " + '<a href="/shop.html">here!</a>';
+        return "Buy our merch " + '<a class="chat-link" href="/shop.html">here!</a>';
     } else if (input == "store") {
         return "Buy our merch " + '<a href="/shop.html">here!</a>';
     } else if (input == "merch") {
@@ -29,6 +31,8 @@ function getBotResponse(input) {
     } else if (input == "I want to buy merchandise") {
         return "Buy our merch " + '<a href="/shop.html">here!</a>';
     } else if (input == "I want to buy merch") {
+        return "Buy our merch " + '<a href="/shop.html">here!</a>';
+    } else if (input == "I want to shop") {
         return "Buy our merch " + '<a href="/shop.html">here!</a>';
     } else if (input == "news") {
         return "View the news feed " + '<a href="/news.html">here.</a>';
