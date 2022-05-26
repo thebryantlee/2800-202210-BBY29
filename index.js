@@ -1087,4 +1087,6 @@ app.get("/contact", function (req, res) {
         });
       });
 
-      server.listen(PORT);
+      const PORT = 8000;
+
+      server.listen(process.env.port || PORT);
