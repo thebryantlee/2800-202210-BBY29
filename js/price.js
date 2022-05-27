@@ -76,7 +76,7 @@ async function getItems() {
         for (let k = 0; k < delete_records.length; k++) {
           delete_records[k].addEventListener("click", deleteItem);
         }
-
+      }
         for (let i = 0; i < response.length; i++) {
           updatePrices(
             "/get_item_details_amazon",
@@ -94,7 +94,7 @@ async function getItems() {
             response[i].ID
           );
         }
-      }
+     
     }
   };
   xhr.send();
