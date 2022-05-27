@@ -1043,6 +1043,17 @@ app.get("/chatroom", function (req, res) {
   }
 });
 
+app.get("/chat", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("chat.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
 app.get("/contact", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("contact.html", "utf8");
@@ -1111,5 +1122,5 @@ io.on("connection", (socket) => {
   });
 });
 
-var PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000;
 server.listen(PORT);
