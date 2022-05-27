@@ -77,24 +77,24 @@ async function getItems() {
           delete_records[k].addEventListener("click", deleteItem);
         }
       }
-      for (let i = 0; i < response.length; i++) {
-        updatePrices(
-          "/get_item_details_amazon",
-          response[i].urlAmazon,
-          response[i].ID
-        );
-        updatePrices(
-          "/get_item_details_bestbuy",
-          response[i].urlBestBuy,
-          response[i].ID
-        );
-        updatePrices(
-          "/get_item_details_newegg",
-          response[i].urlNewEgg,
-          response[i].ID
-        );
-      }
-
+        for (let i = 0; i < response.length; i++) {
+          updatePrices(
+            "/get_item_details_amazon",
+            response[i].urlAmazon,
+            response[i].ID
+          );
+          updatePrices(
+            "/get_item_details_bestbuy",
+            response[i].urlBestBuy,
+            response[i].ID
+          );
+          updatePrices(
+            "/get_item_details_newegg",
+            response[i].urlNewEgg,
+            response[i].ID
+          );
+        }
+     
     }
   };
   xhr.send();
