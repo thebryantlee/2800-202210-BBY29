@@ -326,12 +326,7 @@ app.post("/get_item_details_amazon", async function (req, res) {
   var imgUrl;
   try {
     const browser = await puppeteer.launch({
-      args: [
-        "--incognito",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote"
-      ],
+      args: ["--incognito", "--no-sandbox", "--single-process", "--no-zygote"],
       headless: true,
     });
     const page = await browser.newPage();
@@ -345,27 +340,33 @@ app.post("/get_item_details_amazon", async function (req, res) {
       }
     }
 
-    const result = await page.evaluate(() => {
-      return [
-        JSON.stringify(
-          document.querySelector('div[id="imgTagWrapperId"] > img').src
-        ),
-        JSON.parse(
-          document
-          .querySelector('span[class="a-offscreen"]')
-          .innerText.substring(1)
-          .replace(/,/g, "")
-        ),
-      ];
-    });
-    [priceStr] = [JSON.parse(result[1])];
-    [imgUrl] = [JSON.parse(result[0])];
-    console.log({
-      priceStr,
-    });
-    console.log({
-      imgUrl,
-    });
+    try {
+      const result = await page.evaluate(() => {
+        return [
+          JSON.stringify(
+            document.querySelector('div[id="imgTagWrapperId"] > img').src
+          ),
+          JSON.parse(
+            document
+              .querySelector('span[class="a-offscreen"]')
+              .innerText.substring(1)
+              .replace(/,/g, "")
+          ),
+        ];
+      });
+      [priceStr] = [JSON.parse(result[1])];
+      [imgUrl] = [JSON.parse(result[0])];
+      console.log({
+        priceStr,
+      });
+      console.log({
+        imgUrl,
+      });
+    } catch (e) {
+      if (e instanceof puppeteer.errors.TimeoutError) {
+        console.log("Puppeteer took too long to load the page!");
+      }
+    }
 
     await page.close();
     browser.close();
@@ -378,7 +379,7 @@ app.post("/get_item_details_amazon", async function (req, res) {
   if (priceStr && imgUrl) {
     connection.execute(
       "UPDATE BBY29_item_tracker SET priceAmazon = ?, imgUrl = ? WHERE ID = " +
-      req.body.id,
+        req.body.id,
       [priceStr, imgUrl],
       function (error, results, fields) {
         if (error) {
@@ -402,12 +403,7 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
   var priceStr;
   try {
     const browser = await puppeteer.launch({
-      args: [
-        "--incognito",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote"
-      ],
+      args: ["--incognito", "--no-sandbox", "--single-process", "--no-zygote"],
       headless: true,
     });
     const page = await browser.newPage();
@@ -420,19 +416,27 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
         console.log("Puppeteer took too long to load the page!");
       }
     }
-    const result = await page.evaluate(() => {
-      return [
-        JSON.parse(
-          document
-          .querySelector('span[class="screenReaderOnly_2mubv large_3uSI_"]')
-          .innerText.substring(1)
-        ),
-      ];
-    });
-    [priceStr] = [JSON.parse(result[0])];
-    console.log({
-      priceStr,
-    });
+
+    try {
+      const result = await page.evaluate(() => {
+        return [
+          JSON.parse(
+            document
+              .querySelector('span[class="screenReaderOnly_2mubv large_3uSI_"]')
+              .innerText.substring(1)
+          ),
+        ];
+      });
+      [priceStr] = [JSON.parse(result[0])];
+      console.log({
+        priceStr,
+      });
+    } catch (e) {
+      if (e instanceof puppeteer.errors.TimeoutError) {
+        console.log("Puppeteer took too long to load the page!");
+      }
+    }
+
     await page.close();
     browser.close();
   } catch (error) {
@@ -444,7 +448,7 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
   if (priceStr) {
     connection.execute(
       "UPDATE BBY29_item_tracker SET priceBestBuy = ? WHERE ID = " +
-      req.body.id,
+        req.body.id,
       [priceStr],
       function (error, results, fields) {
         if (error) {
@@ -468,12 +472,7 @@ app.post("/get_item_details_newegg", async function (req, res) {
   var priceStr;
   try {
     const browser = await puppeteer.launch({
-      args: [
-        "--incognito",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote"
-      ],
+      args: ["--incognito", "--no-sandbox", "--single-process", "--no-zygote"],
       headless: true,
     });
     const page = await browser.newPage();
@@ -487,20 +486,26 @@ app.post("/get_item_details_newegg", async function (req, res) {
       }
     }
 
-    const result = await page.evaluate(() => {
-      return [
-        JSON.parse(
-          document
-          .querySelector('div[class="product-offer"]')
-          .children[1].innerText.substring(1)
-          .replace(/,/g, "")
-        ),
-      ];
-    });
-    [priceStr] = [JSON.parse(result[0])];
-    console.log({
-      priceStr,
-    });
+    try {
+      const result = await page.evaluate(() => {
+        return [
+          JSON.parse(
+            document
+              .querySelector('div[class="product-offer"]')
+              .children[1].innerText.substring(1)
+              .replace(/,/g, "")
+          ),
+        ];
+      });
+      [priceStr] = [JSON.parse(result[0])];
+      console.log({
+        priceStr,
+      });
+    } catch (e) {
+      if (e instanceof puppeteer.errors.TimeoutError) {
+        console.log("Puppeteer took too long to get the items!");
+      }
+    }
     await page.close();
     browser.close();
   } catch (error) {
@@ -1085,10 +1090,7 @@ const botName = "Tech to the Moon Bot";
 
 // Run when client connects
 io.on("connection", (socket) => {
-  socket.on("joinRoom", ({
-    username,
-    room
-  }) => {
+  socket.on("joinRoom", ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
 
     socket.join(user.room);
