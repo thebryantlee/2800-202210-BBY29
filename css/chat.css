@@ -130,7 +130,8 @@ a {
 
 .join-header {
 	text-align: center;
-	padding: 20px;
+	padding: 1em;
+    padding-bottom: 0.5em;
 	background: #003566;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;

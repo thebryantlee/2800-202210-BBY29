@@ -1,11 +1,4 @@
-@font-face {
-    font-family: 'Exo 2';
-    src: url(/fonts/Exo2-VariableFont_wght.ttf);
-}
 
-* {
-    font-family: 'Exo 2';
-}
 
 .chat-bar-collapsible {
     position: fixed;
@@ -14,10 +7,15 @@
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
+.chat-link{
+    color:#0069c2 !important;
+    text-decoration: underline !important;
+}
+
 .collapsible {
     /* Align with TTTM colour pallette */
-    background-color: #ffeba7;
-    color: #2a2b38;
+    background-color: #001d3d;
+    color: white;
     cursor: pointer;
     padding: 18px;
     width: 350px;

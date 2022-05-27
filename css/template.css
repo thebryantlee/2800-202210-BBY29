@@ -201,6 +201,13 @@ padding:0.5em;
   margin-right:0.5em;
 }
 
+
+.homeFeatureImage{
+  height:100%;
+  overflow: hidden;
+  object-fit: cover;
+}
+
 .itemContainer{
   padding:1em;
 }
@@ -239,10 +246,6 @@ padding:0.5em;
 .menuMore {
   font-size: 0.7em;
   float: right;
-}
-
-.modalAccount {
-  background-color: #3d3d3d;
 }
 
 .navContainer{
@@ -332,12 +335,23 @@ padding:0.5em;
   font-size: 10pt;
 }
 
-.stockSampleImage{
+.stockImageContainer{
+  border-style: solid;
+  border-color: white;
+  border-width: 1px;
   margin-left: 0.25em;
-  width: 100%;
   grid-column: 2;
   grid-row: 1 / span 3;
+  overflow: hidden;
+  width: 150px;
+  height: 150px;
   float: right;
+}
+
+.stockSampleImage{
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
 }
 
 .stockPrice{
