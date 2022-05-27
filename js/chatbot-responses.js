@@ -19,71 +19,55 @@ function getBotResponse(input) {
   } else if (input == "bye") {
     return "Talk to you later!";
   } else if (input == "shop") {
-    return (
-      "Buy our merch " + '<a class="chat-link" href="/shop.html">here!</a>'
-    );
+    return "Buy our merch " + '<a class="chat-link" href="/shop">here!</a>';
   } else if (input == "store") {
-    return (
-      "Buy our merch " + '<a class="chat-link" href="/shop.html">here!</a>'
-    );
+    return "Buy our merch " + '<a class="chat-link" href="/shop">here!</a>';
   } else if (input == "merch") {
-    return (
-      "Buy our merch " + '<a class="chat-link" href="/shop.html">here!</a>'
-    );
+    return "Buy our merch " + '<a class="chat-link" href="/shop">here!</a>';
   } else if (input == "I want to visit the shop") {
-    return (
-      "Buy our merch " + '<a class="chat-link" href="/shop.html">here!</a>'
-    );
+    return "Buy our merch " + '<a class="chat-link" href="/shop">here!</a>';
   } else if (input == "I want to visit the store") {
-    return (
-      "Buy our merch " + '<a class="chat-link" href="/shop.html">here!</a>'
-    );
+    return "Buy our merch " + '<a class="chat-link" href="/shop">here!</a>';
   } else if (input == "I want to buy merchandise") {
-    return (
-      "Buy our merch " + '<a class="chat-link" href="/shop.html">here!</a>'
-    );
+    return "Buy our merch " + '<a class="chat-link" href="/shop">here!</a>';
   } else if (input == "I want to buy merch") {
-    return (
-      "Buy our merch " + '<a class="chat-link" href="/shop.html">here!</a>'
-    );
+    return "Buy our merch " + '<a class="chat-link" href="/shop">here!</a>';
   } else if (input == "I want to shop") {
-    return (
-      "Buy our merch " + '<a class="chat-link" href="/shop.html">here!</a>'
-    );
+    return "Buy our merch " + '<a class="chat-link" href="/shop">here!</a>';
   } else if (input == "news") {
     return (
-      "View the news feed " + '<a class="chat-link" href="/news.html">here.</a>'
+      "View the news feed " + '<a class="chat-link" href="/news">here.</a>'
     );
   } else if (input == "I want to visit the news feed") {
     return (
-      "View the news feed " + '<a class="chat-link" href="/news.html">here.</a>'
+      "View the news feed " + '<a class="chat-link" href="/news">here.</a>'
     );
   } else if (input == "I want to visit the news") {
     return (
-      "View the news feed " + '<a class="chat-link" href="/news.html">here.</a>'
+      "View the news feed " + '<a class="chat-link" href="/news">here.</a>'
     );
   } else if (input == "I want to see the news feed") {
     return (
-      "View the news feed " + '<a class="chat-link" href="/news.html">here.</a>'
+      "View the news feed " + '<a class="chat-link" href="/news">here.</a>'
     );
   } else if (input == "I want to see the news") {
     return (
-      "View the news feed " + '<a class="chat-link" href="/news.html">here.</a>'
+      "View the news feed " + '<a class="chat-link" href="/news">here.</a>'
     );
   } else if (input == "prices") {
     return (
       "View the price tracker " +
-      '<a class="chat-link" href="/tracker.html">here.</a>'
+      '<a class="chat-link" href="/tracker">here.</a>'
     );
   } else if (input == "I want to compare prices") {
     return (
       "View the price tracker " +
-      '<a class="chat-link" href="/tracker.html">here.</a>'
+      '<a class="chat-link" href="/tracker">here.</a>'
     );
   } else if (input == "I want to track prices") {
     return (
       "View the price tracker " +
-      '<a class="chat-link" href="/tracker.html">here.</a>'
+      '<a class="chat-link" href="/tracker">here.</a>'
     );
   } else if (input == "Thanks") {
     return "You're welcome!";
