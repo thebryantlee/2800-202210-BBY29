@@ -326,7 +326,12 @@ app.post("/get_item_details_amazon", async function (req, res) {
   var imgUrl;
   try {
     const browser = await puppeteer.launch({
-      args: ["--no-sandbox"],
+      args: [
+        "--incognito",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote"
+      ],
       headless: true,
     });
     const page = await browser.newPage();
@@ -347,9 +352,9 @@ app.post("/get_item_details_amazon", async function (req, res) {
         ),
         JSON.parse(
           document
-            .querySelector('span[class="a-offscreen"]')
-            .innerText.substring(1)
-            .replace(/,/g, "")
+          .querySelector('span[class="a-offscreen"]')
+          .innerText.substring(1)
+          .replace(/,/g, "")
         ),
       ];
     });
@@ -373,7 +378,7 @@ app.post("/get_item_details_amazon", async function (req, res) {
   if (priceStr && imgUrl) {
     connection.execute(
       "UPDATE BBY29_item_tracker SET priceAmazon = ?, imgUrl = ? WHERE ID = " +
-        req.body.id,
+      req.body.id,
       [priceStr, imgUrl],
       function (error, results, fields) {
         if (error) {
@@ -397,7 +402,12 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
   var priceStr;
   try {
     const browser = await puppeteer.launch({
-      args: ["--no-sandbox"],
+      args: [
+        "--incognito",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote"
+      ],
       headless: true,
     });
     const page = await browser.newPage();
@@ -414,8 +424,8 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
       return [
         JSON.parse(
           document
-            .querySelector('span[class="screenReaderOnly_2mubv large_3uSI_"]')
-            .innerText.substring(1)
+          .querySelector('span[class="screenReaderOnly_2mubv large_3uSI_"]')
+          .innerText.substring(1)
         ),
       ];
     });
@@ -434,7 +444,7 @@ app.post("/get_item_details_bestbuy", async function (req, res) {
   if (priceStr) {
     connection.execute(
       "UPDATE BBY29_item_tracker SET priceBestBuy = ? WHERE ID = " +
-        req.body.id,
+      req.body.id,
       [priceStr],
       function (error, results, fields) {
         if (error) {
@@ -458,7 +468,12 @@ app.post("/get_item_details_newegg", async function (req, res) {
   var priceStr;
   try {
     const browser = await puppeteer.launch({
-      args: ["--no-sandbox"],
+      args: [
+        "--incognito",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote"
+      ],
       headless: true,
     });
     const page = await browser.newPage();
@@ -476,9 +491,9 @@ app.post("/get_item_details_newegg", async function (req, res) {
       return [
         JSON.parse(
           document
-            .querySelector('div[class="product-offer"]')
-            .children[1].innerText.substring(1)
-            .replace(/,/g, "")
+          .querySelector('div[class="product-offer"]')
+          .children[1].innerText.substring(1)
+          .replace(/,/g, "")
         ),
       ];
     });
@@ -1070,7 +1085,10 @@ const botName = "Tech to the Moon Bot";
 
 // Run when client connects
 io.on("connection", (socket) => {
-  socket.on("joinRoom", ({ username, room }) => {
+  socket.on("joinRoom", ({
+    username,
+    room
+  }) => {
     const user = userJoin(socket.id, username, room);
 
     socket.join(user.room);
