@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -7,10 +5,9 @@
 }
 
 body {
-	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
 	background: #000814;
-	margin: 20px;
+    height:100vh;
 }
 
 ul {
@@ -23,11 +20,8 @@ a {
 
 .btn {
 	cursor: pointer;
-	padding: 5px 5px;
 	background: #001D3D;
 	color: #FFEBA7;
-	border: 0;
-	font-size: 17px;
 }
 
 .btn:hover{
@@ -38,9 +32,7 @@ a {
 /* Chat Page */
 
 .chat-container {
-	max-width: 90vw;
-	background: #fff;
-	margin: 30px auto;
+	background-color: #fff;
 	overflow: hidden;
 }
 
@@ -49,13 +41,14 @@ a {
 	color: #FFEBA7;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
-	padding: 20px;
+	padding: 1em;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
 
 .chat-main {
+    height:74vh;
 	display: grid;
 	grid-template-columns: 1fr 3fr;
 }
@@ -84,14 +77,15 @@ a {
 
 .chat-messages {
 	padding: 30px;
-	max-height: 500px;
+    height:100%;
 	overflow-y: scroll;
+    background-color: #1e1f29;
 }
 
 .chat-messages .message {
 	padding: 10px;
 	margin-bottom: 15px;
-	background-color: #8D8D8D;
+	background-color: #000814;
 	border-radius: 5px;
 	overflow-wrap: break-word;
 }
@@ -105,11 +99,14 @@ a {
 }
 
 .chat-messages .message .meta span {
-	color: #003566;
+	color: #707070;
+    font-size: smaller;
 }
 
 .chat-form-container {
-	padding: 20px 30px;
+	padding: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
 	background-color: #2A2B38;
 }
 
@@ -260,10 +257,6 @@ a {
 
 #dialogbox:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.911);
-}
-
-.container {
-    padding: 2px 16px;
 }
 
 .pure-material-button-contained {
