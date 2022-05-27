@@ -329,9 +329,9 @@ async function deleteRow(e) {
 
 async function addUser() {
   var formPlaceholder = document.getElementById("new-user");
-  var temp = document.getElementById("formid");
+  var temp = document.getElementById("formid1");
   var wrapper = document.createElement("form");
-  wrapper.setAttribute("id", "formid");
+  wrapper.setAttribute("id", "formid1");
   if (!temp) {
     wrapper.innerHTML =
       "<form> " +
