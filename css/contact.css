@@ -1,5 +1,4 @@
 body {
-    font-family: "Roboto", sans-serif;
     background-color: #000814;
     line-height: 1.9;
     color: #8c8c8c;
@@ -129,7 +128,6 @@ option{
 .contact-wrap {
     -webkit-box-shadow: 0 0px 20px 0 rgba(0, 0, 0, 0.05);
     box-shadow: 0 0px 20px 0 rgba(0, 0, 0, 0.05);
-    border: 1px solid #efefef;
 }
 
 .contact-wrap .col-form-label {
