@@ -8,6 +8,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
     <!-- Bootstrap Packages -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -26,6 +31,7 @@
 
     <!-- My CSS Stylesheet -->
     <link rel="stylesheet" href="/css/template.css" />
+    <link rel="stylesheet" href="/css/chatbot.css" />
   </head>
 
   <body>
@@ -63,6 +69,7 @@
     </nav>
 
     <main>
+      <br />
       <div class="container" id="contentSection">
         <div id="tempAlert">
           <div id="wait"></div>
@@ -102,6 +109,7 @@
     </main>
 
     <div id="menus"></div>
+    <div id="insertChatbot"></div>
     <footer class="container">
       <p>©2022 BBY-29, TTTM Inc.</p>
     </footer>
@@ -113,5 +121,8 @@
     <script src="/js/main.js"></script>
     <script src="/js/menu.js"></script>
     <script src="/js/price.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/chatbot.js"></script>
+    <script src="/js/chatbot-responses.js"></script>
   </body>
 </html>
