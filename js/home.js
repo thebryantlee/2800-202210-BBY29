@@ -236,6 +236,34 @@ function getStockSamples() {
         cell.setAttribute("class", "col-md-6 col-xl-4");
         cell.setAttribute("id", "stock-tracker-" + response[i].ID);
 
+        var amazonPrice;
+        var bestBuyPrice;
+        var neweggPrice;
+
+        if (response[i].priceAmazon) {
+          amazonPrice =
+            '<p class="card-text stockPrice"> Amazon: \t$' +
+            response[i].priceAmazon.toFixed(2) +
+            "</p>";
+        } else {
+          amazonPrice = "";
+        }
+        if (response[i].priceBestBuy) {
+          bestBuyPrice =
+            '<p class="card-text stockPrice"> Best Buy: \t$' +
+            response[i].priceBestBuy.toFixed(2) +
+            "</p>";
+        } else {
+          bestBuyPrice = "";
+        }
+        if (response[i].priceNewEgg) {
+          neweggPrice =
+            '<p class="card-text stockPrice"> Newegg: \t$' +
+            response[i].priceNewEgg.toFixed(2) +
+            "</p>";
+        } else {
+          neweggPrice = "";
+        }
         cell.innerHTML =
           '<div class="card bg-dark text-white mb-4 box-shadow">' +
           '<div class="card-header cardCategory">' +
@@ -247,15 +275,9 @@ function getStockSamples() {
           "</span>" +
           "</div>" +
           '<div class="card-body stockBody">' +
-          '<p class="card-text stockPrice"> Amazon: \t$' +
-          response[i].priceAmazon.toFixed(2) +
-          "</p>" +
-          '<p class="card-text stockPrice"> Best Buy: \t$' +
-          response[i].priceBestBuy.toFixed(2) +
-          "</p>" +
-          '<p class="card-text stockPrice"> Newegg: \t$' +
-          response[i].priceNewEgg.toFixed(2) +
-          "</p>" +
+          amazonPrice +
+          bestBuyPrice +
+          neweggPrice +
           '<div class="stockImageContainer mx-auto">' +
           '<img src="' +
           response[i].imgUrl +
