@@ -36,7 +36,6 @@
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasWithBackdrop"
-          aria-controls="offcanvasWithBackdrop"
         >
           <img
             src="/img/icons/menu/hamburger-light.svg"
@@ -51,7 +50,6 @@
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"
         >
           <img
             src="/img/icons/user/user_light.svg"
@@ -69,8 +67,7 @@
               pay for maintaining the site.
             </p>
           </div>
-          <div id="tempAlert">
-          </div>
+          <div id="tempAlert"></div>
           <div class="content bg-dark">
             <div class="row">
               <div class="col-md-12 col-lg-8">
@@ -92,7 +89,7 @@
                               <div class="product-name">TTTM PopSocket</div>
                             </div>
                             <div class="col-md-4 quantity">
-                              <label for="pop-socket-quantity">Quantity:</label>
+                              <span>Quantity:</span>
                               <h5 id="insertPopSocketQuantity">0</h5>
                             </div>
                             <div class="col-md-3 price">
@@ -117,7 +114,7 @@
                               <div class="product-name">TTTM Water Bottle</div>
                             </div>
                             <div class="col-md-4 quantity">
-                              <label for="water-bottle-quantity">Quantity:</label>
+                              <span>Quantity:</span>
                               <h5 id="insertWaterBottleQuantity">0</h5>
                             </div>
                             <div class="col-md-3 price">
@@ -142,7 +139,7 @@
                               <div class="product-name">TTTM T-Shirt</div>
                             </div>
                             <div class="col-md-4 quantity">
-                              <label for="t-shirt-quantity">Quantity:</label>
+                              <span>Quantity:</span>
                               <h5 id="insertTShirtQuantity">0</h5>
                             </div>
                             <div class="col-md-3 price">
@@ -167,7 +164,7 @@
                               <div class="product-name">TTTM Phone Case</div>
                             </div>
                             <div class="col-md-4 quantity">
-                              <label for="phone-case-quantity">Quantity:</label>
+                              <span>Quantity:</span>
                               <h5 id="insertPhoneCaseQuantity">0</h5>
                             </div>
                             <div class="col-md-3 price">
@@ -192,7 +189,7 @@
                               <div class="product-name">TTTM Mug</div>
                             </div>
                             <div class="col-md-4 quantity">
-                              <label for="mug-quantity">Quantity:</label>
+                              <span>Quantity:</span>
                               <h5 id="insertMugQuantity">0</h5>
                             </div>
                             <div class="col-md-3 price">
@@ -217,7 +214,7 @@
                               <div class="product-name">TTTM Hat</div>
                             </div>
                             <div class="col-md-4 quantity">
-                              <label for="hat-quantity">Quantity:</label>
+                              <span>Quantity:</span>
                               <h5 id="insertHatQuantity">0</h5>
                             </div>
                             <div class="col-md-3 price">
@@ -231,26 +228,36 @@
                 </div>
               </div>
               <div class="col-md-12 col-lg-4">
-                <ul class="list-group bg-dark text-light">
+                <div class="list-group bg-dark text-light">
                   <h3>Summary</h3>
                   <!-- Calculations need to be dynamic based on product ID -->
-                  <li class="list-group-item bg-dark text-light">
+                  <div class="list-group-item bg-dark text-light">
                     <span class="text">Subtotal</span
-                    ><span class="cart-subtotal float-end" id="subtotalLocation">112.94</span><span class="float-end">$</span>
-                  </li>
-                  <li class="list-group-item bg-dark text-light">
+                    ><span class="cart-subtotal float-end" id="subtotalLocation"
+                      >112.94</span
+                    ><span class="float-end">$</span>
+                  </div>
+                  <div class="list-group-item bg-dark text-light">
                     <span class="text">Shipping</span
-                    ><span class="cart-shipping float-end">5.00</span><span class="float-end">$</span>
-                  </li>
-                  <li class="list-group-item bg-dark text-light">
+                    ><span class="cart-shipping float-end">5.00</span
+                    ><span class="float-end">$</span>
+                  </div>
+                  <div class="list-group-item bg-dark text-light">
                     <span class="text">Tax</span
-                    ><span class="cart-tax float-end" id="taxLocation">13.55</span><span class="float-end">$</span>
-                  </li>
-                  <li class="list-group-item bg-dark text-light">
+                    ><span class="cart-tax float-end" id="taxLocation"
+                      >13.55</span
+                    ><span class="float-end">$</span>
+                  </div>
+                  <div class="list-group-item bg-dark text-light">
                     <span class="text fw-bold">Total</span
-                    ><span class="cart-total float-end fw-bold" id="totalLocation">131.49</span><span class="float-end">$</span>
-                  </li>
-                  <a href = "/shop-confirm"
+                    ><span
+                      class="cart-total float-end fw-bold"
+                      id="totalLocation"
+                      >131.49</span
+                    ><span class="float-end">$</span>
+                  </div>
+                  <a
+                    href="/shop-confirm"
                     id="checkout-button"
                     class="btn btn-primary btn-lg btn-block"
                     >Checkout</a
