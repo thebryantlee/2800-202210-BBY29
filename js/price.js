@@ -212,27 +212,35 @@ async function deleteItem(e) {
   }
 }
 
+var testLock = false;
+
 async function updatePrices(path, e, f) {
-  const appPath = path;
-  const data = {
-    url: e,
-    id: f,
-  };
-  try {
-    let responseObject = await fetch(appPath, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    if (responseObject.status == 200) {
-    } else {
-      console.log(responseObject.status);
+  if (!testLock) {
+    testLock = true;
+    const appPath = path;
+    const data = {
+      url: e,
+      id: f,
+    };
+    try {
+      let responseObject = await fetch(appPath, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (responseObject.status == 200) {
+        testLock = false;
+      } else {
+        testLock = false;
+        console.log(responseObject.status);
+      }
+    } catch (error) {
+      testLock = false;
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
   }
 }
 
