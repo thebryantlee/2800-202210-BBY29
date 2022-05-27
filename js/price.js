@@ -3,7 +3,6 @@ window.addEventListener("load", removeButton);
 
 async function getItems() {
   removeButton();
-  console.log("ran getitems");
   const itemLocation = document.getElementById("items");
   itemLocation.innerHTML = "";
   var xhr = new XMLHttpRequest();
@@ -21,7 +20,7 @@ async function getItems() {
           "There are no items currently being tracked!" +
           "</h5>";
       }
-      
+
       for (let j = 0; j < response.length; j++) {
         var item = document.createElement("div");
 
@@ -69,8 +68,8 @@ async function getItems() {
             "</div>" +
             "</div>";
           itemLocation.appendChild(item);
-        }        
-        
+        }
+
         let delete_records = document.querySelectorAll(
           "button[class='btn btn-sm btn-light float-end deleteItem']"
         );
@@ -78,25 +77,25 @@ async function getItems() {
           delete_records[k].addEventListener("click", deleteItem);
         }
 
-      for (let i = 0; i < response.length; i++) {
-        updatePrices(
-          "/get_item_details_amazon",
-          response[i].urlAmazon,
-          response[i].ID
-        );
-        updatePrices(
-          "/get_item_details_bestbuy",
-          response[i].urlBestBuy,
-          response[i].ID
-        );
-        updatePrices(
-          "/get_item_details_newegg",
-          response[i].urlNewEgg,
-          response[i].ID
-        );
+        for (let i = 0; i < response.length; i++) {
+          updatePrices(
+            "/get_item_details_amazon",
+            response[i].urlAmazon,
+            response[i].ID
+          );
+          updatePrices(
+            "/get_item_details_bestbuy",
+            response[i].urlBestBuy,
+            response[i].ID
+          );
+          updatePrices(
+            "/get_item_details_newegg",
+            response[i].urlNewEgg,
+            response[i].ID
+          );
+        }
       }
     }
-  }
   };
   xhr.send();
 }
