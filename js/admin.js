@@ -18,12 +18,11 @@ function getNewsForm() {
     '<div class="mb-3">' +
     '<label for="inputCategory" class="form-label">Category</label>' +
     '<select class="form-control" id="inputCategory">' +
-    '<option value="0" selected>Choose a category...</option>' +
     '<option value="1">New Release</option>' +
     '<option value="2">Tech Company</option>' +
     '<option value="3">Major Update </option>' +
     '<option value="4">Event</option>' +
-    '<option value="5">Random (other)</option>' +
+    '<option value="5 selected">Random (other)</option>' +
     "</select>" +
     "</div>" +
     '<div class="mb-3">' +

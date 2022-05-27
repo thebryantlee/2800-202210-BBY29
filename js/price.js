@@ -21,6 +21,24 @@ async function getItems() {
           "</h5>";
       }
 
+      for (let i = 0; i < response.length; i++) {
+        updatePrices(
+          "/get_item_details_amazon",
+          response[i].urlAmazon,
+          response[i].ID
+        );
+        updatePrices(
+          "/get_item_details_bestbuy",
+          response[i].urlBestBuy,
+          response[i].ID
+        );
+        updatePrices(
+          "/get_item_details_newegg",
+          response[i].urlNewEgg,
+          response[i].ID
+        );
+      }
+
       for (let j = 0; j < response.length; j++) {
         var item = document.createElement("div");
 
@@ -77,24 +95,6 @@ async function getItems() {
           delete_records[k].addEventListener("click", deleteItem);
         }
       }
-        for (let i = 0; i < response.length; i++) {
-          updatePrices(
-            "/get_item_details_amazon",
-            response[i].urlAmazon,
-            response[i].ID
-          );
-          updatePrices(
-            "/get_item_details_bestbuy",
-            response[i].urlBestBuy,
-            response[i].ID
-          );
-          updatePrices(
-            "/get_item_details_newegg",
-            response[i].urlNewEgg,
-            response[i].ID
-          );
-        }
-     
     }
   };
   xhr.send();
@@ -215,32 +215,29 @@ async function deleteItem(e) {
 var testLock = false;
 
 async function updatePrices(path, e, f) {
-  if (!testLock) {
-    testLock = true;
-    const appPath = path;
-    const data = {
-      url: e,
-      id: f,
-    };
-    try {
-      let responseObject = await fetch(appPath, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (responseObject.status == 200) {
-        testLock = false;
-      } else {
-        testLock = false;
-        console.log(responseObject.status);
-      }
-    } catch (error) {
+  const appPath = path;
+  const data = {
+    url: e,
+    id: f,
+  };
+  try {
+    let responseObject = await fetch(appPath, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (responseObject.status == 200) {
       testLock = false;
-      console.log(error);
+    } else {
+      testLock = false;
+      console.log(responseObject.status);
     }
+  } catch (error) {
+    testLock = false;
+    console.log(error);
   }
 }
 
