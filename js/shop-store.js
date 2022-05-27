@@ -132,6 +132,8 @@ function getShoppingCart() {
     '<div id="insertCartItemsHere"></div>' +
     "</div>" +
     "</div>";
+  const shoppingCartButton = document.getElementById("shoppingCartButton");
+  shoppingCartButton.setAttribute("aria-controls", "offcanvasShoppingCart");
   getShoppingSessionItems();
 }
 
