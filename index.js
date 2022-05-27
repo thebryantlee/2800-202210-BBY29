@@ -1036,8 +1036,6 @@ app.get("/contact", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("contact.html", "utf8");
     res.send(doc);
-  } else if (req.session.loggedIn) {
-    res.redirect("/account");
   } else {
     res.redirect("/");
   }
