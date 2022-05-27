@@ -37,9 +37,9 @@ const is_heroku = process.env.IS_HEROKU || false;
 const dbConfigHeroku = {
   host: "ebh2y8tqym512wqs.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
   port: 3306,
-  user: "qp4pykpoi4im9ma3",
-  password: "f3e5453kwi5dj8z8",
-  database: "vuj5jsaqhkrllnp5",
+  user: "rb7c537onneq71ia",
+  password: "v7fagfy6agqcwws4",
+  database: "bb8meh36r7vba1dz",
   multipleStatements: false,
 };
 
@@ -1103,5 +1103,5 @@ io.on("connection", (socket) => {
   });
 });
 
-var PORT = process.env.PORT || 8080;
+var PORT = process.env.PORT || 8000;
 server.listen(PORT);
