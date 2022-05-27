@@ -233,7 +233,7 @@ function getStockSamples() {
 
       for (let i = 0; i < response.length; i++) {
         var cell = document.createElement("div");
-        cell.setAttribute("class", "col-md-4");
+        cell.setAttribute("class", "col-md-6 col-xl-4");
         cell.setAttribute("id", "stock-tracker-" + response[i].ID);
 
         cell.innerHTML =
@@ -247,18 +247,20 @@ function getStockSamples() {
           "</span>" +
           "</div>" +
           '<div class="card-body stockBody">' +
-          '<p class="card-text stockPrice"> Amazon: $' +
+          '<p class="card-text stockPrice"> Amazon: \t$' +
           response[i].priceAmazon.toFixed(2) +
           "</p>" +
-          '<p class="card-text stockPrice"> Best Buy: $' +
+          '<p class="card-text stockPrice"> Best Buy: \t$' +
           response[i].priceBestBuy.toFixed(2) +
           "</p>" +
-          '<p class="card-text stockPrice"> Newegg: $' +
+          '<p class="card-text stockPrice"> Newegg: \t$' +
           response[i].priceNewEgg.toFixed(2) +
           "</p>" +
+          '<div class="stockImageContainer mx-auto">' +
           '<img src="' +
           response[i].imgUrl +
           '" alt="amazon-images" class="stockSampleImage col-6" />' +
+          "</div>" +
           '<div class="d-flex justify-content-between align-items-center">' +
           '<div class="btn-group" id="card-' +
           response[i].ID +
