@@ -183,6 +183,24 @@ app.get("/users", function (req, res) {
 });
 
 // Gabriel's code (start)
+
+app.get("/get_all_users", function(req, res) {
+  connection.execute(
+    "SELECT user_name FROM BBY29_user",
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length > 0) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
 app.post("/logout", function (req, res) {
   if (req.session) {
     req.session.destroy(function (error) {
@@ -664,8 +682,8 @@ app.get("/tracker/:user_name", function (req, res) {
 
 app.get("/current_user", function (req, res) {
   connection.execute(
-    "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ?",
-    [req.session.user_name],
+    "SELECT * FROM BBY29_user WHERE BBY29_user.user_ID = ?",
+    [req.session.user_ID],
     function (error, results, fields) {
       if (error) {
         console.log(error);
