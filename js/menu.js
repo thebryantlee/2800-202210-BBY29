@@ -28,9 +28,9 @@ function getMenus() {
     "Latest News</a>" +
     "</li>" +
     '<li class="list-group-item menuList">' +
-    '<a href="#" class="disabled-link">' +
+    '<a href="/chatroom">' +
     '<img src="/img/icons/basic/chatroom.svg" alt="Chat room Icon" class="menuIcon"/>' +
-    "Community Boards</a>" +
+    "Community Chat</a>" +
     "</li>" +
     "</ul>" +
     "</div>" +
@@ -45,46 +45,30 @@ function getMenus() {
     '<p class="menuLabel">Full Name</p>' +
     '<div id="placeFullNameHere"></div>' +
     "</div>" +
-    '<ul class="list-group list-group-flush">' +
+    '<ul class="list-group list-group-flush profileLinks">' +
     '<li class="list-group-item menuList">' +
     '<a href="/account" id="accountLink">' +
     '<img src="/img/icons/user/user.svg" alt="User Account Icon" class="menuIcon"/>' +
     "Account</a>" +
     "</li>" +
     '<li class="list-group-item menuList">' +
-    '<a href="#" class="disabled-link">' +
-    '<img src="/img/icons/basic/settings-grey.svg" alt="Settings Gear Icon" class="menuIcon"/>' +
-    "Settings</a>" +
-    "</li>" +
-    '<li class="list-group-item menuList">' +
-    '<a href="#" class="disabled-link">' +
+    '<a href="/contact">' +
     '<img src="/img/icons/basic/bug.svg" alt="Bug Icon" class="menuIcon"/>' +
-    "Bug Reports</a>" +
-    "</li>" +
-    '<li class="list-group-item menuList">' +
-    '<a href="#" class="disabled-link">' +
-    '<img src="/img/icons/basic/update-log.svg" alt="Scroll/Update Log Icon" class="menuIcon"/>' +
-    "Update Log</a>" +
-    "</li>" +
-    '<li class="list-group-item menuList">' +
-    '<a href="#" class="disabled-link">' +
-    '<img src="/img/icons/basic/support.svg" alt="Question mark/Support Icon" class="menuIcon"/>' +
-    "Support Queries</a>" +
-    "</li>" +
-    '<li class="list-group-item menuList">' +
-    '<a href="#" class="disabled-link">' +
-    '<img src="/img/icons/basic/book-outline.svg" alt="Book/Acknowledgements Icon" class="menuIcon"/>' +
-    "Acknowledgements</a>" +
+    "Report a bug</a>" +
     "</li>" +
     '<li class="list-group-item menuList">' +
     '<img src="/img/icons/menu/sign-out.svg" alt="Signout Icon" class="menuIcon"/>' +
     '<button type="button" id="signOutButton" onclick="logout()">Sign out</button>' +
     "</li>" +
     "</ul>" +
-    '<p id="appVersion">Version 0.0001</p>' +
+    '<p id="appVersion">Version 1.0</p>' +
     "</div>" +
     "</div>" +
     "</div>";
+  const navMenu = document.getElementById("navButton");
+  const profileMenu = document.getElementById("profileButton");
+  navMenu.setAttribute("aria-controls", "offcanvasWithBackdrop");
+  profileMenu.setAttribute("aria-controls", "offcanvasRight");
   getCurrentUser();
 }
 

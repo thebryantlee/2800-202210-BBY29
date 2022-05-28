@@ -11,25 +11,22 @@ CREATE TABLE BBY29_user (
   password VARCHAR(50),
   avatar_path int,
   UNIQUE(user_name),
-  PRIMARY KEY (ID),
-  item1 int,
-  item2 int,
-  item3 int,
-  item4 int,
-  item5 int,
-  item6 int,
-  checkedout boolean
+  PRIMARY KEY (ID)
 );
 
 CREATE TABLE BBY29_item_tracker (
   ID int NOT NULL AUTO_INCREMENT,
-  item_user_ID int,
-  url VARCHAR(400),
+  user_ID int NOT NULL,
   title VARCHAR(200),
-  priceStr VARCHAR(50),
+  urlAmazon VARCHAR(400),
+  urlBestBuy VARCHAR(400),
+  urlNewEgg VARCHAR(400),
+  priceAmazon float,
+  priceBestBuy float,
+  priceNewEgg float,
   imgUrl VARCHAR(350),
   PRIMARY KEY (ID),
-  FOREIGN KEY (item_user_ID) REFERENCES BBY29_user(ID)
+  FOREIGN KEY (user_ID) REFERENCES BBY29_user(ID)
 );
 
 INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, admin, password, avatar_path) VALUES
@@ -41,10 +38,36 @@ INSERT INTO BBY29_user (user_name, first_name, last_name, email, phone_number, a
 ('arronAdmin', 'Arron', 'Admin', 'arronadmin@gmail.com', '6044567890', 1, 'jkUEEPLdqJOfkvy5bUpERw==', 4),
 ('arronUser', 'Arron', 'User', 'arronuser@gmail.com', '7788904567', 0, '8uj2xIpNW29d5MwFEBfd5A==', 0);
 
-
-CREATE TABLE BBY29_shopping_cart (
+CREATE TABLE shopping_product (
   ID int NOT NULL AUTO_INCREMENT,
-  user_name VARCHAR(30) NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  description VARCHAR(250),
+  price float,
+  imageLink VARCHAR(200),
+  PRIMARY KEY (ID)
+);
+
+INSERT INTO shopping_product (name, description, price, imageLink) VALUES
+("TTTM Popsocket", "A white popsocket designed to be attached to a cell phone with the TTTM logo on it.", 14.99, "../img/images/TTTM_Pop_Socket.png"),
+("TTTM Bottle", "A white 20L resealable water bottle containing the TTTM logo on it.", 24.99, "../img/images/TTTM_Water_Bottle.png"),
+("TTTM T-Shirt", "A white one-size-fits-all T-Shirt with the TTTM logo on it.", 19.99, "../img/images/TTTM_T-Shirt.png"),
+("TTTM Phone Case", "A white phone case with the ability to fit any case. Has the TTTM logo on it.", 24.99, "../img/images/TTTM_Phone_Case.png"),
+("TTTM Mug", "A simple white mug with the TTTM logo on it.", 9.99, "../img/images/TTTM_Mug.png"),
+("TTTM Hat", "A white one-size-fits-all baseball-style hat with the TTTM logo on it.", 17.99, "../img/images/TTTM_Hat.png");
+
+CREATE TABLE shopping_cart_item (
+  ID int NOT NULL AUTO_INCREMENT,
+  userID int NOT NULL,
+  productID int NOT NULL,
+  quantity int NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (userID) REFERENCES BBY29_user(ID),
+  FOREIGN KEY (productID) REFERENCES shopping_product(ID)
+);
+
+CREATE TABLE shopping_order_history(
+  ID int NOT NULL AUTO_INCREMENT,
+  userID int NOT NULL,
   quantityPopSocket int,
   quantityBottle int,
   quantityShirt int,
@@ -54,8 +77,10 @@ CREATE TABLE BBY29_shopping_cart (
   total float,
   purchaseDate DATETIME,
   PRIMARY KEY (ID),
-  FOREIGN KEY (user_name) REFERENCES BBY29_user(user_name)
+  FOREIGN KEY (userID) REFERENCES BBY29_user(ID)
 );
+
+
 
 
 CREATE TABLE news_post (

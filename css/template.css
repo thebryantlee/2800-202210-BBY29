@@ -55,6 +55,12 @@
   border-radius: 50%;
 }
 
+#insertHistoryHere{
+  border-color: #3d3d3d;
+  border-width: 1px;
+  border-style: solid;
+}
+
 #navButton {
   background-color: #000814;
   border: none;
@@ -79,10 +85,16 @@
   margin: 0;
 }
 
+
 #profileButton {
   float: right;
   background-color: #000814;
   border: none;
+}
+
+#shoppingCartButton{
+  border:none;
+  background-color: #000814;
 }
 
 #signOutButton {
@@ -90,6 +102,10 @@
   border: none;
   color: white;
   padding: 0;
+}
+
+#stockFavourites{
+  height:100%;
 }
 
 #urlForm{
@@ -104,8 +120,28 @@
   margin-top: 0.5em;
 }
 
+.addItem{
+  height:20px;
+  width: 20px;
+}
+
+.addItemButton{
+  padding:0.1em;
+  margin-bottom:0.5em !important;
+}
+
 .cardCategory {
   font-size: small;
+}
+
+.cartImage{
+  max-height: 150px;
+  width: auto;
+  padding:1em;
+}
+
+.contactLabels{
+  font-weight: bold;
 }
 
 .content {
@@ -150,8 +186,35 @@
   margin: 0.5em;
 }
 
+.historyGroup{
+  padding-right: 0;
+}
+
+.historyImage{
+width: 35%;
+max-width: 150px;
+height: auto;
+padding:0.5em;
+}
+
+.historyLabel{
+  margin-right:0.5em;
+}
+
+
+.homeFeatureImage{
+  height:100%;
+  overflow: hidden;
+  object-fit: cover;
+}
+
 .itemContainer{
   padding:1em;
+}
+
+.itemTitle{
+  font-weight: 600;
+  text-decoration: underline !important;
 }
 
 .menuGroup {
@@ -185,8 +248,8 @@
   float: right;
 }
 
-.modalAccount {
-  background-color: #3d3d3d;
+.navContainer{
+  background-color: #000814;
 }
 
 .newsCategoryIcon {
@@ -240,12 +303,22 @@
   border-radius: 50%;
 }
 
+.profileLinks{
+  margin-top: 1em;
+  margin-bottom: 20em;
+}
+
 .refreshButton {
   margin-right: 0.5em;
 }
 
 .shopTitle{
   padding:1em;
+}
+
+.stockBody{
+  display: grid;
+  grid-template-columns: 40% 60%;
 }
 
 .stock-image{
@@ -260,6 +333,33 @@
 .stockHeader {
   margin: 0;
   font-size: 10pt;
+}
+
+.stockImageContainer{
+  border-style: solid;
+  border-color: white;
+  border-width: 1px;
+  margin-left: 0.25em;
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  overflow: hidden;
+  width: 150px;
+  height: 150px;
+  float: right;
+}
+
+.stockSampleImage{
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.stockPrice{
+  grid-column: 1;
+}
+
+.stockTitle{
+  font-weight: bold;
 }
 
 .updateButton{

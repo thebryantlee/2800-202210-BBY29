@@ -18,12 +18,11 @@ function getNewsForm() {
     '<div class="mb-3">' +
     '<label for="inputCategory" class="form-label">Category</label>' +
     '<select class="form-control" id="inputCategory">' +
-    '<option value="0" selected>Choose a category...</option>' +
     '<option value="1">New Release</option>' +
     '<option value="2">Tech Company</option>' +
     '<option value="3">Major Update </option>' +
     '<option value="4">Event</option>' +
-    '<option value="5">Random (other)</option>' +
+    '<option value="5 selected">Random (other)</option>' +
     "</select>" +
     "</div>" +
     '<div class="mb-3">' +
@@ -329,9 +328,9 @@ async function deleteRow(e) {
 
 async function addUser() {
   var formPlaceholder = document.getElementById("new-user");
-  var temp = document.getElementById("formid");
+  var temp = document.getElementById("formid1");
   var wrapper = document.createElement("form");
-  wrapper.setAttribute("id", "formid");
+  wrapper.setAttribute("id", "formid1");
   if (!temp) {
     wrapper.innerHTML =
       "<form> " +

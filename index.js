@@ -1,10 +1,22 @@
+const path = require("path");
+const http = require("http");
 const express = require("express");
+const socketio = require("socket.io");
 const session = require("express-session");
 const app = express();
 app.use(express.json());
 const fs = require("fs");
 const mysql = require("mysql2");
 const crypto = require("crypto");
+const formatMessage = require("./js/messages");
+const {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers,
+} = require("./js/users");
+const server = http.createServer(app);
+const io = socketio(server);
 
 const puppeteer = require("puppeteer");
 require("dotenv").config();
@@ -25,9 +37,9 @@ const is_heroku = process.env.IS_HEROKU || false;
 const dbConfigHeroku = {
   host: "ebh2y8tqym512wqs.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
   port: 3306,
-  user: "qp4pykpoi4im9ma3",
-  password: "f3e5453kwi5dj8z8",
-  database: "vuj5jsaqhkrllnp5",
+  user: "rb7c537onneq71ia",
+  password: "v7fagfy6agqcwws4",
+  database: "bb8meh36r7vba1dz",
   multipleStatements: false,
 };
 
@@ -171,6 +183,24 @@ app.get("/users", function (req, res) {
 });
 
 // Gabriel's code (start)
+
+app.get("/get_all_users", function(req, res) {
+  connection.execute(
+    "SELECT user_name FROM BBY29_user",
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length > 0) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
 app.post("/logout", function (req, res) {
   if (req.session) {
     req.session.destroy(function (error) {
@@ -269,12 +299,15 @@ app.post("/delete_user", function (req, res) {
 app.post("/add_item", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const user = req.session.user_ID;
-  const url = req.body.url;
+  const title = req.body.modelName;
+  const amazon_url = req.body.amazonUrl;
+  const bestbuy_url = req.body.bestBuyUrl;
+  const newegg_url = req.body.neweggUrl;
   console.log(user);
 
   connection.execute(
-    "INSERT INTO BBY29_item_tracker (item_user_ID, url, title, priceStr, imgUrl) values (?, ?, ?, ?, ?)",
-    [user, url, null, null, null],
+    "INSERT INTO BBY29_item_tracker (user_ID, title, urlAmazon, urlBestBuy, urlNewEgg, priceAmazon, priceBestBuy, priceNewEgg, imgUrl) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [user, title, amazon_url, bestbuy_url, newegg_url, null, null, null, null],
     function (error, results, fields) {
       if (error) {
         console.log(error);
@@ -289,92 +322,211 @@ app.post("/add_item", function (req, res) {
 
 app.get("/get_items", function (req, res) {
   connection.execute(
-    "SELECT * FROM BBY29_item_tracker WHERE item_user_ID = " +
-    req.session.user_ID,
+    "SELECT * FROM BBY29_item_tracker WHERE user_ID = " + req.session.user_ID,
     function (error, results, fields) {
       if (error) {
         console.log(error);
         res.sendStatus(500);
       } else {
-        if (results.length > 0) {
+        if (results.length >= 0) {
           res.send(results);
         } else {
-          res.send(results);
+          res.sendStatus(500);
         }
       }
     }
   );
 });
 
-app.post("/get_item_details", async function (req, res) {
+app.post("/get_item_details_amazon", async function (req, res) {
   const item_url = req.body.url;
-  var title;
   var priceStr;
   var imgUrl;
   try {
     const browser = await puppeteer.launch({
-      headless: true
+      headless: true,
     });
     const page = await browser.newPage();
-    await page.goto(item_url, {
-      waitUntil: "domcontentloaded",
-      timeout: 60000,
-    });
     try {
-      await page.waitForSelector("#productTitle", {
-        visible: true
+      await page.goto(item_url, {
+        waitUntil: "networkidle2",
       });
-      await page.waitForSelector(".a-offscreen", {
-        visible: true
-      });
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
-      return;
+    } catch (e) {
+      if (e instanceof puppeteer.errors.TimeoutError) {
+        console.log("Puppeteer took too long to load the page!");
+      }
     }
 
     const result = await page.evaluate(() => {
       return [
-        JSON.stringify(document.getElementById("productTitle").innerHTML),
-        JSON.stringify(document.getElementById("landingImage").src),
         JSON.stringify(
-          document.getElementsByClassName("a-offscreen")[0].innerHTML
+          document.querySelector('div[id="imgTagWrapperId"] > img').src
+        ),
+        JSON.parse(
+          document
+            .querySelector('span[class="a-offscreen"]')
+            .innerText.substring(1)
+            .replace(/,/g, "")
         ),
       ];
     });
-    [title] = [JSON.parse(result[0])];
-    [priceStr] = [JSON.parse(result[2])];
-    [imgUrl] = [JSON.parse(result[1])];
+    [priceStr] = [JSON.parse(result[1])];
+    [imgUrl] = [JSON.parse(result[0])];
     console.log({
-      title
+      priceStr,
     });
     console.log({
-      priceStr
+      imgUrl,
     });
-    console.log({
-      imgUrl
-    });
+
+    await page.close();
     browser.close();
   } catch (error) {
     console.log(error);
+    browser.close();
   }
 
-  connection.execute(
-    "UPDATE BBY29_item_tracker SET title = ?, priceStr = ?, imgUrl = ? WHERE ID = " +
-    req.body.id,
-    [title, priceStr, imgUrl],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
+  if (priceStr && imgUrl) {
+    connection.execute(
+      "UPDATE BBY29_item_tracker SET priceAmazon = ?, imgUrl = ? WHERE ID = " +
+        req.body.id,
+      [priceStr, imgUrl],
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+        } else {
+          res.send({
+            status: "success",
+            msg: "Record added.",
+          });
+        }
+      }
+    );
+  } else {
+    res.sendStatus(400);
+  }
+});
+
+app.post("/get_item_details_bestbuy", async function (req, res) {
+  const item_url = req.body.url;
+  var priceStr;
+  try {
+    const browser = await puppeteer.launch({
+      headless: true,
+    });
+    const page = await browser.newPage();
+    try {
+      await page.goto(item_url, {
+        waitUntil: "networkidle0",
+      });
+    } catch (e) {
+      if (e instanceof puppeteer.errors.TimeoutError) {
+        console.log("Puppeteer took too long to load the page!");
       }
     }
-  );
+
+    const result = await page.evaluate(() => {
+      return [
+        JSON.parse(
+          document
+            .querySelector('span[class="screenReaderOnly_2mubv large_3uSI_"]')
+            .innerText.substring(1)
+        ),
+      ];
+    });
+    [priceStr] = [JSON.parse(result[0])];
+    console.log({
+      priceStr,
+    });
+
+    await page.close();
+    browser.close();
+  } catch (error) {
+    console.log(error);
+    browser.close();
+  }
+
+  if (priceStr) {
+    connection.execute(
+      "UPDATE BBY29_item_tracker SET priceBestBuy = ? WHERE ID = " +
+        req.body.id,
+      [priceStr],
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+        } else {
+          res.send({
+            status: "success",
+            msg: "Record added.",
+          });
+        }
+      }
+    );
+  } else {
+    res.sendStatus(400);
+  }
+});
+
+app.post("/get_item_details_newegg", async function (req, res) {
+  const item_url = req.body.url;
+  var priceStr;
+  try {
+    const browser = await puppeteer.launch({
+      headless: true,
+    });
+    const page = await browser.newPage();
+    try {
+      await page.goto(item_url, {
+        waitUntil: "networkidle0",
+      });
+    } catch (e) {
+      if (e instanceof puppeteer.errors.TimeoutError) {
+        console.log("Puppeteer took too long to load the page!");
+      }
+    }
+
+    const result = await page.evaluate(() => {
+      return [
+        JSON.parse(
+          document
+            .querySelector('div[class="product-offer"]')
+            .children[1].innerText.substring(1)
+            .replace(/,/g, "")
+        ),
+      ];
+    });
+    [priceStr] = [JSON.parse(result[0])];
+    console.log({
+      priceStr,
+    });
+    await page.close();
+    browser.close();
+  } catch (error) {
+    console.log(error);
+    browser.close();
+  }
+
+  if (priceStr) {
+    connection.execute(
+      "UPDATE BBY29_item_tracker SET priceNewEgg = ? WHERE ID = " + req.body.id,
+      [priceStr],
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(500);
+        } else {
+          res.send({
+            status: "success",
+            msg: "Record added.",
+          });
+        }
+      }
+    );
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 app.post("/delete_item", function (req, res) {
@@ -436,7 +588,7 @@ app.post("/updateData", function (req, res) {
   const em = req.body.email;
   const pNum = req.body.phone_number;
   const avatar = req.body.avatar_path;
-  const pass = req.body.password;
+  const pass = hash(req.body.password + salt);
 
   //With password
   if (pass) {
@@ -530,8 +682,8 @@ app.get("/tracker/:user_name", function (req, res) {
 
 app.get("/current_user", function (req, res) {
   connection.execute(
-    "SELECT * FROM BBY29_user WHERE BBY29_user.user_name = ?",
-    [req.session.user_name],
+    "SELECT * FROM BBY29_user WHERE BBY29_user.user_ID = ?",
+    [req.session.user_ID],
     function (error, results, fields) {
       if (error) {
         console.log(error);
@@ -689,182 +841,166 @@ app.get("/recent_news", function (req, res) {
   );
 });
 
+app.get("/getShoppingSessionItems", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT * FROM shopping_cart_item WHERE userID = " + req.session.user_ID,
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        if (results.length >= 0) {
+          res.send(results);
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    }
+  );
+});
+
+app.post("/addCartItem", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.session.user_ID;
+  const itemID = req.body.itemID;
+  const quantity = req.body.quantity;
+
+  connection.execute(
+    "INSERT INTO shopping_cart_item (userID, productID, quantity) values (?, ?, ?)",
+    [user, itemID, quantity],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Cart Item added.",
+        });
+      }
+    }
+  );
+});
+
+app.post("/delete_cart_item", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  const user = req.session.user_ID;
+  const itemID = req.body.itemID;
+
+  connection.execute(
+    "DELETE FROM shopping_cart_item WHERE ID = ? AND userID = ?",
+    [itemID, user],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Cart item deleted.",
+        });
+      }
+    }
+  );
+});
+
+app.get("/delete_cart", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "DELETE FROM shopping_cart_item WHERE userID = " + req.session.user_ID,
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send({
+          status: "success",
+          msg: "All cart items deleted.",
+        });
+      }
+    }
+  );
+});
+
+app.get("/getShoppingQuantities", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT productID, SUM(quantity) as count FROM shopping_cart_item WHERE userID = ? GROUP BY productID",
+    [req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send(results);
+      }
+    }
+  );
+});
+
+app.post("/upload_cart", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.query(
+    "INSERT INTO shopping_order_history (userID, quantityPopSocket, quantityBottle, quantityShirt, quantityCase, quantityMug, quantityHat, total, purchaseDate) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      req.session.user_ID,
+      req.body.quantityPopSocket,
+      req.body.quantityBottle,
+      req.body.quantityShirt,
+      req.body.quantityCase,
+      req.body.quantityMug,
+      req.body.quantityHat,
+      req.body.total,
+      req.body.purchaseDate,
+    ],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+      } else {
+        res.send({
+          status: "success",
+          msg: "Purchase added to history.",
+        });
+      }
+    }
+  );
+});
+
+app.get("/get_purchase_history", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT * FROM shopping_order_history WHERE userID = ?",
+    [req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send(results);
+      }
+    }
+  );
+});
+
+app.get("/get_stock_samples", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  connection.execute(
+    "SELECT * FROM bby29_item_tracker WHERE user_ID = ? LIMIT 3;",
+    [req.session.user_ID],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(500);
+      } else {
+        res.send(results);
+      }
+    }
+  );
+});
 // Jacob's code (end)
+
 // Heroku Dynamically assigns port via process.env.PORT.
-
-app.put("/updateItem5", function (req, res) {
-  const item5 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item5 = ? WHERE ID = ?",
-    [item5, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateItem6", function (req, res) {
-  const item6 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item6 = ? WHERE ID = ?",
-    [item6, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateItem1", function (req, res) {
-  const item1 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item1 = ? WHERE ID = ?",
-    [item1, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateItem2", function (req, res) {
-  const item2 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item2 = ? WHERE ID = ?",
-    [item2, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateItem3", function (req, res) {
-  const item3 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item3 = ? WHERE ID = ?",
-    [item3, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateItem4", function (req, res) {
-  const item4 = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET item4 = ? WHERE ID = ?",
-    [item4, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-app.put("/updateCheckout", function (req, res) {
-  // what to put for const
-  const checkedout = req.body.quantity;
-  connection.execute(
-    "UPDATE BBY29_user SET checkedout = ? WHERE ID = ?",
-    [item4, req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
-});
-
-// App.get function to get the current cart
-app.get("/currentCart", function (req, res) {
-  connection.execute(
-    "SELECT item5, item6, item1, item2, item3, item4 FROM BBY29_user WHERE ID = ?",
-    [req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        if (results.length === 1) {
-          res.send(results);
-        } else {
-          res.sendStatus(400);
-        }
-      }
-    }
-  );
-});
-
-// App.get function to get checkout
-app.get("/currentCheckout", function (req, res) {
-  connection.execute(
-    "SELECT checkedout FROM BBY29_user WHERE ID = ?",
-    [req.session.user_ID],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(500);
-      } else {
-        if (results.length === 1) {
-          res.send(results);
-        } else {
-          res.sendStatus(400);
-        }
-      }
-    }
-  );
-});
 
 app.get("/shop", function (req, res) {
   if (req.session.loggedIn) {
@@ -888,6 +1024,17 @@ app.get("/summary", function (req, res) {
   }
 });
 
+app.get("/shop-confirm", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("shop-confirm.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
 app.get("/checkout", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("shop-confirm.html", "utf8");
@@ -899,33 +1046,95 @@ app.get("/checkout", function (req, res) {
   }
 });
 
-app.post("/upload_cart", function (req, res) {
-  res.setHeader("Content-Type", "application/json");
-  connection.query(
-    "INSERT INTO BBY29_shopping_cart (user_name, quantityPopSocket, quantityBottle, quantityShirt, quantityCase, quantityMug, quantityHat, total, purchaseDate) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [
-      req.session.user_name,
-      req.body.quantityPopSocket,
-      req.body.quantityBottle,
-      req.body.quantityShirt,
-      req.body.quantityCase,
-      req.body.quantityMug,
-      req.body.quantityHat,
-      req.body.total,
-      req.body.purchaseDate,
-    ],
-    function (error, results, fields) {
-      if (error) {
-        console.log(error);
-      } else {
-        res.send({
-          status: "success",
-          msg: "Record added.",
-        });
-      }
-    }
-  );
+app.get("/chatroom", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("chatroom.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
 });
 
-// When running locally process.env.PORT is undefined so runs on port 8000
-app.listen(process.env.PORT || 8000);
+app.get("/chat", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("chat.html", "utf8");
+    res.send(doc);
+  } else if (req.session.loggedIn) {
+    res.redirect("/account");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/contact", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("contact.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+});
+
+// Set static folder
+app.use(express.static(path.join(__dirname, "../2800-202210-BBY29")));
+
+const botName = "Tech to the Moon Bot";
+
+// Run when client connects
+io.on("connection", (socket) => {
+  socket.on("joinRoom", ({ username, room }) => {
+    const user = userJoin(socket.id, username, room);
+
+    socket.join(user.room);
+
+    // Welcome current user
+    socket.emit(
+      "message",
+      formatMessage(botName, "Welcome to Tech to the Moon chat!")
+    );
+
+    // Broadcast when a user connects
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        "message",
+        formatMessage(botName, `${user.username} has joined the chat`)
+      );
+
+    // Send users and room info
+    io.to(user.room).emit("roomUsers", {
+      room: user.room,
+      users: getRoomUsers(user.room),
+    });
+  });
+
+  // Listen for chatMessage
+  socket.on("chatMessage", (msg) => {
+    const user = getCurrentUser(socket.id);
+
+    io.to(user.room).emit("message", formatMessage(user.username, msg));
+  });
+
+  // Runs when client disconnects
+  socket.on("disconnect", () => {
+    const user = userLeave(socket.id);
+
+    if (user) {
+      io.to(user.room).emit(
+        "message",
+        formatMessage(botName, `${user.username} has left the chat`)
+      );
+
+      // Send users and room info
+      io.to(user.room).emit("roomUsers", {
+        room: user.room,
+        users: getRoomUsers(user.room),
+      });
+    }
+  });
+});
+
+const PORT = process.env.PORT || 8000;
+server.listen(PORT);
