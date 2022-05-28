@@ -243,11 +243,14 @@ app.post("/add_user", function (req, res) {
     function (error, results, fields) {
       if (error) {
         console.log(error);
-      }
-      res.send({
+        res.sendStatus(500);
+      } else {
+        res.send({
         status: "success",
         msg: "Record added.",
       });
+      }
+
     }
   );
 });
@@ -682,7 +685,7 @@ app.get("/tracker/:user_name", function (req, res) {
 
 app.get("/current_user", function (req, res) {
   connection.execute(
-    "SELECT * FROM BBY29_user WHERE BBY29_user.user_ID = ?",
+    "SELECT * FROM BBY29_user WHERE ID = ?",
     [req.session.user_ID],
     function (error, results, fields) {
       if (error) {

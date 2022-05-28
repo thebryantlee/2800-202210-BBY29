@@ -1,3 +1,4 @@
+
 // Bryant's code below (start)
 document.getElementById("submit").addEventListener("click", login);
 document.getElementById("submit1").addEventListener("click", signup);
@@ -66,15 +67,13 @@ async function logout() {
 }
 
 async function checkUserName(user_name) {
-  var allow = 0;
   var xhr = new XMLHttpRequest();
   xhr.open("GET", `/get_all_users`, true);
   xhr.onload = function () {
-    if(this.status == 200) {
+    if(this.status == 200) {  
       const response = JSON.parse(this.responseText);
       if (response.length > 0) {
-        const messageLocation = document.getElementById("noTrackersMessage");
-        messageLocation.innerHTML = "";
+        
       } else {
         const messageLocation = document.getElementById("noTrackersMessage");
         messageLocation.innerHTML =
@@ -82,14 +81,14 @@ async function checkUserName(user_name) {
           "No Users currently in the database!" +
           "</h5>";
       }
-      for(let i = 0; i < resposnse.length; i++) {
-        if(response[i] == user_name) {
-          allow = 1;
+       for(let i = 0; i < response.length; i++) {          
+        if(response[i].user_name == user_name) {
+          sendAlert();
         }
       }
     }
-    return allow;
-  };
+  };  
+  xhr.send();   
 }
 
 async function signup() {
@@ -101,7 +100,7 @@ async function signup() {
     phone_number: document.getElementById("logtel").value,
     password: document.getElementById("logpass2").value,
   };
-  if(checkUserName(formData.user_name) == 1) {
+  // await checkUserName(formData.user_name);
     try {
       let responseObject = await fetch("/add_user", {
         method: "POST",
@@ -111,25 +110,27 @@ async function signup() {
         },
         body: JSON.stringify(formData),
       });
+      console.log(responseObject.status);
       if (responseObject.status == 200) {
-        window.location.href = "/";
+        window.location.href = "/index.html";
+      } else {
+        sendAlert();
       }
     } catch (error) {
-      console.log(error);
+
     }
-    } else {
-        sendAlert();
     }
-}
+
 
 async function sendAlert() {
   let count = Math.floor(Math.random() * 1000);
   var alertPlaceholder = document.getElementById("tempAlert2");
       var temp = document.getElementById("alert-created " + count);
       var wrapper = document.createElement("div");
+      wrapper.setAttribute("class", "alerts");
       if (!temp) {
         wrapper.innerHTML =
-          '<div id="alert-created" class="alert alert-' +
+          '<div id="alert-created1" class="alert alert-' +
           "danger" +
           ' role="alert">' +
           "Username Taken Please Try Again." +
